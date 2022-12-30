@@ -1,0 +1,144 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
+  schedule:
+    - cron: '0 17 * * 5'
+  # Trigger the workflow when it is manually triggered
+  workflow_dispatch:
+
+env:
+  GFORTRAN_VERSION: 11
+  MATLAB_RELEASE: latest
+
+jobs:
+  build:
+    name: Install and test MatCUTEst
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        bitness: [64]
+        sif: [optrove]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Clone PRIMA
+        uses: actions/checkout@v3
+        with:
+          repository: equipez/PRIMA
+          path: PRIMA
+
+      - name: Install 7z
+        run: sudo apt install p7zip-full
+
+      - name: Link gfortran for MATLAB on Linux
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
+
+      - name: install epstopdf and ghostscript
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo bash .github/scripts/install_epstopdf && sudo bash .github/scripts/install_ghostscript
+
+      - name: Check MATLAB
+        id: check_matlab
+        run: |
+            if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
+
+      - name: Set up MATLAB
+        if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
+        uses: matlab-actions/setup-matlab@v1.2.3
+        with:
+          release: ${{ env.MATLAB_RELEASE }}
+
+      - name: Install MatCUTEst
+        run: |
+          sed 's|matlab -nosplash -nodesktop -nodisplay -r.*$|printf "Skip MATLAB setup for GitHub Actions.\\n"|g' -i ./INSTALL
+          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
+          OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
+          ZAIKUN_SIF_REPO="https://github.com/zaikunzhang/my_cutest_sif.git"
+          TEST_SIF_REPO="https://github.com/zaikunzhang/sif_test.git"
+          if [[ "${{ matrix.sif }}" = "zaikun" ]] ; then
+              sed "s|$OPTROVE_SIF_REPO|$ZAIKUN_SIF_REPO|g" -i ./INSTALL
+          elif [[ "${{ matrix.sif }}" = "optrove" ]] ; then
+              sed "s|$ZAIKUN_SIF_REPO|$OPTROVE_SIF_REPO|g" -i ./INSTALL
+          elif [[ "${{ matrix.sif }}" = "test" ]] ; then
+              sed "s|$OPTROVE_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
+              sed "s|$ZAIKUN_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
+          fi
+          bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
+
+      - name: Test matcutest
+        uses: matlab-actions/run-command@v1.1.2
+        with:
+          command: |
+            ver;
+            rootdir = cd()
+
+            setenv('CUTEST', fullfile(rootdir, 'cutest'));
+            setenv('MASTSIF', fullfile(rootdir, 'sif'));
+            setenv('ARCHDEFS', fullfile(rootdir, 'archdefs'));
+            setenv('SIFDECODE', fullfile(rootdir, 'sifdecode'));
+            setenv('MYMATLAB', matlabroot());
+            setenv('MYARCH', 'pc64.lnx.gfo');
+            setenv('MYMATLABARCH', 'pc64.lnx.gfo');
+            cd(fullfile(rootdir, 'mtools')); setup;
+
+            secup([])
+            which macup
+
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            opt.blacklist = {'TRIGON2NE'};
+            profile('cobyla', 'small', 'seq');
+            mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+
+      - name: Generate matcutest_compiled
+        run: |
+          sudo apt install p7zip-full
+          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./extract_mex
+          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
+          sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
+          bash ./extract_mex
+          cp matcutest.7z matcutest.${{ matrix.sif }}.7z
+
+      - name: Uninstall MatCUTEst
+        run: rm -rf cutest mtools matcutestrc
+
+      - name: Install matcutest_compiled
+        run: bash .github/scripts/install_matcutest_compiled && rm -f matcutest.7z
+
+      - name: Test matcutest_compiled
+        uses: matlab-actions/run-command@v1.1.2
+        with:
+          command: |
+            ver;
+            rootdir = cd()
+
+            homedir = getenv('HOME');
+            setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
+            cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
+
+            secup([])
+            which macup
+
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            opt.blacklist = {'TRIGON2NE'};
+            profile('cobyla', 'small', 'seq', opt);
+            mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            matcutest.*

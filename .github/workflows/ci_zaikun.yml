@@ -24,8 +24,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         bitness: [64]
-          #sif: [optrove, zaikun]
-        sif: [test]
+        sif: [zaikun]
 
     steps:
       - name: Check out repository
@@ -82,6 +81,7 @@ jobs:
           command: |
             ver;
             rootdir = cd()
+
             setenv('CUTEST', fullfile(rootdir, 'cutest'));
             setenv('MASTSIF', fullfile(rootdir, 'sif'));
             setenv('ARCHDEFS', fullfile(rootdir, 'archdefs'));
@@ -90,9 +90,13 @@ jobs:
             setenv('MYARCH', 'pc64.lnx.gfo');
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(rootdir, 'mtools')); setup;
-            secup([]);
+
+            secup([])
             which macup
-            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
+
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            opt.blacklist = {'TRIGON2NE'};
+            profile('cobyla', 'small', 'seq');
             mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
             copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
@@ -122,10 +126,13 @@ jobs:
             homedir = getenv('HOME');
             setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
-            secup([]);
+
+            secup([])
             which macup
 
-            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            opt.blacklist = {'TRIGON2NE'};
+            profile('cobyla', 'small', 'seq', opt);
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
             copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
