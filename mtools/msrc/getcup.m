@@ -42,10 +42,18 @@ fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
 
 tic;
 
+sif_dir
+cutest_dir
+dir(sif_dir)
+dir(cutest_dir)
+sif_cell
+length(sif_cell)
+
+
 clear('getcu_error');
 try
     for iprob = 1 : length(sif_cell)
-        probdir = fullfile(mexdir, strrep(sif_cell{iprob}, '.SIF',''));
+        probdir = fullfile(mexdir, strrep(sif_cell{iprob}, '.SIF',''))
         if ~exist(probdir, 'dir') && mkdir(probdir) ~= 1
             error('Failed to create %s.', probdir);
         end
