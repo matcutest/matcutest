@@ -24,7 +24,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         bitness: [64]
-        sif: [optrove]
+        sif: [optrove, zaikun, test]
 
     steps:
       - name: Check out repository
@@ -75,12 +75,13 @@ jobs:
           fi
           bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
 
-      - name: Test matcutest
+      - name: Mexify and test matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
             ver;
             rootdir = cd()
+            homedir = getenv('HOME');
 
             setenv('CUTEST', fullfile(rootdir, 'cutest'));
             setenv('MASTSIF', fullfile(rootdir, 'sif'));
@@ -91,12 +92,13 @@ jobs:
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(rootdir, 'mtools')); setup;
 
+            cd(homedir)
             secup([])
             which macup
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {'TRIGON2NE'};
-            profile('cobyla', 'small', 'seq');
+            profile('cobyla', 'small', 'seq', opt);
             mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
             copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
@@ -122,11 +124,12 @@ jobs:
           command: |
             ver;
             rootdir = cd()
-
             homedir = getenv('HOME');
+
             setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
 
+            cd(homedir)
             secup([])
             which macup
 
