@@ -50,8 +50,7 @@ try
             error('Failed to create %s.', probdir);
         end
         cd(probdir); % Note that everything below is conducted in probdir
-        %system([c2m, fullfile(sif_dir, upper(sif_cell{iprob})), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_cell{iprob}
-        system([c2m, fullfile(sif_dir, upper(sif_cell{iprob}))])
+        system([c2m, fullfile(sif_dir, upper(sif_cell{iprob})), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_cell{iprob}
         prob = cutest_setup();
         cutest_terminate();
 

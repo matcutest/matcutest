@@ -81,10 +81,19 @@ jobs:
             cd(fullfile(cpwd, 'mtools')); setup;
             cd(fullfile(cpwd, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small');
 
+      - name: Generate matcutest_compiled
+        run: |
+          sudo apt install p7zip-full
+          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./extract_mex
+          sed 's|^git .*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
+          bash ./extract_mex
+          mv matcutest.7z matcutest.7z.${{ matrix.sif }}
+
       - name: Store artifacts
         uses: actions/upload-artifact@v3
         with:
           path: |
+            matcutest.7z.${{ matrix.sif }}
             PRIMA/matlab/tests/testdata
             !matlab/tests/testdata/*.mat
             !matlab/tests/testdata/**/*.mat
