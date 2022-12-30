@@ -90,6 +90,8 @@ jobs:
             setenv('MYARCH', 'pc64.lnx.gfo');
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(rootdir, 'mtools')); setup;
+            secup([]);
+            which macup
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
             mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
@@ -120,6 +122,8 @@ jobs:
             homedir = getenv('HOME');
             setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
+            secup([]);
+            which macup
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
