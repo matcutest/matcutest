@@ -1,0 +1,33 @@
+#!/bin/bash
+# This script installs CUTEst on Linux, using the compiled CUTEst in $GITREPO.
+# CUTEst version: 20221229
+
+#GIT="gitee.com"
+PKG="matcutest.7z"
+CSRC="matcutestrc"
+
+INSTALL_DIR="$HOME/local"  # CUTEst will be installed $INSTALL_DIR/$PKG_NAME
+TMPDIR="/tmp"
+
+if command -v 7z &> /dev/null ; then
+    DECOMP="$(command -v 7z) x"  # Command to decompress the package
+else
+    printf "\nError: 7z is needed to decompress the package, yet it is not installed.\n\n"
+    exit 1
+fi
+
+PKG_NAME="${PKG//.*/}"  # Remove the suffix from $PKG
+
+mkdir -p "$INSTALL_DIR"
+cp "./$PKG" "$INSTALL_DIR"
+
+cd "$INSTALL_DIR" && $DECOMP $PKG  || exit 3  # "$DECOMP $PKG" does not work
+rm -f "$INSTALL_DIR"/"$PKG"
+
+source "$INSTALL_DIR"/"$PKG_NAME"/"$CSRC"
+
+printf "\n*** To use CUTEst in MATLAB, ADD THE FOLLOWING LINE TO %s/.bashrc:\n\n" "$HOME"
+printf "\n   source %s\n" "$INSTALL_DIR"/"$PKG_NAME"/"$CSRC"
+printf "\n\n"
+
+exit 0

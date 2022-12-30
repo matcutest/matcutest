@@ -69,38 +69,56 @@ jobs:
           fi
           bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
 
-      - name: Run tests
+      - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
             ver;
-            cpwd = cd()
-            setenv('CUTEST', fullfile(cpwd, 'cutest'));
-            setenv('MASTSIF', fullfile(cpwd, 'sif'));
-            setenv('ARCHDEFS', fullfile(cpwd, 'archdefs'));
-            setenv('SIFDECODE', fullfile(cpwd, 'sifdecode'));
+            rootdir = cd()
+            setenv('CUTEST', fullfile(rootdir, 'cutest'));
+            setenv('MASTSIF', fullfile(rootdir, 'sif'));
+            setenv('ARCHDEFS', fullfile(rootdir, 'archdefs'));
+            setenv('SIFDECODE', fullfile(rootdir, 'sifdecode'));
             setenv('MYMATLAB', matlabroot());
             setenv('MYARCH', 'pc64.lnx.gfo');
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
-            cd(fullfile(cpwd, 'mtools')); setup;
-            cd(fullfile(cpwd, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small');
+            cd(fullfile(rootdir, 'mtools')); setup;
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
+            mkdir(fullfile(rootdir, 'matcutest.${{sif}}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{sif}}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{sif}}'));
 
       - name: Generate matcutest_compiled
         run: |
           sudo apt install p7zip-full
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./extract_mex
           sed 's|^git .*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
-          bash ./extract_mex
-          mv matcutest.7z matcutest.7z.${{ matrix.sif }}
+          bash ./xtract_mex
+          cp matcutest.7z matcutest.7z.${{ matrix.sif }}
+
+      - name: Uninstall MatCUTEst
+        run: rm -rf cutest mtools matcutestrc
+
+      - name: Install matcutest_compiled
+        run: bash .github/scripts/install_matcutest_compiled
+
+      - name: Test matcutest_compiled
+        uses: matlab-actions/run-command@v1.1.2
+        with:
+          command: |
+            ver;
+            rootdir = cd()
+
+            setenv('CUTEST', fullfile(homedir(), 'local', 'matcutest', 'cutest'));
+            cd(fullfile(homedir(), 'local', 'matcutest', 'mtools')); setup;
+
+            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
+            mkdir(fullfile(rootdir, 'matcutest.compiled.${{sif}}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{sif}}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{sif}}'));
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
         with:
           path: |
-            matcutest.7z.${{ matrix.sif }}
-            PRIMA/matlab/tests/testdata
-            !matlab/tests/testdata/*.mat
-            !matlab/tests/testdata/**/*.mat
-            !matlab/tests/testdata/*perf*.pdf
-            !matlab/tests/testdata/*perf*.eps
-            !matlab/tests/testdata/*problems.txt
+            matcutest.*
