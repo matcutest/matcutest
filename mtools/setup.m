@@ -7,7 +7,6 @@ system(['source ', matcutestrc]);
 
 % Try saving path. Do this before calling `getcup`.
 path_saved = add_save_path(fullfile(cd, 'msrc'));
-fprintf('\nPath saved successfully.\n\n');
 
 % Mexify the CUTEst problems, if needed.
 gotcup = false;

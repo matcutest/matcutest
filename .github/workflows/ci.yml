@@ -99,6 +99,7 @@ jobs:
         run: |
           sudo apt install p7zip-full
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./extract_mex
+          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
           sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
           bash ./extract_mex
           cp matcutest.7z matcutest.7z.${{ matrix.sif }}
