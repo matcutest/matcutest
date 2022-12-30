@@ -50,6 +50,7 @@ EOF
 cp "$MATCUTEST/matcutestrc" "$TMPCS"
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
+echo "1" > "$TMPCS"/mtools/GOTCUP
 
 sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directory if you want to redo it|Done|" "$TMPCS/mtools/setup.m"
 

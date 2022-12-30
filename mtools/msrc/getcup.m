@@ -33,6 +33,11 @@ fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#constr\t#lin constr\
 fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & fbest\\\\\n');
 
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
+
+if isempty(sif_cell)
+    error('The SIF directory %s does not exist or does not contain any SIF file.', sif_dir);
+end
+
 sif_cell = {sif_cell.name};
 probinfo = cell(length(sif_cell), 1);
 
