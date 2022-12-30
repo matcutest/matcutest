@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
   # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
   schedule:
-    - cron: '0 16 * * 5'
+    - cron: '0 17 * * 5'
   # Trigger the workflow when it is manually triggered
   workflow_dispatch:
 
@@ -56,17 +56,17 @@ jobs:
       - name: Install MatCUTEst
         run: |
           sed 's|matlab -nosplash -nodesktop -nodisplay -r.*$|printf "MATLAB setup is skipped for GitHub Actions.\\n"|g' -i ./INSTALL
-          bash ./INSTALL
+          bash ./INSTALL < install_matcutest_input.pc64.lnx
 
       - name: Run tests
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
             ver;
-            cpwd = cd();
-            cd ~/local/matcutest/mtools/;
-            setenv('CUTEST', '~/local/matcutest/cutest');
-            setenv('MASTSIF', '~/local/matcutest/sif');
+            cpwd = cd()
+            setenv('CUTEST', fullfile(cpwd, 'cutest'));
+            setenv('MASTSIF', fullfile(cpwd, 'sif'));
+            cd mtools/;
             setup;
             cd(cpwd);
             cd PRIMA/matlab/tests;
