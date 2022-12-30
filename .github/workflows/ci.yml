@@ -97,7 +97,7 @@ jobs:
             which macup
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
-            opt.blacklist = {'TRIGON2NE'};
+            opt.blacklist = {};
             profile('cobyla', 'small', 'seq', opt);
             mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
@@ -134,7 +134,7 @@ jobs:
             which macup
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
-            opt.blacklist = {'TRIGON2NE'};
+            opt.blacklist = {};
             profile('cobyla', 'small', 'seq', opt);
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
