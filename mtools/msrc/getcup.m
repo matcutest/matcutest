@@ -42,23 +42,16 @@ fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
 
 tic;
 
-sif_dir
-cutest_dir
-dir(sif_dir)
-dir(cutest_dir)
-sif_cell
-length(sif_cell)
-
-
 clear('getcu_error');
 try
     for iprob = 1 : length(sif_cell)
-        probdir = fullfile(mexdir, strrep(sif_cell{iprob}, '.SIF',''))
+        probdir = fullfile(mexdir, strrep(sif_cell{iprob}, '.SIF',''));
         if ~exist(probdir, 'dir') && mkdir(probdir) ~= 1
             error('Failed to create %s.', probdir);
         end
         cd(probdir); % Note that everything below is conducted in probdir
-        system([c2m, fullfile(sif_dir, upper(sif_cell{iprob})), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_cell{iprob}
+        %system([c2m, fullfile(sif_dir, upper(sif_cell{iprob})), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_cell{iprob}
+        system([c2m, fullfile(sif_dir, upper(sif_cell{iprob}))])
         prob = cutest_setup();
         cutest_terminate();
 
