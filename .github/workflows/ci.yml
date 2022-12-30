@@ -60,7 +60,7 @@ jobs:
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
           OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
           ZAIKUN_SIF_REPO="git@github.com:zaikunzhang/my_cutest_sif.git"
-          if [[ "${ matrix.sif }" = "zaikun" ]] ; then
+          if [[ "${{ matrix.sif }}" = "zaikun" ]] ; then
               sed "s|$OPTROVE_SIF_REPO|$ZAIKUN_SIF_REPO|g" -i ./INSTALL
           fi
           bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
