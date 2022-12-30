@@ -1,0 +1,63 @@
+#!/bin/bash
+# This script installs the MATLAB interface of CUTEst under Linux.
+
+printf "\nStart installing CUTEst for MATLAB ...\n"
+printf "\nSourcing ./matcutestrc ... \n"
+source ./matcutestrc
+printf "\nDone.\n"
+
+GIT_ORG="https://github.com/ralna"
+GIT_ARCHDEFS="$GIT_ORG"/ARCHDefs
+GIT_SIFDECODE="$GIT_ORG"/SIFDecode
+GIT_CUTEST="$GIT_ORG"/CUTEst
+GIT_MASTSIF="https://bitbucket.org/optrove/sif"
+#GIT_MASTSIF="git@github.com:zaikunzhang/my_cutest_sif.git"
+
+
+printf "\nCloning the repos ...\n\n"
+if [[ -d "$ARCHDEFS" ]] ; then
+    printf "\n%s exists. Skip.\n" "$ARCHDEFS"
+else
+    printf "\n"
+    git clone "$GIT_ARCHDEFS" "$ARCHDEFS"
+fi
+if [[ -d "$SIFDECODE" ]] ; then
+    printf "\n%s exists. Skip.\n" "$SIFDECODE"
+else
+    printf "\n"
+    git clone "$GIT_SIFDECODE" "$SIFDECODE"
+fi
+if [[ -d "$CUTEST" ]] ; then
+    printf "\n%s exists. Skip.\n" "$CUTEST"
+else
+    printf "\n"
+    git clone "$GIT_CUTEST" "$CUTEST"
+fi
+if [[ -d "$MASTSIF" ]] ; then
+    printf "\n%s exists. Skip.\n" "$MASTSIF"
+else
+    printf "\n"
+    git clone "$GIT_MASTSIF" "$MASTSIF"
+fi
+printf "\nDone.\n"
+
+printf "\nInstalling CUTEst ...\n"
+cd "$CUTEST" && "$ARCHDEFS"/install_optrove || exit 1
+printf "\nDone.\n"
+
+printf "\nVerifying the installation ...\n"
+cd "$CUTEST"/src && make -f "$CUTEST"/makefiles/"$MYARCH" test
+printf "\nDone.\n"
+
+printf "\nMexifying CUTEst for usage in MATLAB. This may take some time ...\n"
+rm -f "$MATCUTEST_MTOOLS"/GOTCUP
+cd "$MATCUTEST_MTOOLS" && matlab -nosplash -nodesktop -nodisplay -r "setup; exit" || exit 2
+printf "\nDone.\n"
+
+printf "\nRemove directories that are not needed anymore ...\n"
+rm -rf "$ARCHDEFS" "$SIFDECODE" "$MASTSIF"
+printf "\nDone.\n"
+
+printf "\n*** To use CUTEst in MATLAB, ADD THE FOLLOWING LINE TO %s/.bashrc:\n\n" "$HOME"
+printf "\n    source %s/matcutestrc\n" "$MATCUTEST"
+printf "\n\n"
