@@ -11,7 +11,7 @@ GIT_ARCHDEFS="$GIT_ORG"/ARCHDefs
 GIT_SIFDECODE="$GIT_ORG"/SIFDecode
 GIT_CUTEST="$GIT_ORG"/CUTEst
 GIT_MASTSIF="https://bitbucket.org/optrove/sif"
-#GIT_MASTSIF="git@github.com:zaikunzhang/my_cutest_sif.git"
+#GIT_MASTSIF="https://github.com/zaikunzhang/my_cutest_sif.git"
 
 
 printf "\nCloning the repos ...\n\n"

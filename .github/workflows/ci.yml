@@ -59,7 +59,7 @@ jobs:
           sed 's|matlab -nosplash -nodesktop -nodisplay -r.*$|printf "Skip MATLAB setup for GitHub Actions.\\n"|g' -i ./INSTALL
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
           OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
-          ZAIKUN_SIF_REPO="git@github.com:zaikunzhang/my_cutest_sif.git"
+          ZAIKUN_SIF_REPO="https://github.com/zaikunzhang/my_cutest_sif.git"
           if [[ "${{ matrix.sif }}" = "zaikun" ]] ; then
               sed "s|$OPTROVE_SIF_REPO|$ZAIKUN_SIF_REPO|g" -i ./INSTALL
           fi
@@ -73,6 +73,8 @@ jobs:
             cpwd = cd()
             setenv('CUTEST', fullfile(cpwd, 'cutest'));
             setenv('MASTSIF', fullfile(cpwd, 'sif'));
+            setenv('MYARCH', 'pc64.lnx.gfo');
+            setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(cpwd, 'mtools')); setup;
             cd(fullfile(cpwd, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small');
 
