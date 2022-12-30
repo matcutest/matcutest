@@ -56,7 +56,7 @@ jobs:
       - name: Install MatCUTEst
         run: |
           sed 's|matlab -nosplash -nodesktop -nodisplay -r.*$|printf "MATLAB setup is skipped for GitHub Actions.\\n"|g' -i ./INSTALL
-          bash ./INSTALL < install_matcutest_input.pc64.lnx
+          bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
 
       - name: Run tests
         uses: matlab-actions/run-command@v1.1.2
@@ -66,11 +66,8 @@ jobs:
             cpwd = cd()
             setenv('CUTEST', fullfile(cpwd, 'cutest'));
             setenv('MASTSIF', fullfile(cpwd, 'sif'));
-            cd mtools/;
-            setup;
-            cd(cpwd);
-            cd PRIMA/matlab/tests;
-            profile('cobyla', 'small');
+            cd(fullfile(cpwd, 'mtools')); setup;
+            cd(fullfile(cpwd, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small');
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
