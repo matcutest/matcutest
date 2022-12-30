@@ -84,9 +84,9 @@ jobs:
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(rootdir, 'mtools')); setup;
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
-            mkdir(fullfile(rootdir, 'matcutest.${{sif}}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{sif}}'));
-            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{sif}}'));
+            mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
 
       - name: Generate matcutest_compiled
         run: |
@@ -113,9 +113,9 @@ jobs:
             cd(fullfile(homedir(), 'local', 'matcutest', 'mtools')); setup;
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
-            mkdir(fullfile(rootdir, 'matcutest.compiled.${{sif}}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{sif}}'));
-            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{sif}}'));
+            mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
