@@ -117,8 +117,9 @@ jobs:
             ver;
             rootdir = cd()
 
-            setenv('CUTEST', fullfile(homedir(), 'local', 'matcutest', 'cutest'));
-            cd(fullfile(homedir(), 'local', 'matcutest', 'mtools')); setup;
+            homedir = getenv('HOME');
+            setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
+            cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
