@@ -1,0 +1,84 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
+  schedule:
+    - cron: '0 16 * * 5'
+  # Trigger the workflow when it is manually triggered
+  workflow_dispatch:
+
+env:
+  GFORTRAN_VERSION: 11
+  MATLAB_RELEASE: latest
+
+jobs:
+  build:
+    name: Install and test MatCUTEst
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        bitness: [64]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Clone PRIMA
+        uses: actions/checkout@v3
+        with:
+          repository: equipez/PRIMA
+          path: PRIMA
+
+      - name: Install 7z
+        run: sudo apt install p7zip-full
+
+      - name: Link gfortran for MATLAB on Linux
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
+
+      - name: Check MATLAB
+        id: check_matlab
+        run: |
+            if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
+
+      - name: Set up MATLAB
+        if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
+        uses: matlab-actions/setup-matlab@v1.2.3
+        with:
+          release: ${{ env.MATLAB_RELEASE }}
+
+      - name: Install MatCUTEst
+        run: |
+          sed 's|matlab -nosplash -nodesktop -nodisplay -r.*$|printf "MATLAB setup is skipped for GitHub Actions.\\n"|g' -i ./INSTALL
+          bash ./INSTALL
+
+      - name: Run tests
+        uses: matlab-actions/run-command@v1.1.2
+        with:
+          command: |
+            ver;
+            cpwd = cd();
+            cd ~/local/matcutest/mtools/;
+            setenv('CUTEST', '~/local/matcutest/cutest');
+            setenv('MASTSIF', '~/local/matcutest/sif');
+            setup;
+            cd(cpwd);
+            cd PRIMA/matlab/tests;
+            profile('cobyla', 'small');
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            PRIMA/matlab/tests/testdata
+            !matlab/tests/testdata/*.mat
+            !matlab/tests/testdata/**/*.mat
+            !matlab/tests/testdata/*perf*.pdf
+            !matlab/tests/testdata/*perf*.eps
+            !matlab/tests/testdata/*problems.txt
