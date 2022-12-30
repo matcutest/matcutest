@@ -75,6 +75,7 @@ jobs:
             setenv('MASTSIF', fullfile(cpwd, 'sif'));
             setenv('ARCHDEFS', fullfile(cpwd, 'archdefs'));
             setenv('SIFDECODE', fullfile(cpwd, 'sifdecode'));
+            setenv('MYMATLAB', matlabroot());
             setenv('MYARCH', 'pc64.lnx.gfo');
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(cpwd, 'mtools')); setup;
