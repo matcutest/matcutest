@@ -60,7 +60,7 @@ rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --max-size=10m --exclude='*.f'
 
 printf "\nPushing to the git repo of matcutest_compiled ...\n"
 cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z" "$TMPCU" || exit 2
-printf "Skip gitting for GitHub Actions.\n"
+git add "$(basename "$CS7Z")" && git commit -m "add/update $(basename "$CS7Z")" && git push origin main || exit 3
 printf "\nDone.\n"
 
 rm -rf "$TMPCU" "$TMPCS" "$CS7Z"
