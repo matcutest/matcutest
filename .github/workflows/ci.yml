@@ -73,6 +73,8 @@ jobs:
             cpwd = cd()
             setenv('CUTEST', fullfile(cpwd, 'cutest'));
             setenv('MASTSIF', fullfile(cpwd, 'sif'));
+            setenv('ARCHDEFS', fullfile(cpwd, 'archdefs'));
+            setenv('SIFDECODE', fullfile(cpwd, 'sifdecode'));
             setenv('MYARCH', 'pc64.lnx.gfo');
             setenv('MYMATLABARCH', 'pc64.lnx.gfo');
             cd(fullfile(cpwd, 'mtools')); setup;
