@@ -108,7 +108,7 @@ jobs:
         run: rm -rf cutest mtools matcutestrc
 
       - name: Install matcutest_compiled
-        run: bash .github/scripts/install_matcutest_compiled
+        run: bash .github/scripts/install_matcutest_compiled && rm -f matcutest.7z
 
       - name: Test matcutest_compiled
         uses: matlab-actions/run-command@v1.1.2
@@ -123,8 +123,8 @@ jobs:
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests')); profile('cobyla', 'small', 'seq');
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
-            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
