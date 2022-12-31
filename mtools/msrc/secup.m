@@ -39,6 +39,9 @@ end
 maxmin_fields = {'dim', 'numb', 'numlb', 'numub', 'numcon', 'numlcon', 'numnlcon', 'numeq', 'numineq', 'numleq', 'numlineq', 'numnleq', 'numnlineq'};
 
 % Revise the blacklist
+blacklist = [blacklist, {'DIAMON3DLS','DIAMON2D', 'DIAMON2DLS','DIAMON3D', 'MNISTS0', ...
+    'MNISTS0LS','MNISTS5LS','MNISTS5', 'BA-L16', 'BA-L16LS', 'BA-L52', 'BA-L52LS', ...
+    'BA-L73LS', 'CYCLIC3LS', 'KSSLS', 'REPEAT'}]; % Cause MATLAB to crash
 blacklist = [blacklist, {'ALLINQP'}]; % The default dimension of this problem is 50000; MACUP('ALLINQP') takes a long time.
 blacklist = [blacklist, {'LHAIFAM'}]; % The starting point has NaN constraint values
 blacklist = [blacklist, {'GOFFIN'}]; % This linear-equality constrained problem is strange; when lincoa solves it, x becomes so large (up to 10e16) that the constraint values evaluated by Fortran and matlab are substentially different. Seems to be due to rounding error. Not sure.
