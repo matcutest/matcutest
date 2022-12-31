@@ -94,7 +94,10 @@ jobs:
 
             cd(homedir)
             which macup
-            chcup(secup([]));
+            badlist = chcup(secup([]))
+            if ~isempty(badlist)
+                error('Some problems did not pass the checking.');
+            end
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
@@ -131,7 +134,10 @@ jobs:
 
             cd(homedir)
             which macup
-            chcup(secup([]));
+            badlist = chcup(secup([]))
+            if ~isempty(badlist)
+                error('Some problems did not pass the checking.');
+            end
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
