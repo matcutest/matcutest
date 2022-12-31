@@ -93,8 +93,8 @@ jobs:
             cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(homedir)
-            secup([])
             which macup
+            chcup(secup([]));
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
@@ -130,8 +130,8 @@ jobs:
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
 
             cd(homedir)
-            secup([])
             which macup
+            chcup(secup([]));
 
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
