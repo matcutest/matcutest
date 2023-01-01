@@ -1,15 +1,16 @@
 function sdir = sifdir()
 %SIFDIR returns a string that is the directory containing the SIF files.
-% We expect a Linux system that has an environment variable 'MASTSIF'
-% indicating the path to the wanted directory.
+% We expect a Linux system that has an environment variable 'MASTSIF' indicating the path to the
+% wanted directory. Otherwise, SIFDIR should be ../../sif.
 
-%[~, sdir] = system('echo $MASTSIF');  % path to the directory
-%sdir = strtrim(regexprep(sdir, '[\n\r]+', ''));  % the result of echo may contain line breaks
-
-% Here is a portable implementation:
 sdir = getenv('MASTSIF');
 if isempty(sdir)
-    error('The environment variable ''MASTSIF'' is not set.');
+    mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
+    sdir = fullfile(fileparts(fileparts(mdir)), 'sif');
+end
+
+if isempty(dir(fullfile(sdir, '*.SIF')))
+    error('CUTEstMtools:InvalidSIFDir', 'The SIF directory %s does not exist or does not contain any SIF file.\nCheck that the environment variable ''MASTSIF'' is correctly set', sdir);
 end
 
 return

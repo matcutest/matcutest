@@ -1,15 +1,16 @@
 function cdir = cutestdir()
 %CUTESTDIR returns a string that is the directory of CUTEst.
-% We expect a Linux system that has an environment variable 'CUTEST'
-% indicating the path to the directory of CUTEst.
+% We expect a Linux system that has an environment variable 'CUTEST' indicating the path to the
+% wanted directory. Otherwise, SIFDIR should be ../../cutest.
 
-%[~, cdir] = system('echo $CUTEST');  % path to the directory of CUTEst
-%cdir = strtrim(regexprep(cdir, '[\n\r]+', ''));  % the result of echo may contain line breaks
-
-% Here is a portable implementation:
 cdir = getenv('CUTEST');
 if isempty(cdir)
-    error('CUTEstMtools:CUTESTNotSet', 'The environment variable ''CUTEST'' is not set.');
+    mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
+    cdir = fullfile(fileparts(fileparts(mdir)), 'cutest');
+end
+
+if ~(exist(fullfile(cdir, 'bin'), 'dir') && exist(fullfile(cdir, 'src', 'matlab'), 'dir'))
+    error('CUTEstMtools:InvalidCUTEstDir', '%s is not a valid CUTEst directory.\nCheck that the environment variable ''CUTEST'' is correctly set.', cdir);
 end
 
 return
