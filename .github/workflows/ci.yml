@@ -114,7 +114,7 @@ jobs:
 
             cd(homedir)
             which macup
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req))
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1000)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
