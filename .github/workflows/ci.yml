@@ -75,7 +75,7 @@ jobs:
           fi
           bash ./INSTALL < .github/scripts/install_matcutest_input.pc64.lnx
 
-      - name: Mexify and test matcutest
+      - name: Mexify matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
@@ -95,7 +95,7 @@ jobs:
             cd(homedir)
             which macup
 
-      - name: Mexify and test matcutest
+      - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
