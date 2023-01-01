@@ -103,7 +103,6 @@ jobs:
             rootdir = cd()
             homedir = getenv('HOME');
 
-            %setenv('CUTEST', fullfile(rootdir, 'cutest'));
             cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(homedir)
@@ -113,6 +112,7 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
+            setenv('CUTEST', fullfile(rootdir, 'cutest'));
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('cobyla', 'small', 'seq', opt);
@@ -143,7 +143,6 @@ jobs:
             rootdir = cd()
             homedir = getenv('HOME');
 
-            %setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
 
             cd(homedir)
@@ -153,6 +152,7 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
+            setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('cobyla', 'small', 'seq', opt);
