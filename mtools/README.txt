@@ -22,7 +22,7 @@ https://github.com/ralna/CUTEst
 setup 
 
 from the current directory. This will compile (i.e., mexify) all the
-CUTEst test problems so that they can be used in MATLAB. It may take
+CUTEst problems so that they can be used in MATLAB. It may take
 a few hours to finish.
 
 2. After 1 is finished, the following functions are available in MATLAB:
@@ -31,7 +31,6 @@ problem = macup(problem_name)  % make a CUTEst problem
 decup(problem_name)  % destroy a CUTEst problem
 problem_list = secup(requirements)  % select CUTEst problems according to requirements
 cutest_dir = cutestdir()  % the path to the CUTEst directory
-sif_dir = sifdir()  % the path to the directory containing the SIF files
 
 For example, try
 

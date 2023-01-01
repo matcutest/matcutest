@@ -14,11 +14,12 @@ You should then get a directory containing this README file.
 We will refer to this directory as "**[the current directory]**" in the sequel.
 
 1. Run the following in the terminal under **[the current directory]**:
+
     ```
     bash ./INSTALL
     ```
 
-   It will compile all the problems, **which may take a few hours**.
+   It will install CUTEst and then mexify all the problems, **which may take a few hours**.
 
 2. Append the following line to the [`.bashrc` file under your home directory](https://www.bing.com/search?q=what+is+.bashrc):
 
