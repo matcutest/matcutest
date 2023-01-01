@@ -107,8 +107,7 @@ jobs:
 
             cd(homedir)
             which macup
-            blacklist = {'HS67'};  % For unknown reason, this problem takes infinite time.
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(setdiff(secup(req), blacklist), 1, 500)
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
@@ -149,7 +148,7 @@ jobs:
             cd(homedir)
             which macup
             blacklist = {'HS67'};  % For unknown reason, this problem takes infinite time.
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(setdiff(secup(req), blacklist), 1, 500)
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end

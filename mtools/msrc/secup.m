@@ -47,6 +47,7 @@ blacklist = [blacklist, {'A0ENDNDL', 'A0ENDNDL', 'A0ENINDL', 'A0ENSNDL', 'A0ESDN
     'A2ENDNDL', 'A2ENINDL', 'A2ENSNDL', 'A2ESDNDL', 'A2ESINDL', 'A2ESSNDL', 'A5ENDNDL', ...
     'A2ENINDL', 'A5ENINDL', 'A5ENSNDL', 'A5ESDNDL', 'A5ESINDL', 'A0ESINDL', 'A0ESSNDL', 'A5ESSNDL', ...
     'EG3', 'CYCLOOCF', 'CYCLOOCT', 'OPTMASS', 'ROSEPETAL2', 'LOBSTERZ'}];  % Cause GitHub Actions to terminate unexpectedly.
+blacklist = [blacklist, {'HS67'}]; % For unknown reason, this 3D problem takes infinite time during `chcup` on GitHub Actions.
 blacklist = [blacklist, {'ALLINQP'}]; % The default dimension of this problem is 50000; MACUP('ALLINQP') takes a long time.
 blacklist = [blacklist, {'LHAIFAM'}]; % The starting point has NaN constraint values
 blacklist = [blacklist, {'GOFFIN'}]; % This linear-equality constrained problem is strange; when lincoa solves it, x becomes so large (up to 10e16) that the constraint values evaluated by Fortran and matlab are substentially different. Seems to be due to rounding error. Not sure.
