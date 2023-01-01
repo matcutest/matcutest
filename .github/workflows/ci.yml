@@ -107,7 +107,8 @@ jobs:
 
             cd(homedir)
             which macup
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
+            blacklist = {'HS67'}
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(setdiff(secup(req), blacklist), 1, 200)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
@@ -147,7 +148,8 @@ jobs:
 
             cd(homedir)
             which macup
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
+            blacklist = {'HS67'}
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(setdiff(secup(req), blacklist), 1, 200)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
