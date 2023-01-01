@@ -4,7 +4,6 @@ function sdir = sifdir()
 % wanted directory. Otherwise, SIFDIR should be ../../sif.
 
 sdir = getenv('MASTSIF');
-sdir = ''
 if isempty(sdir)
     mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
     sdir = fullfile(fileparts(fileparts(mdir)), 'sif');
