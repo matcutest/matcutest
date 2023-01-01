@@ -94,6 +94,26 @@ jobs:
 
             cd(homedir)
             which macup
+
+      - name: Mexify and test matcutest
+        uses: matlab-actions/run-command@v1.1.2
+        with:
+          command: |
+            ver;
+            rootdir = cd()
+            homedir = getenv('HOME');
+
+            setenv('CUTEST', fullfile(rootdir, 'cutest'));
+            setenv('MASTSIF', fullfile(rootdir, 'sif'));
+            setenv('ARCHDEFS', fullfile(rootdir, 'archdefs'));
+            setenv('SIFDECODE', fullfile(rootdir, 'sifdecode'));
+            setenv('MYMATLAB', matlabroot());
+            setenv('MYARCH', 'pc64.lnx.gfo');
+            setenv('MYMATLABARCH', 'pc64.lnx.gfo');
+            cd(fullfile(rootdir, 'mtools')); setup;
+
+            cd(homedir)
+            which macup
             badlist = chcup(secup([]))
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
