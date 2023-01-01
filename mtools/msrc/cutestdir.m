@@ -4,7 +4,7 @@ function cdir = cutestdir()
 % wanted directory. Otherwise, SIFDIR should be ../../cutest.
 
 cdir = getenv('CUTEST');
-f isempty(cdir)
+if isempty(cdir)
     mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
     cdir = fullfile(fileparts(fileparts(mdir)), 'cutest');
 end
