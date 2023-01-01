@@ -14,7 +14,7 @@ if nargin <= 1
 end
 
 if nargin <= 2
-    nr = 50;
+    nr = 100;
 end
 
 blacklist = {};
@@ -27,7 +27,7 @@ for ip = minip : np
          p = macup(pname);
          for ir = 1 : nr
              x0 = p.x0;
-             x = x0 + 0.5 * norm(x0) * randn(size(x0));
+             x = x0 + norm(x0) * randn(size(x0));
              p.objective(x);
              if ~isempty(p.nonlcon)
                  p.nonlcon(x);
