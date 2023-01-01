@@ -19,6 +19,8 @@ end
 
 badlist = {};
 np = length(plist);
+tic
+
 for ip = minip : np
     pname = plist{ip};
     fprintf("%d. %s\n", ip, pname);
@@ -38,3 +40,5 @@ for ip = minip : np
      end
 
 end
+
+toc
