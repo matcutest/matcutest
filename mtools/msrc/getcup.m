@@ -15,7 +15,7 @@ c2m = [cutest_dir, '/bin/cutest2matlab '];
 mexdir = fullfile(cutest_dir, 'mex');  % the directory that will contain the MEX files
 probinfodir = fullfile(cutest_dir, 'probinfo');  % the directory that will contain the problem information files
 if (~exist(mexdir, 'dir') && mkdir(mexdir) ~= 1) || (~exist(probinfodir, 'dir') && mkdir(probinfodir) ~= 1)
-    error('Failed to create %s or %s.', mexdir, probinfodir);
+    error('CUTEstMtools:FailToCreateDirectory', 'Failed to create %s or %s.', mexdir, probinfodir);
 end
 
 probinfomat = fullfile(probinfodir, 'probinfo.mat');
@@ -26,7 +26,7 @@ txtid = fopen(probinfotxt, 'wt');
 texid = fopen(probinfotex, 'wt');
 listid = fopen(problist, 'wt');
 if txtid == -1 || texid == -1 || listid == -1
-    error('Failed to open probinfo.txt, probinfo.tex, or problist.');
+    error('CUTEstMtools:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
 end
 
 fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
@@ -35,11 +35,12 @@ fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#constr
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
 
 if isempty(sif_cell)
-    error('The SIF directory %s does not exist or does not contain any SIF file.', sif_dir);
+    error('CUTEstMtools:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist of does not contain any SIF file.', sif_dir);
 end
 
-sif_cell = {sif_cell.name};
-probinfo = cell(length(sif_cell), 1);
+sif_folders = {sif_cell.folder};
+sif_names = {sif_cell.name};
+probinfo = cell(length(sif_names), 1);
 
 olddir = cd;
 
@@ -49,19 +50,21 @@ tic;
 
 clear('getcu_error');
 try
-    for iprob = 1 : length(sif_cell)
-        probdir = fullfile(mexdir, strrep(sif_cell{iprob}, '.SIF',''));
+    for iprob = 1 : length(sif_names)
+        probdir = fullfile(mexdir, strrep(upper(sif_names{iprob}), '.SIF',''));
         if ~exist(probdir, 'dir') && mkdir(probdir) ~= 1
-            error('Failed to create %s.', probdir);
+            error('CUTEstMtools:FailToCreateDirectory', 'Failed to create %s.', probdir);
         end
         cd(probdir); % Note that everything below is conducted in probdir
-        system([c2m, fullfile(sif_dir, upper(sif_cell{iprob})), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_cell{iprob}
+        system([c2m, fullfile(sif_folders{iprob}, sif_names{iprob}), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_names{iprob}
         prob = cutest_setup();
         cutest_terminate();
 
         name=strtrim(prob.name); % Problem name
+        assert(strcmpi([name, '.SIF'], sif_names{iprob}), 'CUTEstMtools:InvalidProbName', 'The problem name does not match the SIF name.');
+
         fprintf(listid, '%s', prob.name);
-        if iprob < length(sif_cell)
+        if iprob < length(sif_names)
             fprintf(listid, '\n');
         end
         fprintf('%d. %s\n', iprob, name);
