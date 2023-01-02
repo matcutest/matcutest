@@ -5,8 +5,12 @@ function badlist = chcup(plist, minip, nr)
 % problem IP, we then add PLIST{IP} to the BLACKLIST in SECUP, and then run the function again
 % with MINIP = IP, until all problems are checked.
 
-if ischar(plist) || isstring(plist)
-    plist = {plist};
+if nargin <= 0
+    plist = secup();
+else
+    if ischar(plist) || isstring(plist)
+        plist = {plist};
+    end
 end
 
 if nargin <= 1
