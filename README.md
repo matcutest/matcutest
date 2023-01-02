@@ -1,10 +1,13 @@
 # MatCUTEst
 
+[![license](https://img.shields.io/badge/license-LGPLv3+-blue)](https://github.com/equipez/matcutest/blob/main/LICENCE.txt)
+[![CI](https://github.com/equipez/matcutest/actions/workflows/ci.yml/badge.svg)](https://github.com/equipez/matcutest/actions/workflows/ci.yml)
+
+## What
+
 MatCUTEst is a package for facilitating the usage of [CUTEst](https://github.com/ralna/CUTEst) in MATLAB on Linux.
 
 N.B.: Using CUTEst in MATLAB on MacOS is not supported anymore as of 2022. See the discussions in [CUTEst issue 28](https://github.com/ralna/CUTEst/issues/28).
-
-[Zaikun Zhang](https://www.zhangzk.net), Dec 29, 2022, Hong Kong
 
 
 ## How to use?
