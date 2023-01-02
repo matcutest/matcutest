@@ -35,10 +35,10 @@ fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#constr
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
 
 if isempty(sif_cell)
-    error('CUTEstMtools:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist of does not contain any SIF file.', sif_dir);
+    error('CUTEstMtools:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist or does not contain any SIF file.', sif_dir);
 end
 
-sif_folders = {sif_cell.folder};
+sif_folders = {sif_cell.folder};  % `sif_folders` should be a cell array with all entries being `sif_dir`.
 sif_names = {sif_cell.name};
 probinfo = cell(length(sif_names), 1);
 
