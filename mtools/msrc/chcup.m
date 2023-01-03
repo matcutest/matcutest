@@ -1,9 +1,9 @@
 function badlist = chcup(plist, minip, nr)
 %CHCUP (CHeck CUtest Problems) checks whether the CUTEst problems in PLIST work. It tries making the
-% problem, and the evaluates the objective and constraint (if any) functions at NR points. MINIP
+% problem, and then evaluates the objective and constraint (if any) functions at NR points. MINIP
 % is the minimal index of the number to check. If MATLAB crashes (which did happen) when checking
-% problem IP, we then add PLIST{IP} to the BLACKLIST in SECUP, and then run the function again
-% with MINIP = IP, until all problems are checked.
+% problem IP, we then add PLIST{IP} to the BLACKLIST in SECUP, and then run CHCUP again with
+% MINIP = IP, until all problems are checked.
 
 if nargin <= 0
     plist = secup();

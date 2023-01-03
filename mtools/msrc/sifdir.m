@@ -1,7 +1,7 @@
 function sdir = sifdir()
 %SIFDIR returns a string that is the directory containing the SIF files.
 % We expect a Linux system that has an environment variable 'MASTSIF' indicating the path to the
-% wanted directory. Otherwise, SIFDIR should be ../../sif.
+% wanted directory. Otherwise, the directory should be ../../sif.
 
 sdir = getenv('MASTSIF');
 if isempty(sdir)

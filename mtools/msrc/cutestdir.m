@@ -1,7 +1,7 @@
 function cdir = cutestdir()
 %CUTESTDIR returns a string that is the directory of CUTEst.
 % We expect a Linux system that has an environment variable 'CUTEST' indicating the path to the
-% wanted directory. Otherwise, SIFDIR should be ../../cutest.
+% wanted directory. Otherwise, the directory should be ../../cutest.
 
 cdir = getenv('CUTEST');
 if isempty(cdir)

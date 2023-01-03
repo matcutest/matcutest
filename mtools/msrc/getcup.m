@@ -1,5 +1,5 @@
 function success = getcup()
-%GETCUP (GET CUtest Problems) mexify all the CUTEst problems, save the
+%GETCUP (GET CUtest Problems) mexify all the CUTEst problems, saving the
 % MEX files in cutest_dir/mex and problem information in cutest_dir/probinfo.
 
 cutest_inf = 1e20; % In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
