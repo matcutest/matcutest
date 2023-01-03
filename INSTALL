@@ -1,6 +1,11 @@
 #!/bin/bash
 # This script installs the MATLAB interface of CUTEst under Linux.
 
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+    printf "\nThis package supports only GNU/Linux, not %s.\n\n" "$OSTYPE"
+    exit 127
+fi
+
 printf "\nStart installing CUTEst for MATLAB ...\n"
 printf "\nSourcing ./matcutestrc ... \n"
 source ./matcutestrc
