@@ -95,6 +95,8 @@ jobs:
             cd(homedir)
             which macup
 
+            copyfile(fullfile(rootdir, 'cutest', 'probinfo', 'problist'), fullfile(rootdir, 'problist.${{ matrix.sif }}'));
+
       - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
@@ -174,3 +176,4 @@ jobs:
         with:
           path: |
             matcutest.*
+            problist.${{ matrix.sif }}
