@@ -6,7 +6,7 @@ matcutestrc = fullfile(fileparts(fileparts(mfilename('fullpath'))), 'matcutestrc
 system(['source ', matcutestrc]);
 
 % Try saving path. Do this before calling `getcup`.
-path_saved = add_save_path(fullfile(cd, 'msrc'));
+path_saved = add_save_path(fullfile(cd(), 'src'));
 
 % Mexify the CUTEst problems, if needed.
 gotcup = false;
@@ -32,7 +32,7 @@ else
         if ~path_saved
             warning('SETUP:PathNotSaved', 'Failed to save path.');
             fprintf('\nTo use the package in any other MATLAB session, run the following command first:\n\n');
-            fprintf('addpath(''%s'')\n\n', fullfile(cd, 'msrc'));
+            fprintf('addpath(''%s'')\n\n', fullfile(cd(), 'src'));
         end
     else
         fprintf(fid, '0');
