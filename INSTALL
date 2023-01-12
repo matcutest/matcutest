@@ -3,7 +3,7 @@
 
 if [[ "$OSTYPE" != "linux-gnu"* ]]; then
     printf "\nThis package supports only GNU/Linux, not %s.\n\n" "$OSTYPE"
-    exit 127
+    exit 42
 fi
 
 printf "\nStart installing CUTEst for MATLAB ...\n"
