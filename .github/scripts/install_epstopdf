@@ -1,6 +1,7 @@
 #!/bin/bash
+# Usage: bash install_epstopdf
 
 URL="https://tug.org/svn/texlive/trunk/Build/extra/epstopdf/epstopdf.pl?view=co"
-apt install -y wget
-wget "$URL" -O /usr/bin/epstopdf
-chmod +x /usr/bin/epstopdf
+sudo apt install -y wget
+sudo wget "$URL" -O /usr/bin/epstopdf
+sudo chmod +x /usr/bin/epstopdf

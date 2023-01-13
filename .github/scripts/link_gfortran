@@ -1,8 +1,10 @@
 #!/usr/bin/bash
+# This script installs the requested version of gfortran and links it to /usr/bin/gfortran
+# Usage: bash link_gfortran
 
 if [[ $# -lt 1 ]]; then
     printf "\nPlease provide the version of gfortran to link.\n\n"
-    exit 1
+    exit 42
 fi
 
 REQUESTED_GFORTRAN_VERSION="$1"
@@ -11,15 +13,15 @@ GFORTRAN_PATH="/usr/bin/gfortran"
 
 REQUESTED_GFORTRAN="gfortran-""$REQUESTED_GFORTRAN_VERSION"
 
-apt install "$REQUESTED_GFORTRAN"
+sudo apt install "$REQUESTED_GFORTRAN"
 
 REQUESTED_GFORTRAN_PATH="$(realpath "$(command -v "$REQUESTED_GFORTRAN")")"
 
 if [[ -f "$GFORTRAN_PATH" ]] ; then
-    mv "$GFORTRAN_PATH" "$GFORTRAN_PATH".bak
+    sudo mv "$GFORTRAN_PATH" "$GFORTRAN_PATH".bak
 fi
 
-ln -s "$REQUESTED_GFORTRAN_PATH" "$GFORTRAN_PATH"
+sudo ln -s "$REQUESTED_GFORTRAN_PATH" "$GFORTRAN_PATH"
 
 realpath "$(command -v gfortran)"
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+# Usage: bash install_ghostscript
 
 # Default version. This is the latest version as of 20220926. This should not matter if the "Find
 # out the latest version" part works properly.
@@ -6,7 +7,7 @@ VER_DFT=10.0.0
 
 # The working directory.
 DIR=$(mktemp -d)
-cd "$DIR" || exit 1
+cd "$DIR" || exit 42
 
 # Find out the latest version.
 RELEASE="https://www.ghostscript.com/releases/index.html"
@@ -34,7 +35,7 @@ fi
 wget "$URL" -O "$TGZ"
 tar zxvf "$TGZ"
 if [[ -f "$GS" ]] ; then
-    mv "$GS" "$GS".bak
+    sudo mv "$GS" "$GS".bak
 fi
-cp "$NEWGS" "$GS"
+sudo cp "$NEWGS" "$GS"
 rm -r "$DIR"
