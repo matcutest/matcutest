@@ -50,8 +50,7 @@ jobs:
 
       - name: Check MATLAB
         id: check_matlab
-        run: |
-            if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
+        run: if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
 
       - name: Set up MATLAB
         if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
@@ -96,12 +95,12 @@ jobs:
           command: |
             ver;
             rootdir = cd()
-            homedir = getenv('HOME');
 
             cd(fullfile(rootdir, 'mtools')); setup;
 
-            cd(homedir)
+            cd(getenv('HOME'));
             which macup
+
             req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
@@ -150,7 +149,6 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            setenv('CUTEST', fullfile(homedir, 'local', 'matcutest', 'cutest'));
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
