@@ -23,7 +23,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        bitness: [64]
         sif: [optrove, zaikun, test]
 
     steps:

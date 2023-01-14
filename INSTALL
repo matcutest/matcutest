@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script installs the MATLAB interface of CUTEst under Linux.
+# This script installs MatCUTEst on Linux.
 
 GIT_ORG="https://github.com/ralna"
 GIT_ARCHDEFS="$GIT_ORG"/ARCHDefs
