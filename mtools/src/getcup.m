@@ -4,6 +4,7 @@ function success = getcup()
 
 cutest_inf = 1e20; % In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
 
+setcuenv();  % set some environment variables needed in the sequel
 sif_dir = sifdir();  % path to the directory containing the SIF files
 cutest_dir = cutestdir();  % path to the CUTEst directory
 % The following path contains `cutest_setup` etc.

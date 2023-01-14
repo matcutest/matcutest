@@ -1,4 +1,4 @@
-# This is the configuration for using CUTEst in MATLAB on Linux (maybe also macOS but not tested).
+# This is the configuration for using CUTEst in MATLAB on Linux
 # It should work without any change. Otherwise, contact me (www.zhangzk.net).
 # N.B.: Using CUTEst under MATLAB on MacOS is not supported anymore as of 2022. See
 # https://github.com/ralna/CUTEst/issues/28
@@ -13,23 +13,15 @@ export MATCUTEST_MTOOLS=${MATCUTEST}/mtools
 
 # Set MYMATLAB to the directory of your MATLAB.
 # The following line should find the directory; if not, set the directory explicitly.
-# IMPORTANT: We assume that the system is either Linux (default) or macOS.
-if [[ "$OSTYPE" = "darwin"* ]]; then
-    # macOS does not have `realpath`
-    MATLAB_POSITION="$(cd "$(dirname "$(command -v matlab)")"; pwd -P)/$(basename "./")"
-    export MYMATLAB="$(dirname "$(dirname "$MATLAB_POSITION")")"
-else
-    export MYMATLAB="$(dirname "$(dirname "$(realpath "$(command -v matlab)")")")"
-fi
+MATLAB_POSITION="$(cd "$(dirname "$(command -v matlab)")"; pwd -P)/$(basename "./")"
+export MYMATLAB="$(dirname "$(dirname "$MATLAB_POSITION")")"
+# Alternatively, we can do the following if `realpath` is available.
+#export MYMATLAB="$(dirname "$(dirname "$(realpath "$(command -v matlab)")")")"
 
 # Set MYARCH and MYMATLABARCH.
 # If the following does not work, set these variables according to the instructions received at the
 # end of the installation of CUTEst.
-if [[ "$OSTYPE" = "darwin"* ]]; then
-    export MYARCH=mac64.osx.ifr # Mac, 64 bit processor, ifort
-else
-    export MYARCH=pc64.lnx.gfo # Linux PC, 64 bit processor, gfortran
-fi
+export MYARCH=pc64.lnx.gfo # Linux PC, 64 bit processor, gfortran
 export MYMATLABARCH=${MYARCH}
 
 # The following lines does not need to be changed.

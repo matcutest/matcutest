@@ -62,7 +62,3 @@ printf "\nDone.\n"
 printf "\nRemove directories that are not needed anymore ...\n"
 rm -rf "$ARCHDEFS" "$SIFDECODE" "$MASTSIF"
 printf "\nDone.\n"
-
-printf "\n*** To use CUTEst in MATLAB, ADD THE FOLLOWING LINE TO %s/.bashrc:\n\n" "$HOME"
-printf "\n    source %s/matcutestrc\n" "$MATCUTEST"
-printf "\n\n"

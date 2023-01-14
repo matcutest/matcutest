@@ -20,20 +20,14 @@ Below are the steps to follow. In case of any problem, contact me (www.zhangzk.n
 
 See https://github.com/ralna/CUTEst for the original CUTEst package.
 
-1. Append the following line to your .bashrc file:
-
-   source [the current directory]/matcutestrc
-
-   N.B.: Replace [the current directory] with the full path to the directory containing this README!
-
-2. Start your MATLAB. In MATLAB, change your directory to the "mtools" folder in the current
+1. Start your MATLAB. In MATLAB, change your directory to the "mtools" folder in the current
    directory, and execute
 
    setup
 
    It should print "Done."
 
-3. After the above step, any CUTEst problem can be obtained in MATLAB by
+2. After the above step, any CUTEst problem can be obtained in MATLAB by
 
    macup(PROBLEM_NAME)
 
@@ -50,6 +44,8 @@ EOF
 cp "$MATCUTEST/matcutestrc" "$TMPCS"
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
+rm "$TMPCS"/sifdir.m
+rm "$TMPCS"/getcup.m
 echo "1" > "$TMPCS"/mtools/GOTCUP
 
 sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directory if you want to redo it|Done|" "$TMPCS/mtools/setup.m"

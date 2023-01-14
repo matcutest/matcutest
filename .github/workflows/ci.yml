@@ -83,18 +83,8 @@ jobs:
           command: |
             ver;
             rootdir = cd()
-            homedir = getenv('HOME');
 
-            setenv('CUTEST', fullfile(rootdir, 'cutest'));
-            setenv('MASTSIF', fullfile(rootdir, 'sif'));
-            setenv('ARCHDEFS', fullfile(rootdir, 'archdefs'));
-            setenv('SIFDECODE', fullfile(rootdir, 'sifdecode'));
-            setenv('MYMATLAB', matlabroot());
-            setenv('MYARCH', 'pc64.lnx.gfo');
-            setenv('MYMATLABARCH', 'pc64.lnx.gfo');
-            cd(fullfile(rootdir, 'mtools')); setup;
-
-            cd(homedir)
+            cd(getenv('HOME'));
             which macup
 
             copyfile(fullfile(rootdir, 'cutest', 'probinfo', 'problist'), fullfile(rootdir, 'problist.${{ matrix.sif }}'));
