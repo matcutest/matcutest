@@ -82,7 +82,9 @@ jobs:
         with:
           command: |
             ver;
+
             rootdir = cd()
+            cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(getenv('HOME'));
             which macup

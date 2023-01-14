@@ -1,10 +1,6 @@
 function setup()
 %SETUP sets up matlab tools for CUTEst.
 
-% Source `../matcutestrc`. Needed by `getcup`.
-matcutestrc = fullfile(fileparts(fileparts(mfilename('fullpath'))), 'matcutestrc');
-system(['source ', matcutestrc]);
-
 % Try saving path. Do this before calling `getcup`.
 path_saved = add_save_path(fullfile(cd(), 'src'));
 
