@@ -24,16 +24,7 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
    It will install CUTEst and then mexify all the problems, **which may take a few hours**.
 
-2. Append the following line to the [`.bashrc` file under your home directory](https://www.bing.com/search?q=what+is+.bashrc):
-
-    ```
-    source [the current directory]/matcutestrc
-    ```
-
-   N.B.: Remember to replace "**[the current directory]**" with the full path to the directory containing this README!
-
-
-3. After 2, any CUTEst problem can be obtained in MATLAB by
+2. After 1, any CUTEst problem can be obtained in MATLAB by
 
    ```
    macup(PROBLEM_NAME)

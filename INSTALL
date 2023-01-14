@@ -1,25 +1,38 @@
 #!/bin/bash
 # This script installs the MATLAB interface of CUTEst under Linux.
 
-if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-    printf "\nThis package supports only GNU/Linux, not %s.\n\n" "$OSTYPE"
-    exit 42
-fi
-
-printf "\nStart installing CUTEst for MATLAB ...\n"
-printf "\nSourcing ./matcutestrc ... \n"
-source ./matcutestrc
-printf "\nDone.\n"
-
 GIT_ORG="https://github.com/ralna"
 GIT_ARCHDEFS="$GIT_ORG"/ARCHDefs
 GIT_SIFDECODE="$GIT_ORG"/SIFDecode
 GIT_CUTEST="$GIT_ORG"/CUTEst
 GIT_MASTSIF="https://bitbucket.org/optrove/sif"
 #GIT_MASTSIF="https://github.com/zaikunzhang/my_cutest_sif.git"
+GIT_MASTSIF="https://github.com/zaikunzhang/sif_test.git"
 
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+    printf "\nThis package supports only GNU/Linux, not %s.\n\n" "$OSTYPE"
+    exit 42
+fi
 
-printf "\nCloning the repos ...\n\n"
+printf "\nStart installing CUTEst for MATLAB ...\n"
+
+printf "\nSetting environment variables ... \n"
+# We assume that the architecture of the platformed is a Linux PC with 64 bit processors and gfortran.
+MYARCH=pc64.lnx.gfo
+# MATCUTEST is the root directory of MatCUTEst, i.e., the directory where this script resides.
+MATCUTEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CUTEST="$MATCUTEST"/cutest
+ARCHDEFS="$MATCUTEST"/archdefs
+SIFDECODE="$MATCUTEST"/sifdecode
+MASTSIF="$MATCUTEST"/sif
+MATCUTEST_MTOOLS="$MATCUTEST"/mtools
+PATH="$SIFDECODE"/bin:"$CUTEST"/bin:"$PATH"
+# Set MYMATLAB to the directory of your MATLAB.
+MYMATLAB="$(dirname "$(dirname "$(realpath "$(command -v matlab)")")")"
+export CUTEST ARCHDEFS SIFDECODE MASTSIF PATH MYMATLAB  # Needed.
+printf "\nDone.\n"
+
+printf "\nCloning the repos ...\n"
 if [[ -d "$ARCHDEFS" ]] ; then
     printf "\n%s exists. Skip.\n" "$ARCHDEFS"
 else

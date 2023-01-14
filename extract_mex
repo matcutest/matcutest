@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# The directory where this scrip resides
+# MATCUTEST is the root directory of MatCUTEst, i.e., the directory where this script resides.
 MATCUTEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 GITCU="git@github.com:equipez/matcutest_compiled.git"
@@ -40,8 +40,6 @@ See https://github.com/ralna/CUTEst for the original CUTEst package.
 
    See mtools/README.txt for more information.
 EOF
-
-cp "$MATCUTEST/matcutestrc" "$TMPCS"
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
 rm "$TMPCS"/sifdir.m
