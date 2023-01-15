@@ -106,7 +106,6 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            setenv('CUTEST', fullfile(rootdir, 'cutest'));
             cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
