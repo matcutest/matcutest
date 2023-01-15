@@ -95,8 +95,6 @@ if ~path_saved && numel(userpath) > 0
                 path_saved = any(strcmp(startup_text_cells, full_add_path_string));
             end
         end
-        if ~path_saved
-            edit_startup_failed = true;
-        end
     end
+    edit_startup_failed = (~path_saved);
 end
