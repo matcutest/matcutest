@@ -2,7 +2,9 @@ function setup()
 %SETUP sets up matlab tools for CUTEst.
 
 % Try saving path. Do this before calling `getcup`.
-path_saved = add_save_path(fullfile(cd(), 'src'));
+mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
+src_path = fullfile(mdir, 'src');
+path_saved = add_save_path(src_path);
 
 % Mexify the CUTEst problems, if needed.
 gotcup = false;
@@ -23,16 +25,17 @@ else
     if fid == -1
         error('Failed to open ''GOTCUP''.');
     end
-    if getcup()
+    if getcup()  % getcup() mexifies the problems
         fprintf(fid, '1');
-        if ~path_saved
-            warning('SETUP:PathNotSaved', 'Failed to save path.');
-            fprintf('\nTo use the package in any other MATLAB session, run the following command first:\n\n');
-            fprintf('addpath(''%s'')\n\n', fullfile(cd(), 'src'));
-        end
     else
         fprintf(fid, '0');
     end
+end
+
+if ~path_saved
+    warning('SETUP:PathNotSaved', 'Failed to save path.');
+    fprintf('\nTo use the package in any other MATLAB session, run the following command first:\n\n');
+    fprintf('addpath(''%s'')\n\n', fullfile(cd(), 'src'));
 end
 
 return
