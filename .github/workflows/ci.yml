@@ -112,9 +112,9 @@ jobs:
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
-            profile('bobyqa', 'small', 'seq', opt);
-            profile('lincoa', 'small', 'seq', opt);
-            profile('cobyla', 'small', 'seq', opt);
+            profile('bobyqa', 'small', 'seq', 'b', opt);
+            profile('lincoa', 'small', 'seq', 'l', opt);
+            profile('cobyla', 'small', 'seq', 'n', opt);
             mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
             copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
@@ -156,9 +156,9 @@ jobs:
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
-            profile('bobyqa', 'small', 'seq', opt);
-            profile('lincoa', 'small', 'seq', opt);
-            profile('cobyla', 'small', 'seq', opt);
+            profile('bobyqa', 'small', 'seq', 'b', opt);
+            profile('lincoa', 'small', 'seq', 'l', opt);
+            profile('cobyla', 'small', 'seq', 'n', opt);
             mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
             copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
             copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
