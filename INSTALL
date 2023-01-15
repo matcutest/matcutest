@@ -17,19 +17,20 @@ fi
 printf "\nStart installing CUTEst for MATLAB ...\n"
 
 printf "\nSetting environment variables ... \n"
+# Set MYMATLAB to the directory of your MATLAB.
+MYMATLAB="$(dirname "$(dirname "$(realpath "$(command -v matlab)")")")"
 # We assume that the architecture of the platformed is a Linux PC with 64 bit processors and gfortran.
 MYARCH=pc64.lnx.gfo
+MYMATLABARCH="$MYARCH"
 # MATCUTEST is the root directory of MatCUTEst, i.e., the directory where this script resides.
 MATCUTEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUTEST="$MATCUTEST"/cutest
 ARCHDEFS="$MATCUTEST"/archdefs
 SIFDECODE="$MATCUTEST"/sifdecode
 MASTSIF="$MATCUTEST"/sif
-MATCUTEST_MTOOLS="$MATCUTEST"/mtools
 PATH="$SIFDECODE"/bin:"$CUTEST"/bin:"$PATH"
-# Set MYMATLAB to the directory of your MATLAB.
-MYMATLAB="$(dirname "$(dirname "$(realpath "$(command -v matlab)")")")"
-export CUTEST ARCHDEFS SIFDECODE MASTSIF PATH MYMATLAB  # Needed.
+export MYMATLAB MYARCH MYMATLABARCH CUTEST ARCHDEFS SIFDECODE MASTSIF PATH  # Needed.
+MATCUTEST_MTOOLS="$MATCUTEST"/mtools
 printf "\nDone.\n"
 
 printf "\nCloning the repos ...\n"
