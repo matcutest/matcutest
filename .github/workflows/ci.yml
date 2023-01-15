@@ -85,6 +85,7 @@ jobs:
             cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(getenv('HOME'));
+            help matcutest
             which macup
 
             copyfile(fullfile(rootdir, 'cutest', 'probinfo', 'problist'), fullfile(rootdir, 'problist.${{ matrix.sif }}'));
@@ -99,6 +100,7 @@ jobs:
             cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(getenv('HOME'));
+            help matcutest
             which macup
 
             req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
@@ -142,7 +144,9 @@ jobs:
             cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
 
             cd(homedir)
+            help matcutest
             which macup
+
             req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
