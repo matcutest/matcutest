@@ -41,7 +41,7 @@ if ~path_saved
     warning('MatCUTEst:PathNotSaved', 'Failed to save path.');
     add_path_string = sprintf('addpath(''%s'');', src_path);
     fprintf('\n***** To use the package in other MATLAB sessions, do ONE of the following. *****\n\n');
-    fprintf('- Add the following line to your startup script\n');
+    fprintf('- Append the following line to your startup script\n');
     fprintf('  (see https://www.mathworks.com/help/matlab/ref/startup.html for information):\n\n');
     fprintf('    %s\n\n', add_path_string);
     fprintf('- OR come to the current directory and run ''setup path'' when you need the package.\n\n');
