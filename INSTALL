@@ -76,3 +76,5 @@ printf "\nDone.\n"
 printf "\nRemove directories that are not needed anymore ...\n"
 rm -rf "$ARCHDEFS" "$SIFDECODE" "$MASTSIF"
 printf "\nDone.\n"
+
+printf "\nMatCUTEst is ready to use. Try \"help matcutest\" in MATLAB for more information.\n\n"

@@ -5,14 +5,14 @@
 
 ## What
 
-MatCUTEst is a package for facilitating the usage of [CUTEst](https://github.com/ralna/CUTEst) in MATLAB on Linux.
+MatCUTEst is a package facilitating the usage of [CUTEst](https://github.com/ralna/CUTEst) in MATLAB on Linux.
 
 N.B.: Using CUTEst in MATLAB on MacOS is not supported anymore as of 2022. See the discussions in [CUTEst issue 28](https://github.com/ralna/CUTEst/issues/28).
 
 
 ## How to use?
 
-If you are using MATLAB R2020a or above on Ubuntu 20.04 or above, you should first try the 
+If you are using MATLAB R2020a or above on Ubuntu 20.04 or above, you should first try the
 [compiled version of MatCUTEst](https://github.com/equipez/matcutest_compiled). Do the following
 only if that version does not work.
 
@@ -43,4 +43,5 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
    This should give you a structure containing the full information of
    problem AKIVA, including its objective function, constraints (if any),
-   starting point, etc. See [`mtools/README.txt`](mtools/README.txt) for more information.
+   starting point, etc. Try `help matcutest` in MATLAB or see [`mtools/README.txt`](mtools/README.txt)
+   for more information.
