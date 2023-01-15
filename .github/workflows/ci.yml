@@ -82,7 +82,7 @@ jobs:
             ver;
 
             rootdir = cd()
-            cd(fullfile(rootdir, 'mtools')); setup;
+            cd(fullfile(rootdir, 'mtools')); setup; 
 
             cd(getenv('HOME'));
             help matcutest
@@ -97,7 +97,7 @@ jobs:
             ver;
             rootdir = cd()
 
-            cd(fullfile(rootdir, 'mtools')); setup;
+            cd(fullfile(rootdir, 'mtools')); setup path;
 
             cd(getenv('HOME'));
             help matcutest
