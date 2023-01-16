@@ -55,10 +55,6 @@ return
 function [path_saved, edit_startup_failed] = add_save_path(path_string)
 %ADD_SAVE_PATH adds the path indicated by PATH_STRING to the matlab path and then tries saving path.
 
-if ~exist(path_string, 'dir')
-    error('MatCUTEst:PathNotExist', 'The string %s does not correspond to an existing directory.', path_string);
-end
-
 addpath(path_string);
 edit_startup_failed = false;
 
