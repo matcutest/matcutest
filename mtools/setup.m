@@ -81,7 +81,7 @@ warning(orig_warning_state); % Restore the behavior of displaying warnings
 if ~path_saved && numel(userpath) > 0
     user_startup = fullfile(userpath, 'startup.m');
     add_path_string = sprintf('addpath(''%s'');', path_string);
-    full_add_path_string = sprintf('%s\t%s Added by MatCUTEst', add_path_string, '%');
+    full_add_path_string = sprintf('%s  %s Added by MatCUTEst', add_path_string, '%');
 
     % First, check whether full_add_path_string already exists in user_startup or not
     if exist(user_startup, 'file')
