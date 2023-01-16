@@ -34,8 +34,8 @@ jobs:
       - name: Clone PRIMA
         uses: actions/checkout@v3
         with:
-          repository: equipez/PRIMA
-          path: PRIMA
+          repository: libprima/prima
+          path: prima
 
       - name: Install 7z
         run: sudo apt install p7zip-full
@@ -82,7 +82,7 @@ jobs:
             ver;
 
             rootdir = cd()
-            cd(fullfile(rootdir, 'mtools')); setup; 
+            cd(fullfile(rootdir, 'mtools')); setup;
 
             cd(getenv('HOME'));
             help matcutest
@@ -108,7 +108,7 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            cd(fullfile(rootdir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
@@ -152,7 +152,7 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            cd(fullfile(rootdir, 'PRIMA', 'matlab', 'tests'));
+            cd(fullfile(rootdir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
