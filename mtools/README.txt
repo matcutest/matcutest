@@ -7,23 +7,9 @@ Thank Dr. Clément W. Royer (https://www.lamsade.dauphine.fr/~croyer)
 for introducing me how to use CUTEst in MATLAB.
 ***************************************************************************
 
-The package provides a set of tools to facilitate the usage of CUTEst
+The package contains a set of tools to facilitate the usage of CUTEst
 ( https://github.com/ralna/CUTEst ) in MATLAB under Linux.
-
-How to use?
-
-0. To use this package, one has to first install CUTEst according to
-https://github.com/ralna/CUTEst
-
-1. In MATLAB, execute the 'setup.m' script by executing
-
-setup
-
-from the current directory. This will compile (i.e., mexify) all the
-CUTEst problems so that they can be used in MATLAB. It may take
-a few hours to finish.
-
-2. After 1 is finished, the following functions are available in MATLAB:
+It provides the following MATLAB functions:
 
 problem = macup(problem_name)  % make a CUTEst problem
 decup(problem_name)  % destroy a CUTEst problem
