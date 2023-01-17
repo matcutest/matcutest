@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/badge/license-LGPLv3+-blue)](https://github.com/equipez/matcutest/blob/main/LICENCE.txt)
 [![CI](https://github.com/equipez/matcutest/actions/workflows/ci.yml/badge.svg)](https://github.com/equipez/matcutest/actions/workflows/ci.yml)
 
-## What
+## What is this?
 
 MatCUTEst is a package facilitating the usage of [CUTEst](https://github.com/ralna/CUTEst) in MATLAB on Linux.
 
@@ -45,3 +45,7 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
    problem AKIVA, including its objective function, constraints (if any),
    starting point, etc. Try `help matcutest` in MATLAB or see [`mtools/README.txt`](mtools/README.txt)
    for more information.
+
+## Remarks
+
+MatCUTEst has been used intensively in the testing and development of [PRIMA](https://github.com/libprima/prima).
