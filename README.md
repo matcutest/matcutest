@@ -48,4 +48,4 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
 ## Remarks
 
-MatCUTEst has been used intensively in the testing and development of [PRIMA](https://github.com/libprima/prima).
+MatCUTEst has been used intensively in the testing and development of [PRIMA](www.libprima.net).
