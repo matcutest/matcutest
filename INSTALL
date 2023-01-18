@@ -70,7 +70,7 @@ printf "\nDone.\n"
 
 printf "\nMexifying CUTEst for usage in MATLAB. This may take some time ...\n"
 rm -f "$MATCUTEST_MTOOLS"/GOTCUP
-cd "$MATCUTEST_MTOOLS" && matlab -nosplash -nodesktop -nodisplay -r "setup; exit" || exit 2
+cd "$MATCUTEST_MTOOLS" && matlab -batch "setup;" || exit 2
 printf "\nDone.\n"
 
 printf "\nRemove directories that are not needed anymore ...\n"
