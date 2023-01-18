@@ -60,7 +60,7 @@ jobs:
 
       - name: Install MatCUTEst
         run: |
-          sed 's|matlab -batch.*$|printf "Skip MATLAB setup for GitHub Actions.\\n"|g' -i ./INSTALL
+          sed 's|matlab -batch.*$|printf "Skip the mexification for GitHub Actions.\\n"|g' -i ./INSTALL
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
           OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
           ZAIKUN_SIF_REPO="https://github.com/zaikunzhang/my_cutest_sif.git"
