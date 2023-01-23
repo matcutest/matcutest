@@ -81,23 +81,23 @@ jobs:
           command: |
             ver;
 
-            rootdir = cd()
-            cd(fullfile(rootdir, 'mtools')); setup;
+            root_dir = cd()
+            cd(fullfile(root_dir, 'mtools')); setup;
 
             cd(getenv('HOME'));
             help matcutest
             which macup
 
-            copyfile(fullfile(rootdir, 'cutest', 'probinfo', 'problist'), fullfile(rootdir, 'problist.${{ matrix.sif }}'));
+            copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, 'problist.${{ matrix.sif }}'));
 
       - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
             ver;
-            rootdir = cd()
+            root_dir = cd()
 
-            cd(fullfile(rootdir, 'mtools')); setup path;
+            cd(fullfile(root_dir, 'mtools')); setup path;
 
             cd(getenv('HOME'));
             help matcutest
@@ -108,16 +108,16 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            cd(fullfile(rootdir, 'prima', 'matlab', 'tests'));
+            cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
             profile('bobyqa', 'small', 'seq', 'b', opt);
             profile('lincoa', 'small', 'seq', 'l', opt);
             profile('cobyla', 'small', 'seq', 'n', opt);
-            mkdir(fullfile(rootdir, 'matcutest.${{ matrix. sif}}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
-            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.${{ matrix.sif }}'));
+            mkdir(fullfile(root_dir, 'matcutest.${{ matrix. sif}}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
 
       - name: Generate matcutest_compiled
         run: |
@@ -138,12 +138,12 @@ jobs:
         with:
           command: |
             ver;
-            rootdir = cd()
-            homedir = getenv('HOME');
+            root_dir = cd()
+            home_dir = getenv('HOME');
 
-            cd(fullfile(homedir, 'local', 'matcutest', 'mtools')); setup;
+            cd(fullfile(home_dir, 'local', 'matcutest', 'mtools')); setup;
 
-            cd(homedir)
+            cd(home_dir)
             help matcutest
             which macup
 
@@ -152,16 +152,16 @@ jobs:
                 error('Some problems did not pass the checking.');
             end
 
-            cd(fullfile(rootdir, 'prima', 'matlab', 'tests'));
+            cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
             profile('uobyqa', 'small', 'seq', opt);
             profile('newuoa', 'small', 'seq', opt);
             profile('bobyqa', 'small', 'seq', 'b', opt);
             profile('lincoa', 'small', 'seq', 'l', opt);
             profile('cobyla', 'small', 'seq', 'n', opt);
-            mkdir(fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
-            copyfile('./testdata/*problems.txt', fullfile(rootdir, 'matcutest.compiled.${{ matrix.sif }}'));
+            mkdir(fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
+            copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
