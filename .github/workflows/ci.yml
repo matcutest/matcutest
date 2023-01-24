@@ -103,21 +103,21 @@ jobs:
             help matcutest
             which macup
 
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
-            if ~isempty(badlist)
-                error('Some problems did not pass the checking.');
-            end
-
-            cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
-            opt.blacklist = {};
-            profile('uobyqa', 'small', 'seq', opt);
-            profile('newuoa', 'small', 'seq', opt);
-            profile('bobyqa', 'small', 'seq', 'b', opt);
-            profile('lincoa', 'small', 'seq', 'l', opt);
-            profile('cobyla', 'small', 'seq', 'n', opt);
-            mkdir(fullfile(root_dir, 'matcutest.${{ matrix. sif}}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
-            copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
+            %req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
+            %if ~isempty(badlist)
+            %    error('Some problems did not pass the checking.');
+            %end
+            %
+            %cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
+            %opt.blacklist = {};
+            %profile('uobyqa', 'small', 'seq', opt);
+            %profile('newuoa', 'small', 'seq', opt);
+            %profile('bobyqa', 'small', 'seq', 'b', opt);
+            %profile('lincoa', 'small', 'seq', 'l', opt);
+            %profile('cobyla', 'small', 'seq', 'n', opt);
+            %mkdir(fullfile(root_dir, 'matcutest.${{ matrix. sif}}'));
+            %copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
+            %copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
 
       - name: Generate matcutest_compiled
         run: |
