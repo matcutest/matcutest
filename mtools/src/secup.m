@@ -43,12 +43,17 @@ maxmin_fields = {'dim', 'numb', 'numlb', 'numub', 'numcon', 'numlcon', 'numnlcon
 %    'DIAMON3DLS','DIAMON2D', 'DIAMON2DLS','DIAMON3D', 'MNISTS0', ...
 %    'MNISTS0LS','MNISTS5LS','MNISTS5', 'BA-L16', 'BA-L16LS', 'BA-L52', 'BA-L52LS', ...
 %    'BA-L73LS', 'CYCLIC3LS', 'KSSLS', 'REPEAT', 'LRA9A', 'LRCOVTYPE', 'LRIJCNN1', 'LRW8A'}]; % Cause MATLAB to crash: At line 32 of file cdimen.f90 (unit = 42, file = 'OUTSDIF.d') Fortran runtime error: End of file, Segmentation fault
+blacklist = [blacklist, {'REPEAT'}];  % Error using mcutest: Requested 200001x100000 (149.0GB) array exceeds maximum array size preference (31.0GB). This might cause MATLAB to become unresponsive.
+blacklist = [blacklist, {'BA-L16'}]; % Error using mcutest: Requested 167436x66462 (82.9GB) array exceeds maximum array size preference (31.0GB). This might cause MATLAB to become unresponsive
+blacklist = [blacklist, {'ALLINQP'}]; % The default dimension of this problem is 50000; macup('ALLINQP') takes a long time.
+blacklist = [blacklist, {'BA-L52', 'BA-L52LS'}]; % macup takes a long time
 blacklist = [blacklist, {'A0ENDNDL', 'A0ENDNDL', 'A0ENINDL', 'A0ENSNDL', 'A0ESDNDL',  ...
     'A2ENDNDL', 'A2ENINDL', 'A2ENSNDL', 'A2ESDNDL', 'A2ESINDL', 'A2ESSNDL', 'A5ENDNDL', ...
     'A2ENINDL', 'A5ENINDL', 'A5ENSNDL', 'A5ESDNDL', 'A5ESINDL', 'A0ESINDL', 'A0ESSNDL', 'A5ESSNDL', ...
     'EG3', 'CYCLOOCF', 'CYCLOOCT', 'OPTMASS', 'ROSEPETAL2', 'LOBSTERZ', 'LUKVLI1'}];  % Cause GitHub Actions to terminate unexpectedly.
+blacklist = [blacklist, {'LUKVLI1', 'NINE5D'}]; % Cause GitHub Actions to terminate unexpectedly.
+
 blacklist = [blacklist, {'HS67'}]; % For unknown reason, this 3D problem takes infinite time during `chcup` on GitHub Actions.
-blacklist = [blacklist, {'ALLINQP'}]; % The default dimension of this problem is 50000; MACUP('ALLINQP') takes a long time.
 blacklist = [blacklist, {'LHAIFAM'}]; % The starting point has NaN constraint values
 blacklist = [blacklist, {'GOFFIN'}]; % This linear-equality constrained problem is strange; when lincoa solves it, x becomes so large (up to 10e16) that the constraint values evaluated by Fortran and matlab are substentially different. Seems to be due to rounding error. Not sure.
 blacklist = [blacklist, {'ARGLALE', 'ARGLBLE', 'ARGLCLE', 'MODEL', 'NASH'}]; % Problems are infeasible

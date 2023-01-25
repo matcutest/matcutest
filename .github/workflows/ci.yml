@@ -151,7 +151,7 @@ jobs:
             help matcutest
             which macup
 
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 781, 500)
+            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 900, 500)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
