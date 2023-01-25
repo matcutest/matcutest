@@ -46,6 +46,7 @@ maxmin_fields = {'dim', 'numb', 'numlb', 'numub', 'numcon', 'numlcon', 'numnlcon
 blacklist = [blacklist, {'REPEAT'}];  % Error using mcutest: Requested 200001x100000 (149.0GB) array exceeds maximum array size preference (31.0GB). This might cause MATLAB to become unresponsive.
 blacklist = [blacklist, {'BA-L16'}]; % Error using mcutest: Requested 167436x66462 (82.9GB) array exceeds maximum array size preference (31.0GB). This might cause MATLAB to become unresponsive
 blacklist = [blacklist, {'ALLINQP'}]; % The default dimension of this problem is 50000; macup('ALLINQP') takes a long time.
+blacklist = [blacklist, {'BA-L73'}]; % macup takes a long time
 blacklist = [blacklist, {'BA-L52', 'BA-L52LS'}]; % macup takes a long time
 blacklist = [blacklist, {'A0ENDNDL', 'A0ENDNDL', 'A0ENINDL', 'A0ENSNDL', 'A0ESDNDL',  ...
     'A2ENDNDL', 'A2ENINDL', 'A2ENSNDL', 'A2ESDNDL', 'A2ESINDL', 'A2ESSNDL', 'A5ENDNDL', ...

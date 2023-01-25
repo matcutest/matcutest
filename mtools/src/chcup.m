@@ -39,6 +39,7 @@ for ip = minip : np
                  p.nonlcon(x);
              end
          end
+         decup(pname);
      catch
          badlist = [badlist, {pname}];
      end
