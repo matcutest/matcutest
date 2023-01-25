@@ -65,7 +65,7 @@ try
     end
 
     fprintf('\nRecording the information of the test problems into a .mat file ... \n\n');
-    for iprob = 1 : nsif
+    parfor iprob = 1 : nsif
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
         fprintf('%d. %s\n', iprob, name);
 
