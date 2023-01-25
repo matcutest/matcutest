@@ -23,8 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-          #sif: [optrove, zaikun, test, new]
-        sif: [new]
+        sif: [optrove, zaikun, test, new]
 
     steps:
       - name: Check out repository

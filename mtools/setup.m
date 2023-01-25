@@ -17,7 +17,7 @@ gotcup = false;
 if exist('GOTCUP', 'file')
     fid = fopen('GOTCUP', 'r');
     if fid == -1
-        error('Failed to open ''GOTCUP''.');
+        error('MatCUTEst:FailToOpenFile', 'Failed to open ''GOTCUP''.');
     end
     s = textscan(fid, '%f');
     gotcup = (~isempty(s) && ~isempty(s{1}) && s{1} ~= 0);
@@ -28,7 +28,7 @@ if gotcup
 else
     fid = fopen('GOTCUP', 'w');
     if fid == -1
-        error('Failed to open ''GOTCUP''.');
+        error('MatCUTEst:FailToOpenFile', 'Failed to open ''GOTCUP''.');
     end
     if getcup()  % getcup() mexifies the problems
         fprintf(fid, '1');

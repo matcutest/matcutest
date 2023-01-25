@@ -16,7 +16,7 @@ c2m = [cutest_dir, '/bin/cutest2matlab '];
 mexdir = fullfile(cutest_dir, 'mex');  % the directory that will contain the MEX files
 probinfodir = fullfile(cutest_dir, 'probinfo');  % the directory that will contain the problem information files
 if (~exist(mexdir, 'dir') && mkdir(mexdir) ~= 1) || (~exist(probinfodir, 'dir') && mkdir(probinfodir) ~= 1)
-    error('CUTEstMtools:FailToCreateDirectory', 'Failed to create %s or %s.', mexdir, probinfodir);
+    error('MatCUTEst:FailToCreateDirectory', 'Failed to create %s or %s.', mexdir, probinfodir);
 end
 
 probinfomat = fullfile(probinfodir, 'probinfo.mat');
@@ -27,7 +27,7 @@ txtid = fopen(probinfotxt, 'wt');
 texid = fopen(probinfotex, 'wt');
 listid = fopen(problist, 'wt');
 if txtid == -1 || texid == -1 || listid == -1
-    error('CUTEstMtools:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
+    error('MatCUTEst:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
 end
 
 fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
@@ -36,39 +36,47 @@ fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#constr
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
 
 if isempty(sif_cell)
-    error('CUTEstMtools:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist or does not contain any SIF file.', sif_dir);
+    error('MatCUTEst:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist or does not contain any SIF file.', sif_dir);
 end
 
 sif_folders = {sif_cell.folder};  % `sif_folders` should be a cell array with all entries being `sif_dir`.
 sif_names = {sif_cell.name};
-probinfo = cell(length(sif_names), 1);
+nsif = length(sif_names);
+probinfo = cell(nsif, 1);
 
 olddir = cd;
-
-fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
 
 tic;
 
 clear('getcu_error');
 try
-    for iprob = 1 : length(sif_names)
-        probdir = fullfile(mexdir, strrep(upper(sif_names{iprob}), '.SIF',''));
+    fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
+    for iprob = 1 : nsif
+        name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
+        fprintf('%d. %s\n', iprob, name);
+
+        probdir = fullfile(mexdir, name);
         if ~exist(probdir, 'dir') && mkdir(probdir) ~= 1
-            error('CUTEstMtools:FailToCreateDirectory', 'Failed to create %s.', probdir);
+            error('MatCUTEst:FailToCreateDirectory', 'Failed to create %s.', probdir);
         end
+
         cd(probdir); % Note that everything below is conducted in probdir
         system([c2m, fullfile(sif_folders{iprob}, sif_names{iprob}), ' >> /dev/null']);  % create the MEX file for the problem corresponding to sif_names{iprob}
+    end
+
+    fprintf('\nRecording the information of the test problems into a .mat file ... \n\n');
+    for iprob = 1 : nsif
+        name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
+        fprintf('%d. %s\n', iprob, name);
+
+        probdir = fullfile(mexdir, name);
+        cd(probdir); % Note that everything below is conducted in probdir
+
         prob = cutest_setup();
         cutest_terminate();
 
-        name=strtrim(prob.name); % Problem name
-        assert(strcmpi([name, '.SIF'], sif_names{iprob}), 'CUTEstMtools:InvalidProbName', 'The problem name does not match the SIF name.');
-
-        fprintf(listid, '%s', prob.name);
-        if iprob < length(sif_names)
-            fprintf(listid, '\n');
-        end
-        fprintf('%d. %s\n', iprob, name);
+        name_mex=strtrim(prob.name); % Problem name according to the MEX file
+        assert(strcmpi(name_mex, name), 'MatCUTEst:InvalidProbName', 'The problem name does not match the SIF name.');
 
         n= prob.n; % Problem dimension
         bl = prob.bl;
@@ -90,20 +98,16 @@ try
         numnlineq = numnlcon - numnleq; % Number of nonlinear inequality constraints
 
         if (numb > 2*n || numb ~= numlb + numub)
-            fprintf('Error: numb > 2*n or numb ~= numlb + numub !\n')
-            keyboard
+            error('MatCUTEst:InvalidSize', 'numb > 2*n or numb ~= numlb + numub !\n');
         end
         if (numeq + numineq ~= numcon)
-            fprintf('Error: numeq + inequality ~= numcon !\n');
-            keyboard
+            error('MatCUTEst:InvalidSize', 'numeq + inequality ~= numcon !\n');
         end
         if (numleq + numnleq ~= numeq || numlineq + numnlineq ~= numineq)
-            fprintf('Error: numleq + numnleq ~= numeq or numlineq + numnlineq ~= ineqco !\n');
-            keyboard
+            error('MatCUTEst:InvalidSize', 'numleq + numnleq ~= numeq or numlineq + numnlineq ~= ineqco !\n');
         end
         if (length(prob.cu) ~= numcon || length(prob.cl) ~= numcon)
-            fprintf('Error: length(prob.cu) ~= numcon or length(prob.cl) ~= numcon !\n');
-            keyboard
+            error('MatCUTEst:InvalidSize', 'length(prob.cu) ~= numcon or length(prob.cl) ~= numcon !\n');
         end
 
         if (min([-bl; bu]) == inf && isempty(prob.linear)) % unconstrained problem
@@ -119,7 +123,7 @@ try
         fbest = NaN; % Best know function value. This value maybe be changed by other scripts later.
 
         % Define a structure to record the information extracted above.
-        probinfo{iprob} = [];
+        probinfo{iprob} = struct();
         probinfo{iprob}.name = name;
         probinfo{iprob}.type = type;
         probinfo{iprob}.dim = n; % Different from CUTEst, we use dim instead of n to denote the dimension
@@ -136,8 +140,17 @@ try
         probinfo{iprob}.numnleq = numnleq;
         probinfo{iprob}.numnlineq = numnlineq;
         probinfo{iprob}.fbest = fbest;
+    end
 
-        % Record the above information in probinfo.txt
+    fprintf('\nRecording the information of the test problems into plain text files ... \n\n');
+    for iprob = 1 : nsif
+        % Record the problem name in problist
+        fprintf(listid, '%s', probinfo{iprob}.name);
+        if iprob < nsif
+            fprintf(listid, '\n');
+        end
+
+        % Record the problem information in probinfo.txt
         fprintf(txtid,'%s\t', probinfo{iprob}.name);
         fprintf(txtid,'%s\t', probinfo{iprob}.type);
         fprintf(txtid,'%d\t', probinfo{iprob}.dim);
@@ -155,7 +168,7 @@ try
         fprintf(txtid,'%d\t', probinfo{iprob}.numnlineq);
         fprintf(txtid, '%.18e\n', probinfo{iprob}.fbest);
 
-        % Record the above information in probinfo.tex
+        % Record the problem information in probinfo.tex
         fprintf(texid,'%s & ', probinfo{iprob}.name);
         fprintf(texid,'%s & ', probinfo{iprob}.type);
         fprintf(texid,'%d & ', probinfo{iprob}.dim);
