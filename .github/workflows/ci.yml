@@ -23,7 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        sif: [optrove, zaikun, test]
+          #sif: [optrove, zaikun, test, new]
+        sif: [new]
 
     steps:
       - name: Check out repository
@@ -65,6 +66,7 @@ jobs:
           OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
           ZAIKUN_SIF_REPO="https://github.com/zaikunzhang/my_cutest_sif.git"
           TEST_SIF_REPO="https://github.com/zaikunzhang/sif_test.git"
+          NEW_SIF_REPO="https://github.com/zaikunzhang/sif_new.git"
           if [[ "${{ matrix.sif }}" = "zaikun" ]] ; then
               sed "s|$OPTROVE_SIF_REPO|$ZAIKUN_SIF_REPO|g" -i ./INSTALL
           elif [[ "${{ matrix.sif }}" = "optrove" ]] ; then
@@ -72,6 +74,9 @@ jobs:
           elif [[ "${{ matrix.sif }}" = "test" ]] ; then
               sed "s|$OPTROVE_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
               sed "s|$ZAIKUN_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
+          elif [[ "${{ matrix.sif }}" = "new" ]] ; then
+              sed "s|$OPTROVE_SIF_REPO|$NEW_SIF_REPO|g" -i ./INSTALL
+              sed "s|$ZAIKUN_SIF_REPO|$NEW_SIF_REPO|g" -i ./INSTALL
           fi
           bash ./INSTALL < install_matcutest_input.pc64.lnx
 
