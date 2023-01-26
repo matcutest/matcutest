@@ -1,8 +1,27 @@
-function success = getcup()
+function success = getcup(options)
 %GETCUP (GET CUtest Problems) mexify all the CUTEst problems, saving the
 % MEX files in cutest_dir/mex and problem information in cutest_dir/probinfo.
 
-cutest_inf = 1e20; % In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
+% In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
+cutest_inf = 1e20;
+
+% Read the options.
+if nargin < 1
+    options = struct();
+end
+if isfield(options, 'list')
+    list = options.list;
+else
+    % Even though not mathematically consistent, we use list = {} to signify that
+    % we do not impose any requirement using the list, i.e., the list is the full
+    % problem set.
+    list = {};  %
+end
+if isfield(options, 'blacklist')
+    blacklist = options.blacklist;
+else
+    blacklist = black_list();  % The default blacklist.
+end
 
 setcuenv();  % set some environment variables needed in the sequel
 sif_dir = sifdir();  % path to the directory containing the SIF files
@@ -44,6 +63,8 @@ sif_names = {sif_cell.name};
 nsif = length(sif_names);
 probinfo = cell(nsif, 1);
 
+compile = false(nsif, 1);
+
 olddir = cd;
 
 tic;
@@ -53,7 +74,16 @@ try
     fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
     for iprob = 1 : nsif
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
-        fprintf('%d. %s\n', iprob, name);
+
+        % Decide whether to mexify this problem.
+        compile(iprob) = (ismember(name, list) || isempty(list)) && ~ismember(name, blacklist);
+
+        if compile(iprob)
+            fprintf('%d. %s\n', iprob, name);
+        else
+            fprintf('%d. %s --- SKIPPED\n', iprob, name);
+            continue;
+        end
 
         probdir = fullfile(mexdir, name);
         if ~exist(probdir, 'dir') && mkdir(probdir) ~= 1
@@ -66,6 +96,10 @@ try
 
     fprintf('\nRecording the information of the test problems into a .mat file ... \n\n');
     parfor iprob = 1 : nsif
+        if ~compile(iprob)
+            continue
+        end
+
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
         fprintf('%d. %s\n', iprob, name);
 
@@ -144,6 +178,10 @@ try
 
     fprintf('\nRecording the information of the test problems into plain text files ... \n\n');
     for iprob = 1 : nsif
+        if ~compile(iprob)
+            continue
+        end
+
         % Record the problem name in problist
         fprintf(listid, '%s', probinfo{iprob}.name);
         if iprob < nsif

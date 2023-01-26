@@ -6,9 +6,6 @@ GIT_ARCHDEFS="$GIT_ORG"/ARCHDefs
 GIT_SIFDECODE="$GIT_ORG"/SIFDecode
 GIT_CUTEST="$GIT_ORG"/CUTEst
 GIT_MASTSIF="https://bitbucket.org/optrove/sif"
-#GIT_MASTSIF="https://github.com/zaikunzhang/my_cutest_sif.git"
-#GIT_MASTSIF="https://github.com/zaikunzhang/sif_test.git"
-#GIT_MASTSIF="https://github.com/zaikunzhang/sif_new.git"
 
 if [[ "$OSTYPE" != "linux-gnu"* ]]; then
     printf "\nThis package supports only GNU/Linux, not %s.\n\n" "$OSTYPE"

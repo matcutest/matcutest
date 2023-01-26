@@ -1,14 +1,33 @@
-function setup(action)
-%SETUP sets up matlab tools for CUTEst.
+function setup(options)
+%SETUP sets up MATLAB tools for CUTEst.
 
 % Try saving path. Do this before calling `getcup`.
 mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
 src_path = fullfile(mdir, 'src');
 path_saved = add_save_path(src_path);
 
-if nargin == 1 && (isa(action, 'char') || isa(action, 'string')) && strcmp(action, 'path')
-    fprintf('\nPath added.\n\n')
-    return
+if nargin == 1 && (isa(options, 'char') || isa(options, 'string'))
+    if strcmp(options, 'path')
+        % In this case, we add the path (as above) and return.
+        fprintf('\nPath added.\n\n')
+        return
+    else
+        % In this case, we interpret `options` as a problem name.
+        list = {options};
+        options = struct();
+        options.list = list;
+    end
+end
+
+if nargin == 1 && isa(options, 'cell')
+    % In this case, we interpret `options` as a list of problems to mexify.
+    list = options;
+    options = struct();
+    options.list = list;
+end
+
+if nargin == 0
+    options = struct();
 end
 
 % Mexify the CUTEst problems, if needed.
@@ -30,7 +49,7 @@ else
     if fid == -1
         error('MatCUTEst:FailToOpenFile', 'Failed to open ''GOTCUP''.');
     end
-    if getcup()  % getcup() mexifies the problems
+    if getcup(options)  % `getcup` mexifies the problems
         fprintf(fid, '1');
     else
         fprintf(fid, '0');
@@ -53,7 +72,7 @@ return
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [path_saved, edit_startup_failed] = add_save_path(path_string)
-%ADD_SAVE_PATH adds the path indicated by PATH_STRING to the matlab path and then tries saving path.
+%ADD_SAVE_PATH adds the path indicated by PATH_STRING to the MATLAB path and then tries saving path.
 
 if ~exist(path_string, 'dir')
     error('MatCUTEst:PathNotExist', 'The string %s does not correspond to an existing directory.', path_string);

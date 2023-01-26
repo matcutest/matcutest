@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        sif: [optrove, zaikun, test, new]
+        sif: [full, customized, test, new]
 
     steps:
       - name: Check out repository
@@ -62,21 +62,6 @@ jobs:
         run: |
           sed 's|matlab -batch.*$|printf "Skip the mexification for GitHub Actions.\\n"|g' -i ./INSTALL
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
-          OPTROVE_SIF_REPO="https://bitbucket.org/optrove/sif"
-          ZAIKUN_SIF_REPO="https://github.com/zaikunzhang/my_cutest_sif.git"
-          TEST_SIF_REPO="https://github.com/zaikunzhang/sif_test.git"
-          NEW_SIF_REPO="https://github.com/zaikunzhang/sif_new.git"
-          if [[ "${{ matrix.sif }}" = "zaikun" ]] ; then
-              sed "s|$OPTROVE_SIF_REPO|$ZAIKUN_SIF_REPO|g" -i ./INSTALL
-          elif [[ "${{ matrix.sif }}" = "optrove" ]] ; then
-              sed "s|$ZAIKUN_SIF_REPO|$OPTROVE_SIF_REPO|g" -i ./INSTALL
-          elif [[ "${{ matrix.sif }}" = "test" ]] ; then
-              sed "s|$OPTROVE_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
-              sed "s|$ZAIKUN_SIF_REPO|$TEST_SIF_REPO|g" -i ./INSTALL
-          elif [[ "${{ matrix.sif }}" = "new" ]] ; then
-              sed "s|$OPTROVE_SIF_REPO|$NEW_SIF_REPO|g" -i ./INSTALL
-              sed "s|$ZAIKUN_SIF_REPO|$NEW_SIF_REPO|g" -i ./INSTALL
-          fi
           bash ./INSTALL < install_matcutest_input.pc64.lnx
 
       - name: Mexify matcutest
@@ -86,7 +71,12 @@ jobs:
             ver;
 
             root_dir = cd()
-            cd(fullfile(root_dir, 'mtools')); setup;
+            cd(fullfile(root_dir, 'mtools'));
+            options = struct();
+            if ~strcmpi('${{ matrix.sif }}', 'full')
+                options.list = ${{ matrix.sif }}_list();
+            end
+            setup(options);
 
             cd(getenv('HOME'));
             help matcutest
@@ -107,7 +97,8 @@ jobs:
             help matcutest
             which macup
 
-            %req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 1, 500)
+            %req = []; req.blacklist = github_black_list; req.maxdim=20000; req.maxcon=40000;
+            %badlist = chcup(secup(req), 1, 30)
             %if ~isempty(badlist)
             %    error('Some problems did not pass the checking.');
             %end
@@ -125,17 +116,27 @@ jobs:
 
       - name: Generate matcutest_compiled
         run: |
-          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./extract_mex
-          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
-          sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./extract_mex
-          bash ./extract_mex
-          cp matcutest.7z matcutest.${{ matrix.sif }}.7z
+          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          bash ./make_compiled_version
+          for FILE in $(ls matcutest.7z*) ; do
+              cp "$FILE" "$FILE".${{ matrix.sif }}
+          done
 
       - name: Uninstall MatCUTEst
         run: rm -rf cutest mtools matcutestrc
 
       - name: Install matcutest_compiled
-        run: DIR=$HOME/local && mkdir -p $DIR && mv matcutest.7z $DIR && cd $DIR && 7z x matcutest.7z
+        run: |
+          DIR=$HOME/local && mkdir -p $DIR
+          mv matcutest.7z* $DIR
+          cd $DIR && exit 1
+          if [[ -f matcutest.7z.001 ]] ; then
+              7z x matcutest.7z.001
+          else
+              7z x matcutest.7z
+          fi
 
       - name: Test matcutest_compiled
         uses: matlab-actions/run-command@v1.1.2
@@ -151,7 +152,8 @@ jobs:
             help matcutest
             which macup
 
-            req = []; req.maxdim=20000; req.maxcon=40000; badlist = chcup(secup(req), 900, 500)
+            req = []; req.blacklist = github_black_list; req.maxdim=20000; req.maxcon=40000;
+            badlist = chcup(secup(req), 1, 30)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end

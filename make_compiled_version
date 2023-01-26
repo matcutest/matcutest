@@ -48,14 +48,14 @@ echo "1" > "$TMPCS"/mtools/GOTCUP
 
 sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directory if you want to redo it|Done|" "$TMPCS/mtools/setup.m"
 
-#rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --max-size=10m --exclude='*.f'
 rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f'
 
-7z a "$CS7Z" "$TMPCS/"
+7z a -v90M "$CS7Z" "$TMPCS/"
 
-printf "\nPushing to the git repo of matcutest_compiled ...\n"
-cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z" "$TMPCU" || exit 2
-git add "$(basename "$CS7Z")" && git commit -m "add/update $(basename "$CS7Z")" && git push origin main || exit 3
-printf "\nDone.\n"
+# printf "\nPushing to the git repo of matcutest_compiled ...\n"
+# cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z"* "$TMPCU" || exit 2
+# git add -A && git commit -m "add/update $(basename "$CS7Z")" && git push origin main || exit 3
+# printf "\nDone.\n"
 
-rm -rf "$TMPCU" "$TMPCS" "$CS7Z"
+# rm -rf "$TMPCU" "$TMPCS" "$CS7Z"*
+rm -rf "$TMPCU" "$TMPCS"

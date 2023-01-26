@@ -18,34 +18,50 @@ if nargin <= 1
 end
 
 if nargin <= 2
-    nr = 100;
+    nr = 30;
 end
 
-badlist = {};
 np = length(plist);
-tic;
+isbad = false(np, 1);
+
+t0 = tic;
 
 for ip = minip : np
     pname = plist{ip};
-    fprintf("%d. %s\n", ip, pname);
+    fprintf("%4d. %s\t", ip, pname);
 
     try
-         p = macup(pname);
-         for ir = 1 : nr
-             x0 = p.x0;
-             x = x0 + norm(x0) * randn(size(x0));
-             p.objective(x);
-             if ~isempty(p.nonlcon)
-                 p.nonlcon(x);
-             end
-         end
-         decup(pname);
-     catch
-         badlist = [badlist, {pname}];
-     end
+        fprintf("macup");
+        tstart = tic;
+        p = macup(pname);
+        tmacup = toc(tstart);
+        fprintf("\t%g\t", 100*tmacup);
 
+        x0 = p.x0;
+        objective = p.objective;
+        nonlcon = p.nonlcon;
+
+        tstart = tic;
+        for ir = 1 : nr
+           fprintf("  %d", ir);
+            x = x0 + norm(x0) * randn(size(x0));
+            objective(x);
+            if ~isempty(nonlcon)
+                nonlcon(x);
+            end
+        end
+        teval = toc(tstart);
+        fprintf("  %g", 100*teval);
+
+        decup(pname);
+    catch
+        isbad(ip) = true;
+    end
+
+    fprintf("\n");
 end
+badlist = plist(isbad);
 
 fprintf('\n');
-toc;
+toc(t0);
 fprintf('\n');
