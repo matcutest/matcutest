@@ -58,4 +58,3 @@ rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f'
 # printf "\nDone.\n"
 
 # rm -rf "$TMPCU" "$TMPCS" "$CS7Z"*
-rm -rf "$TMPCU" "$TMPCS"

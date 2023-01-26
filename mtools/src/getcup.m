@@ -61,7 +61,6 @@ end
 sif_folders = {sif_cell.folder};  % `sif_folders` should be a cell array with all entries being `sif_dir`.
 sif_names = {sif_cell.name};
 nsif = length(sif_names);
-probinfo = cell(nsif, 1);
 
 compile = false(nsif, 1);
 
@@ -95,10 +94,13 @@ try
     end
 
     fprintf('\nRecording the information of the test problems into a .mat file ... \n\n');
-    parfor iprob = 1 : nsif
+    probinfo = cell(nsif, 1);
+    nprob = 0;
+    for iprob = 1 : nsif
         if ~compile(iprob)
             continue
         end
+        nprob = nprob + 1;
 
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
         fprintf('%d. %s\n', iprob, name);
@@ -157,34 +159,35 @@ try
         fbest = NaN; % Best know function value. This value maybe be changed by other scripts later.
 
         % Define a structure to record the information extracted above.
-        probinfo{iprob} = struct();
-        probinfo{iprob}.name = name;
-        probinfo{iprob}.type = type;
-        probinfo{iprob}.dim = n; % Different from CUTEst, we use dim instead of n to denote the dimension
-        probinfo{iprob}.numb = numb;
-        probinfo{iprob}.numlb = numlb;
-        probinfo{iprob}.numub = numub;
-        probinfo{iprob}.numcon = numcon;
-        probinfo{iprob}.numlcon = numlcon;
-        probinfo{iprob}.numnlcon = numnlcon;
-        probinfo{iprob}.numeq = numeq;
-        probinfo{iprob}.numineq = numineq;
-        probinfo{iprob}.numleq = numleq;
-        probinfo{iprob}.numlineq = numlineq;
-        probinfo{iprob}.numnleq = numnleq;
-        probinfo{iprob}.numnlineq = numnlineq;
-        probinfo{iprob}.fbest = fbest;
+        probinfo{nprob} = struct();
+        probinfo{nprob}.name = name;
+        probinfo{nprob}.type = type;
+        probinfo{nprob}.dim = n; % Different from CUTEst, we use dim instead of n to denote the dimension
+        probinfo{nprob}.numb = numb;
+        probinfo{nprob}.numlb = numlb;
+        probinfo{nprob}.numub = numub;
+        probinfo{nprob}.numcon = numcon;
+        probinfo{nprob}.numlcon = numlcon;
+        probinfo{nprob}.numnlcon = numnlcon;
+        probinfo{nprob}.numeq = numeq;
+        probinfo{nprob}.numineq = numineq;
+        probinfo{nprob}.numleq = numleq;
+        probinfo{nprob}.numlineq = numlineq;
+        probinfo{nprob}.numnleq = numnleq;
+        probinfo{nprob}.numnlineq = numnlineq;
+        probinfo{nprob}.fbest = fbest;
     end
+    probinfo = probinfo{1:nprob};
 
     fprintf('\nRecording the information of the test problems into plain text files ... \n\n');
-    for iprob = 1 : nsif
+    for iprob = 1 : nprob
         if ~compile(iprob)
             continue
         end
 
         % Record the problem name in problist
         fprintf(listid, '%s', probinfo{iprob}.name);
-        if iprob < nsif
+        if iprob < nprob
             fprintf(listid, '\n');
         end
 

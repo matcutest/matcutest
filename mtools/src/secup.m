@@ -48,6 +48,7 @@ np = length(probinfo);
 plist = {};
 for ip = 1 : np
     prob = probinfo{ip};
+    keyboard
     selected = (isempty(list) || ismember(upper(prob.name), upper(list))) && ~ismember(upper(prob.name), upper(blacklist)) && contains(lower(type), lower(prob.type));
 
     for ifield = 1 : length(maxmin_fields)
