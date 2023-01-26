@@ -71,7 +71,7 @@ jobs:
             ver;
 
             root_dir = cd()
-            cd(fullfile(root_dir, 'mtools'));
+            cd(fullfile(root_dir, 'mtools')); setup path;
             options = struct();
             if ~strcmpi('${{ matrix.sif }}', 'full')
                 options.list = ${{ matrix.sif }}_list();
@@ -97,7 +97,7 @@ jobs:
             help matcutest
             which macup
 
-            %req = []; req.blacklist = github_black_list; req.maxdim=20000; req.maxcon=40000;
+            %req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
             %badlist = chcup(secup(req), 1, 30)
             %if ~isempty(badlist)
             %    error('Some problems did not pass the checking.');
@@ -125,7 +125,7 @@ jobs:
           done
 
       - name: Uninstall MatCUTEst
-        run: rm -rf cutest mtools matcutestrc
+        run: rm -rf cutest mtools
 
       - name: Install matcutest_compiled
         run: |
@@ -152,7 +152,7 @@ jobs:
             help matcutest
             which macup
 
-            req = []; req.blacklist = github_black_list; req.maxdim=20000; req.maxcon=40000;
+            req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
             badlist = chcup(secup(req), 1, 30)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
