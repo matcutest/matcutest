@@ -97,12 +97,12 @@ jobs:
             help matcutest
             which macup
 
-            %req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
-            %badlist = chcup(secup(req), 1, 30)
-            %if ~isempty(badlist)
-            %    error('Some problems did not pass the checking.');
-            %end
-            %
+            req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
+            badlist = chcup(secup(req), 1, 100)
+            if ~isempty(badlist)
+                error('Some problems did not pass the checking.');
+            end
+
             %cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             %opt.blacklist = {};
             %profile('uobyqa', 'small', 'seq', opt);
@@ -131,7 +131,7 @@ jobs:
         run: |
           DIR=$HOME/local && mkdir -p $DIR
           mv matcutest.7z* $DIR
-          cd $DIR && exit 1
+          cd $DIR || exit 1
           if [[ -f matcutest.7z.001 ]] ; then
               7z x matcutest.7z.001
           else
@@ -153,7 +153,7 @@ jobs:
             which macup
 
             req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
-            badlist = chcup(secup(req), 1, 30)
+            badlist = chcup(secup(req), 1, 100)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
