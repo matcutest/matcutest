@@ -177,7 +177,7 @@ try
         probinfo{nprob}.numnlineq = numnlineq;
         probinfo{nprob}.fbest = fbest;
     end
-    probinfo = probinfo{1:nprob};
+    probinfo = probinfo(1:nprob);
 
     fprintf('\nRecording the information of the test problems into plain text files ... \n\n');
     for iprob = 1 : nprob
