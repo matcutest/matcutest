@@ -82,7 +82,7 @@ jobs:
             help matcutest
             which macup
 
-            copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, 'problist.${{ matrix.list }}'));
+            copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, '${{ matrix.list }}.problist'));
 
       - name: Generate matcutest_compiled
         run: |
@@ -91,16 +91,15 @@ jobs:
           sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
           bash ./make_compiled_version
           for FILE in $(ls matcutest.7z*) ; do
-              cp "$FILE" "$FILE".${{ matrix.list }}
+              cp "$FILE" ${{ matrix.list }}."$FILE"
           done
-          ls matcutest.*
+          ls ${{ matrix.list }}.*
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
         with:
           path: |
-            matcutest.*
-            problist.${{ matrix.list }}
+            ${{ matrix.list }}.*
 
       - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2

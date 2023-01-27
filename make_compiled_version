@@ -42,8 +42,8 @@ See https://github.com/ralna/CUTEst for the original CUTEst package.
 EOF
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
-rm "$TMPCS"/sifdir.m
-rm "$TMPCS"/getcup.m
+rm "$TMPCS"/mtools/src/sifdir.m
+rm "$TMPCS"/mtools/src/getcup.m
 echo "1" > "$TMPCS"/mtools/GOTCUP
 
 sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directory if you want to redo it|Done|" "$TMPCS/mtools/setup.m"
