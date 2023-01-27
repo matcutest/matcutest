@@ -24,6 +24,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         list: [full, customized, test]
+        #list: [new]
 
     steps:
       - name: Check out repository
