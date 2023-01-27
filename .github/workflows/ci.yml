@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        list: [full, customized, test, new]
+        list: [full, customized, test]
 
     steps:
       - name: Check out repository
@@ -71,12 +71,15 @@ jobs:
             ver;
 
             root_dir = cd()
-            cd(fullfile(root_dir, 'mtools')); setup path;
-            options = struct();
-            if ~strcmpi('${{ matrix.list }}', 'full')
+            cd(fullfile(root_dir, 'mtools'));
+            setup path;  % Make *_list() available.
+            if strcmpi('${{ matrix.list }}', 'full')
+                setup;
+            else
+                options = struct();
                 options.list = ${{ matrix.list }}_list();
+                setup(options);
             end
-            setup(options);
 
             cd(getenv('HOME'));
             help matcutest
