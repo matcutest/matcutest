@@ -50,7 +50,7 @@ sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directo
 
 rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f'
 
-7z a -v90M "$CS7Z" "$TMPCS/"
+7z a -v90M "$CS7Z" "$TMPCS/"  # -v90M sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub.
 
 # printf "\nPushing to the git repo of matcutest_compiled ...\n"
 # cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z"* "$TMPCU" || exit 2

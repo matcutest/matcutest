@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        sif: [full, customized, test, new]
+        list: [full, customized, test, new]
 
     steps:
       - name: Check out repository
@@ -73,8 +73,8 @@ jobs:
             root_dir = cd()
             cd(fullfile(root_dir, 'mtools')); setup path;
             options = struct();
-            if ~strcmpi('${{ matrix.sif }}', 'full')
-                options.list = ${{ matrix.sif }}_list();
+            if ~strcmpi('${{ matrix.list }}', 'full')
+                options.list = ${{ matrix.list }}_list();
             end
             setup(options);
 
@@ -82,7 +82,25 @@ jobs:
             help matcutest
             which macup
 
-            copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, 'problist.${{ matrix.sif }}'));
+            copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, 'problist.${{ matrix.list }}'));
+
+      - name: Generate matcutest_compiled
+        run: |
+          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
+          bash ./make_compiled_version
+          for FILE in $(ls matcutest.7z*) ; do
+              cp "$FILE" "$FILE".${{ matrix.list }}
+          done
+          ls matcutest.*
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            matcutest.*
+            problist.${{ matrix.list }}
 
       - name: Test matcutest
         uses: matlab-actions/run-command@v1.1.2
@@ -110,19 +128,6 @@ jobs:
             %profile('bobyqa', 'small', 'seq', 'b', opt);
             %profile('lincoa', 'small', 'seq', 'l', opt);
             %profile('cobyla', 'small', 'seq', 'n', opt);
-            %mkdir(fullfile(root_dir, 'matcutest.${{ matrix. sif}}'));
-            %copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
-            %copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.${{ matrix.sif }}'));
-
-      - name: Generate matcutest_compiled
-        run: |
-          sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./make_compiled_version
-          sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
-          sed 's|.*git\s*add.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
-          bash ./make_compiled_version
-          for FILE in $(ls matcutest.7z*) ; do
-              cp "$FILE" "$FILE".${{ matrix.sif }}
-          done
 
       - name: Uninstall MatCUTEst
         run: rm -rf cutest mtools
@@ -165,13 +170,3 @@ jobs:
             profile('bobyqa', 'small', 'seq', 'b', opt);
             profile('lincoa', 'small', 'seq', 'l', opt);
             profile('cobyla', 'small', 'seq', 'n', opt);
-            mkdir(fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
-            copyfile('./testdata/*summary*.pdf', fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
-            copyfile('./testdata/*problems.txt', fullfile(root_dir, 'matcutest.compiled.${{ matrix.sif }}'));
-
-      - name: Store artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          path: |
-            matcutest.*
-            problist.${{ matrix.sif }}
