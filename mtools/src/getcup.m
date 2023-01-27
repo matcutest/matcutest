@@ -71,7 +71,8 @@ tic;
 clear('getcu_error');
 try
     fprintf('\nMexifying the test problems, which may take a few hours ... \n\n');
-    for iprob = 1 : nsif
+    % Due to the file writing in `c2m`, this part cannot be parallelized.
+    for iprob = 1:nsif
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
 
         % Decide whether to mexify this problem.
@@ -95,12 +96,10 @@ try
 
     fprintf('\nRecording the information of the test problems into a .mat file ... \n\n');
     probinfo = cell(nsif, 1);
-    nprob = 0;
-    for iprob = 1 : nsif
+    parfor iprob = 1 : nsif
         if ~compile(iprob)
             continue
         end
-        nprob = nprob + 1;
 
         name = strrep(upper(sif_names{iprob}), '.SIF','');  % Problem name according to the SIF file
         fprintf('%d. %s\n', iprob, name);
@@ -159,31 +158,30 @@ try
         fbest = NaN; % Best know function value. This value maybe be changed by other scripts later.
 
         % Define a structure to record the information extracted above.
-        probinfo{nprob} = struct();
-        probinfo{nprob}.name = name;
-        probinfo{nprob}.type = type;
-        probinfo{nprob}.dim = n; % Different from CUTEst, we use dim instead of n to denote the dimension
-        probinfo{nprob}.numb = numb;
-        probinfo{nprob}.numlb = numlb;
-        probinfo{nprob}.numub = numub;
-        probinfo{nprob}.numcon = numcon;
-        probinfo{nprob}.numlcon = numlcon;
-        probinfo{nprob}.numnlcon = numnlcon;
-        probinfo{nprob}.numeq = numeq;
-        probinfo{nprob}.numineq = numineq;
-        probinfo{nprob}.numleq = numleq;
-        probinfo{nprob}.numlineq = numlineq;
-        probinfo{nprob}.numnleq = numnleq;
-        probinfo{nprob}.numnlineq = numnlineq;
-        probinfo{nprob}.fbest = fbest;
+        probinfo{iprob} = struct();
+        probinfo{iprob}.name = name;
+        probinfo{iprob}.type = type;
+        probinfo{iprob}.dim = n; % Different from CUTEst, we use dim instead of n to denote the dimension
+        probinfo{iprob}.numb = numb;
+        probinfo{iprob}.numlb = numlb;
+        probinfo{iprob}.numub = numub;
+        probinfo{iprob}.numcon = numcon;
+        probinfo{iprob}.numlcon = numlcon;
+        probinfo{iprob}.numnlcon = numnlcon;
+        probinfo{iprob}.numeq = numeq;
+        probinfo{iprob}.numineq = numineq;
+        probinfo{iprob}.numleq = numleq;
+        probinfo{iprob}.numlineq = numlineq;
+        probinfo{iprob}.numnleq = numnleq;
+        probinfo{iprob}.numnlineq = numnlineq;
+        probinfo{iprob}.fbest = fbest;
     end
-    probinfo = probinfo(1:nprob);
+    % Keep only the components of probinfo corresponding to the compiled problems.
+    probinfo = probinfo(compile);
 
     fprintf('\nRecording the information of the test problems into plain text files ... \n\n');
+    nprob = length(probinfo);
     for iprob = 1 : nprob
-        if ~compile(iprob)
-            continue
-        end
 
         % Record the problem name in problist
         fprintf(listid, '%s', probinfo{iprob}.name);
