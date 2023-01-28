@@ -5,7 +5,7 @@ mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
 cdir = fullfile(fileparts(fileparts(mdir)), 'cutest');
 
 if ~(exist(fullfile(cdir, 'bin'), 'dir') && exist(fullfile(cdir, 'src', 'matlab'), 'dir'))
-    error('MatCUTEst:InvalidCUTEstDir', '%s is not a valid CUTEst directory.\nCheck that the environment variable ''CUTEST'' is correctly set.', cdir);
+    error('MatCUTEst:InvalidCUTEstDir', '%s is not a valid CUTEst directory.', cdir);
 end
 
 return

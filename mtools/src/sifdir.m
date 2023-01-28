@@ -5,7 +5,7 @@ mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
 sdir = fullfile(fileparts(fileparts(mdir)), 'sif');
 
 if isempty(dir(fullfile(sdir, '*.SIF')))
-    error('MatCUTEst:InvalidSIFDir', 'The SIF directory %s does not exist or does not contain any SIF file.\nCheck that the environment variable ''MASTSIF'' is correctly set', sdir);
+    error('MatCUTEst:InvalidSIFDir', 'The SIF directory %s does not exist or does not contain any SIF file.', sdir);
 end
 
 return
