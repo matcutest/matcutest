@@ -41,7 +41,7 @@ return
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function dirpath = getpath(string)
 %GETPATH gets the full and trimmed path corresponding to a string, assuming that the string
-% represents a directory. If the string does not represent a directory, then dirpath = '';
+% represents a directory. If the string does not represent a directory, then dirpath = ''.
 
 cpwd = pwd();
 
