@@ -13,9 +13,11 @@ myarch = 'pc64.lnx.gfo';
 mymatlabarch = myarch;
 
 assert(isempty(getenv('CUTEST')) || strcmp(getpath(getenv('CUTEST')), cutest));
+assert(strcmp(getpath(cutestdir()), cutest));
 setenv('CUTEST', cutest);
 
 assert(isempty(getenv('MASTSIF')) || strcmp(getpath(getenv('MASTSIF')), mastsif));
+assert(strcmp(getpath(sifdir()), mastsif));
 setenv('MASTSIF', mastsif);
 
 assert(isempty(getenv('ARCHDEFS')) || strcmp(getpath(getenv('ARCHDEFS')), archdefs));

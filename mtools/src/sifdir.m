@@ -1,5 +1,6 @@
 function sdir = sifdir()
 %SIFDIR returns a string that is the directory containing the SIF files, which should be ../../sif.
+% It is needed ONLY by getcup.m for mexifying the problems.
 
 mdir = fileparts(mfilename('fullpath')); % The directory containing this script.
 sdir = fullfile(fileparts(fileparts(mdir)), 'sif');

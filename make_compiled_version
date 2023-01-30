@@ -42,6 +42,7 @@ See https://github.com/ralna/CUTEst for the original CUTEst package.
 EOF
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
+rm "$TMPCS"/mtools/src/setcuenv.m
 rm "$TMPCS"/mtools/src/sifdir.m
 rm "$TMPCS"/mtools/src/getcup.m
 echo "1" > "$TMPCS"/mtools/GOTCUP
