@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-          #list: [full, customized, test]
-        list: [new]
+        list: [full, customized, test]
+          #list: [new]
 
     steps:
       - name: Check out repository
