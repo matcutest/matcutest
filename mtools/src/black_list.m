@@ -2,10 +2,6 @@ function list = black_list()
 %BLACK_LIST returns a list of problems that are blocked.
 
 list = [];
-% The MEX function of the following problem crashes with SEGFAULT.
-list = [list, { ...
-    'BLEACHNG', ...
-    }];
 
 % The following problems take so much resource that MATLAB get killed.
 list = [list, {...
