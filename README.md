@@ -48,4 +48,5 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
 ## Remarks
 
-MatCUTEst has been used intensively in the testing and development of [PRIMA](http://www.libprima.net).
+- MatCUTEst has been used intensively in the testing and development of [PRIMA](http://www.libprima.net).
+- If you would like to use CUTEst in Python, check [PyCUTEst](https://github.com/jfowkes/pycutest).
