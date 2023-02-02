@@ -1,8 +1,10 @@
-function problem = macup(pname)
+function problem = macup(pname, options)
 %MACUP (MAke CUtest Problem) builds a structure containing the information
 % of the CUTEst problem specified by pname.
 % This is the place where we call CUTEst functions, including
 % cutest_setup, cutest_terminate, cutest_obj, and cutest_cons.
+% Some options can be included. For the current version (20230202), the only
+% option is `get_H0`, indicating whether to get the Hessian at x0 or not.
 
 cutest_inf = 1e20; % In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
 
@@ -36,7 +38,10 @@ try  % Everything until catch is done in pmexdir.
 
     x0=prob.x;  % starting point
     [f0, g0] = cutest_obj(x0);
-    %H0 = cutest_ihess(x0, 0);  % May be expensive
+    get_H0 = (nargin >= 2 && isfield(options, 'get_H0') && islogical(options.get_H0) && options.get_H0);
+    if get_H0
+        H0 = cutest_ihess(x0, 0);  % May be expensive
+    end
 
     bl = prob.bl;  % lower bound
     bl(bl <= -cutest_inf) = -inf;
@@ -142,7 +147,9 @@ else
 
     problem.f0 = f0;
     problem.g0 = g0;
-    %problem.H0 = H0;  % May be expensive.
+    if get_H0
+        problem.H0 = H0;  % May be expensive.
+    end
     problem.nlcineq0 = nlcineq0;
     problem.nlceq0 = nlceq0;
     problem.gnlcineq0 = gnlcineq0;
