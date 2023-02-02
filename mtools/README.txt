@@ -3,8 +3,8 @@ ZHANG Zaikun, Hong Kong Polytechnic University, https://zhangzk.net
 
 June 2020, Hong Kong
 
-Thank Dr. Clément W. Royer (https://www.lamsade.dauphine.fr/~croyer)
-for introducing me how to use CUTEst in MATLAB.
+Thank Dr. Clément W. Royer ( https://www.lamsade.dauphine.fr/~croyer )
+for teaching me how to use CUTEst in MATLAB.
 ***************************************************************************
 
 The package contains a set of tools to facilitate the usage of CUTEst
