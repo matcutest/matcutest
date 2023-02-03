@@ -56,8 +56,12 @@ sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directo
 # the -r option to work properly with subdirectories, but -r is discouraged according to man 7z.
 rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f' --exclude='core.*'
 
-NPROC=$(grep -c 'processor' /proc/cpuinfo 2>/dev/null || echo 1)  # Number of processors
-7z a -v90m -mx=9 -t7z "$CS7Z" "$TMPCS"  # -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub.
+# Comment on 7z and its options:
+# We choose 7z as it renders a high compression ratio in this case: from 6GB down to 120MB.
+# -mx=9 sets the compression ratio to the highest (it will be time-consuming);
+# -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub;
+# -t7z means chooses the compressing format as 7z.
+7z a -v90m -mx=9 -t7z "$CS7Z" "$TMPCS"
 
 # printf "\nPushing to the git repo of matcutest_compiled ...\n"
 # cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z"* "$TMPCU" || exit 2
