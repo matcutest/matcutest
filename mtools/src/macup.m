@@ -1,23 +1,25 @@
 function problem = macup(pname, options)
 %MACUP (MAke CUtest Problem) builds a structure containing the information
-% of the CUTEst problem specified by pname.
+% of the CUTEst problem specified by pname. The field names of this structure
+% are self-explaining, but particular attention may be paid on "objective"
+% and "nonlcon", which are explained below.
 %
-% In particular, the structure contains a handle for the objective function
-% at the field "objective". Its signature is
+% - objective: The structure contains a handle for the objective function at the field
+%   "objective". Its signature is
 %
 %   [f, gradient, Hessian] = objective(x)
 %
-% If the problem has nonlinear constraints, then the structure also contains
-% a handle for the constraint function at the field "nonlcon". Its signature is
+% - nonlcon: If the problem has nonlinear constraints, then the structure also contains
+%   a handle for the constraint function at the field "nonlcon". Its signature is
 %
-%   [nlcineq, nlceq, grad_nlcineq, grad_nlceq] = nonlcon(x).
+%     [nlcineq, nlceq, grad_nlcineq, grad_nlceq] = nonlcon(x).
 %
-% Following the convention of MATLAB (see
-% https://www.mathworks.com/help/optim/ug/nonlinear-constraints.html ),
-% the nonlinear constraints are nlcineq <= 0 and nlceq = 0,
-% grad_nlcineq is the gradient (i.e., transpose of the Jacobin matrix)
-% of nlcineq, while grad_nlceq is that of nlceq.
-% When there is no nonlinear constraints, the field "nonlcon" is set to [].
+%   Following the convention of MATLAB (see
+%   https://www.mathworks.com/help/optim/ug/nonlinear-constraints.html ),
+%   the nonlinear constraints are nlcineq <= 0 and nlceq = 0,
+%   grad_nlcineq is the gradient (i.e., transpose of the Jacobin matrix)
+%   of nlcineq, while grad_nlceq is that of nlceq.
+%   When there is no nonlinear constraints, the field "nonlcon" is set to [].
 %
 % Some options can be included. For the current version (20230202), the only
 % option is `get_H0`, indicating whether to include the Hessian at x0 in the
