@@ -20,7 +20,7 @@ if nargin <= 1
 end
 
 if nargin <= 2
-    nr = 30;
+    nr = 10;
 end
 
 np = length(plist);

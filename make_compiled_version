@@ -49,9 +49,15 @@ echo "1" > "$TMPCS"/mtools/GOTCUP
 
 sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directory if you want to redo it|Done|" "$TMPCS/mtools/setup.m"
 
-rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f'
+# We use rsync to make a copy of $MATCUTEST/cutest excluding certain files.
+# N.B.:
+# 1. The directory may contain core files due to failures during previous tests.
+# 2. The -x option of 7z can also exclude files with wildcards. However, it seems to require also
+# the -r option to work properly with subdirectories, but -r is discouraged according to man 7z.
+rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f' --exclude='core.*'
 
-7z a -v90M "$CS7Z" "$TMPCS/"  # -v90M sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub.
+NPROC=$(grep -c 'processor' /proc/cpuinfo 2>/dev/null || echo 1)  # Number of processors
+7z a -v90m -mx=9 -t7z "$CS7Z" "$TMPCS"  # -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub.
 
 # printf "\nPushing to the git repo of matcutest_compiled ...\n"
 # cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z"* "$TMPCU" || exit 2

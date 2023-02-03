@@ -119,7 +119,7 @@ jobs:
             which macup
 
             req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
-            badlist = chcup(secup(req), 1, 100)
+            badlist = chcup(secup(req), 1)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
@@ -161,7 +161,7 @@ jobs:
             which macup
 
             req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
-            badlist = chcup(secup(req), 1, 100)
+            badlist = chcup(secup(req), 1)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
             end
