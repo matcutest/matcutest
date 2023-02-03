@@ -1,5 +1,5 @@
 function list = black_list()
-%BLACK_LIST returns a list of problems that are blocked.
+%BLACK_LIST returns a list of problems that is intended to be avoided.
 
 list = [];
 % The MEX function of the following problem crashes.

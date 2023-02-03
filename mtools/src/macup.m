@@ -1,10 +1,29 @@
 function problem = macup(pname, options)
 %MACUP (MAke CUtest Problem) builds a structure containing the information
 % of the CUTEst problem specified by pname.
-% This is the place where we call CUTEst functions, including
-% cutest_setup, cutest_terminate, cutest_obj, and cutest_cons.
+%
+% In particular, the structure contains a handle for the objective function
+% at the field "objective". Its signature is
+%
+%   [f, gradient, Hessian] = objective(x)
+%
+% If the problem has nonlinear constraints, then the structure also contains
+% a handle for the constraint function at the field "nonlcon". Its signature is
+%
+%   [nlcineq, nlceq, grad_nlcineq, grad_nlceq] = nonlcon(x).
+%
+% Following the convention of MATLAB (see
+% https://www.mathworks.com/help/optim/ug/nonlinear-constraints.html ),
+% the nonlinear constraints are nlcineq <= 0 and nlceq = 0,
+% grad_nlcineq is the gradient (i.e., transpose of the Jacobin matrix)
+% of nlcineq, while grad_nlceq is that of nlceq.
+%
 % Some options can be included. For the current version (20230202), the only
-% option is `get_H0`, indicating whether to get the Hessian at x0 or not.
+% option is `get_H0`, indicating whether to include the Hessian at x0 in the
+% problem structure or not.
+%
+% N.B.: This is the place where we call CUTEst functions, including
+% cutest_setup, cutest_terminate, cutest_obj, and cutest_cons.
 
 cutest_inf = 1e20; % In CUTEst, an upper/lower bound with value 1e20/-1e20 means no bound.
 
