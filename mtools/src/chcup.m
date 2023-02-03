@@ -1,7 +1,7 @@
 function badlist = chcup(plist, minip, nr)
-%CHCUP (CHeck CUtest Problems) checks whether the CUTEst problems in PLIST work, starting from
-% PLIST{IP}. It tries making the problem and then evaluating the objective and constraint (if any)
-% functions at NR points.
+%CHCUP (CHeck CUtest Problems) checks whether the CUTEst problems in PLIST work without failures,
+% starting from PLIST{IP}. It tries making the problem and then evaluating the objective and
+% constraint (if any) functions at NR points.
 %
 % What is MINIP for? If MATLAB crashes when checking problem IP, which did happen several times, we
 % then add PLIST{IP} to black_list.m and then run CHCUP again with MINIP = IP, until all problems
@@ -28,8 +28,8 @@ isbad = false(np, 1);
 
 t0 = tic;
 
-% N.B.: parfor will not work; works will be killed due to excessive resources consumed by some large
-% problems, and then mcutest will complain about "incorrect size of input" when checking other
+% N.B.: parfor will not work; workers will be killed due to excessive resources consumed by some
+% large problems, and then mcutest will complain about "incorrect size of input" when checking other
 % problems for unknown reasons.
 for ip = minip : np
     pname = plist{ip};

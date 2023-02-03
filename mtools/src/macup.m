@@ -17,6 +17,7 @@ function problem = macup(pname, options)
 % the nonlinear constraints are nlcineq <= 0 and nlceq = 0,
 % grad_nlcineq is the gradient (i.e., transpose of the Jacobin matrix)
 % of nlcineq, while grad_nlceq is that of nlceq.
+% When there is no nonlinear constraints, the field "nonlcon" is set to [].
 %
 % Some options can be included. For the current version (20230202), the only
 % option is `get_H0`, indicating whether to include the Hessian at x0 in the
