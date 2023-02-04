@@ -60,7 +60,7 @@ rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f' --exclude='core
 # We choose 7z as it renders a high compression ratio in this case: from 6GB down to 120MB.
 # -mx=9 sets the compression ratio to the highest (it will be time-consuming);
 # -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub;
-# -t7z means chooses the compressing format as 7z.
+# -t7z chooses the compressing format as 7z.
 7z a -v90m -mx=9 -t7z "$CS7Z" "$TMPCS"
 
 # printf "\nPushing to the git repo of matcutest_compiled ...\n"
