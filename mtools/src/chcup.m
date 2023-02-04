@@ -50,13 +50,13 @@ for ip = minip : np
         for ir = 1 : nr
            fprintf("  %d", ir);
             x = x0 + norm(x0) * randn(size(x0));
-            if (size(x0) <= 10^3)
+            if (size(x0) <= 10^4)
                 [f, g, H] = objective(x);  % Time consuming to evaluate H
             else
                 [f, g] = objective(x);
             end
             if ~isempty(nonlcon)
-                if (size(x0) * p.numnlcon <= 10^6)
+                if (size(x0) * p.numnlcon <= 10^8)
                    [cineq, ceq, gcineq, gceq] = nonlcon(x);  % Time consuming to evaluate gcineq and gceq
                 else
                    [cineq, ceq] = nonlcon(x);
