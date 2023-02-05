@@ -57,7 +57,8 @@ sed -i "s|setup has been done before. Remove the ''GOTCUP'' file in this directo
 rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f' --exclude='core.*'
 
 # Comment on 7z and its options:
-# We choose 7z as it renders a high compression ratio in this case: from 6GB down to 120MB.
+# We choose 7z as it renders an outstanding compression ratio in this case: from 6GB down to 120MB.
+# As a comparison, zip produces an archive of 580MB, good, but not as good.
 # -mx=9 sets the compression ratio to the highest (it will be time-consuming);
 # -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub;
 # -t7z chooses the compressing format as 7z.
