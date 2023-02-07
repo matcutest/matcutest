@@ -66,7 +66,6 @@ problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
 parfor ip = 1 : length(problist)
     pname = problist{ip};
     p = macup(pname);  % MatCUTEst comes into play
-    p = macup(pname);
     p.objective(p.x0)
 end
 ```
