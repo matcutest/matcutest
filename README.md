@@ -46,7 +46,33 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
    starting point, etc. Try `help matcutest` in MATLAB or see [`mtools/README.txt`](mtools/README.txt)
    for more information.
 
+
+## Use MatCUTEst in GitHub Actions
+
+If you want to use MatCUTEst in [GitHub Actions](https://docs.github.com/en/actions), see
+the [demo](https://github.com/equipez/matcutest_compiled/blob/main/.github/workflows/demo.yml).
+MatCUTEst has been used intensively in the testing and development of [PRIMA](http://www.libprima.net),
+where you can find more [realistic examples](https://github.com/libprima/prima/blob/main/.github/workflows/verify_large.yml)
+of using MatCUTEst in GitHub Actions.
+
+
+## Thread safety
+
+MatCUTEst is [thread safe](https://en.wikipedia.org/wiki/Thread_safety). It can be used within
+a [parfor](https://www.mathworks.com/help/parallel-computing/parfor.html). Here is an example.
+
+```
+problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
+parfor ip = 1 : length(problist)
+    pname = problist{ip};
+    fprintf('\nTry %s:\n', pname);
+    p = macup(pname);
+    p.objective(p.x0)
+end
+```
+
+
 ## Remarks
 
-- MatCUTEst has been used intensively in the testing and development of [PRIMA](http://www.libprima.net).
+- MatCUTEst has been playing a vital role in the testing and development of [PRIMA](http://www.libprima.net).
 - If you would like to use CUTEst in Python, check [PyCUTEst](https://github.com/jfowkes/pycutest).
