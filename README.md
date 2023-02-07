@@ -58,14 +58,14 @@ of using MatCUTEst in GitHub Actions.
 
 ## Thread safety
 
-MatCUTEst is [thread safe](https://en.wikipedia.org/wiki/Thread_safety). It can be used within
+MatCUTEst is [thread-safe](https://en.wikipedia.org/wiki/Thread_safety). It can be used within
 a [parfor](https://www.mathworks.com/help/parallel-computing/parfor.html). Here is an example.
 
 ```
 problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
 parfor ip = 1 : length(problist)
     pname = problist{ip};
-    fprintf('\n%d. Try %s:\n', ip, pname);
+    p = macup(pname);  % MatCUTEst comes into play
     p = macup(pname);
     p.objective(p.x0)
 end
