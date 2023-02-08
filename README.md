@@ -66,8 +66,9 @@ problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
 parfor ip = 1 : length(problist)
     pname = problist{ip};
     fprintf('\n%d. Try %s:\n', ip, pname);
-    p = macup(pname);  % MatCUTEst comes into play
+    p = macup(pname);  % make a CUTEst problem
     p.objective(p.x0)
+    decup(p);  % destroy the CUTEst problem
 end
 ```
 
