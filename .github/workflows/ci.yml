@@ -65,7 +65,7 @@ jobs:
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./INSTALL
           bash ./INSTALL < install_matcutest_input.pc64.lnx
 
-      - name: Mexify matcutest
+      - name: Mexify MatCUTEst
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
@@ -88,7 +88,7 @@ jobs:
 
             copyfile(fullfile(root_dir, 'cutest', 'probinfo', 'problist'), fullfile(root_dir, '${{ matrix.list }}.problist'));
 
-      - name: Generate matcutest_compiled
+      - name: Generate MatCUTEst_compiled
         run: |
           sed 's|rm -rf.*|printf "Skip removing files for GitHub Actions.\\n"|g' -i ./make_compiled_version
           sed 's|.*git\s*clone.*|printf "Skip gitting for GitHub Actions.\\n"|g' -i ./make_compiled_version
@@ -105,7 +105,7 @@ jobs:
           path: |
             ${{ matrix.list }}.*
 
-      - name: Test matcutest
+      - name: Test MatCUTEst
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
@@ -135,7 +135,7 @@ jobs:
       - name: Uninstall MatCUTEst
         run: rm -rf cutest mtools
 
-      - name: Install matcutest_compiled
+      - name: Install MatCUTEst_compiled
         run: |
           DIR=$HOME/local && mkdir -p $DIR
           mv matcutest.7z* $DIR
@@ -146,7 +146,7 @@ jobs:
               7z x matcutest.7z
           fi
 
-      - name: Test matcutest_compiled
+      - name: Test MatCUTEst_compiled
         uses: matlab-actions/run-command@v1.1.2
         with:
           command: |
