@@ -137,9 +137,7 @@ try
 
         numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - sum(prob.linear & cl <= -inf) - sum(prob.linear & cu >= inf); % Number of inequality constraints
         numlcon = numleq + numlineq; % Number of linear constraints other than bounds
-
         numnlcon = numcon - numlcon; % Number of nonlinear constraints
-        numlineq = numlcon - numleq; % Number of linear inequality constraints
 
         if (numb > 2*n || numb ~= numlb + numub)
             error('MatCUTEst:InvalidSize', 'numb > 2*n or numb ~= numlb + numub !\n');
