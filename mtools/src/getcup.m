@@ -137,6 +137,8 @@ try
 
         numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - sum(prob.linear & cl <= -inf) - sum(prob.linear & cu >= inf); % Number of inequality constraints
         numlcon = numleq + numlineq; % Number of linear constraints other than bounds
+
+        numnlineq = numineq - numlineq; % Number of nonlinear inequality constraints
         numnlcon = numcon - numlcon; % Number of nonlinear constraints
 
         if (numb > 2*n || numb ~= numlb + numub)
