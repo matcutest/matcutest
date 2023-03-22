@@ -119,30 +119,42 @@ try
         bl (bl <= -cutest_inf) = -inf;
         bu (bu >= cutest_inf) = inf;
 
+        cl = prob.cl;  % lower bound of constraints
+        cu = prob.cu;  % upper bound of constraints
+        cl(cl <= -cutest_inf) = -inf;
+        cu(cu >= cutest_inf) = inf;
+
         numb = sum(-bl < inf) + sum(bu < inf); % Number of bound constraints
         numlb = sum(-bl < inf);  % Number of lower bound constraints
         numub = sum(bu < inf);  % Number of upper bound constraints
-        numcon = length(prob.linear); % Number of constraints other than bounds
-        numlcon = sum(prob.linear); % Number of linear constraints other than bounds
-        numnlcon = numcon - numlcon; % Number of nonlinear constraints
+
         numeq = sum(prob.equatn); % Number of equality constraints
-        numineq = length(prob.equatn) - numeq; % Number of inequality constraints
         numleq = sum(prob.linear & prob.equatn); % Number of linear equality constraints
-        numlineq = numlcon - numleq; % Number of linear inequality constraints
         numnleq = sum(~prob.linear & prob.equatn); % Number of nonlinear equality constraints
-        numnlineq = numnlcon - numnleq; % Number of nonlinear inequality constraints
+
+        numineq = 2*(length(prob.equatn) - numeq) - sum(cl <= -inf) - sum(cu >= inf); % Number of inequality constraints
+        numcon = numeq + numineq; % Number of constraints other than bounds
+
+        numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - sum(prob.linear & cl <= -inf) - sum(prob.linear & cu >= inf); % Number of inequality constraints
+        numlcon = numleq + numlineq; % Number of linear constraints other than bounds
+
+        numnlcon = numcon - numlcon; % Number of nonlinear constraints
+        numlineq = numlcon - numleq; % Number of linear inequality constraints
 
         if (numb > 2*n || numb ~= numlb + numub)
             error('MatCUTEst:InvalidSize', 'numb > 2*n or numb ~= numlb + numub !\n');
         end
-        if (numeq + numineq ~= numcon)
-            error('MatCUTEst:InvalidSize', 'numeq + inequality ~= numcon !\n');
+        if (numeq + numineq ~= numcon || numlcon + numnlcon ~= numcon)
+            error('MatCUTEst:InvalidSize', 'numeq + numineq ~= numcon or numlcon + numnlcon ~= numcon !\n');
+        end
+        if (numleq + numlineq ~= numlcon || numnleq + numnlineq ~= numnlcon)
+            error('MatCUTEst:InvalidSize', 'numleq + numlineq ~= numlcon or numnleq + numnlineq ~= numnlcon !\n');
         end
         if (numleq + numnleq ~= numeq || numlineq + numnlineq ~= numineq)
             error('MatCUTEst:InvalidSize', 'numleq + numnleq ~= numeq or numlineq + numnlineq ~= ineqco !\n');
         end
-        if (length(prob.cu) ~= numcon || length(prob.cl) ~= numcon)
-            error('MatCUTEst:InvalidSize', 'length(prob.cu) ~= numcon or length(prob.cl) ~= numcon !\n');
+        if (length(prob.cu) > numcon || length(prob.cl) > numcon || length(prob.cu) + length(prob.cl) < numcon)
+            error('MatCUTEst:InvalidSize', 'length(prob.cu) > numcon or length(prob.cl) > numcon or length(prob.cu) + length(prob.cl) < numcon !\n');
         end
 
         if (min([-bl; bu]) == inf && isempty(prob.linear)) % unconstrained problem

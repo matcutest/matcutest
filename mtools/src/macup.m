@@ -101,6 +101,7 @@ try  % Everything until catch is done in pmexdir.
         nlceq0 = [];
         gnlcineq0 = [];
         gnlceq0 = [];
+        numcon = 0;
         numlcon = 0;
         numnlcon = 0;
         numeq = 0;
@@ -115,14 +116,23 @@ try  % Everything until catch is done in pmexdir.
         nleq = ~linear & equatn;  % nonlinear equality constraints
         nlineq = ~linear & ~equatn;  % nonlinear equality constraints
 
-        numlcon = nnz(linear);
-        numnlcon = nnz(~linear);
         numeq = nnz(equatn);
-        numineq = nnz(~equatn);
         numleq = nnz(leq);
-        numlineq = nnz(lineq);
         numnleq = nnz(nleq);
-        numnlineq = nnz(nlineq);
+
+        numcon = (2*length(linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf);
+        numlcon = (2*nnz(linear) - numleq) - nnz(linear & cl <= -inf) - nnz(linear & cu >= inf);
+        numnlcon = (2*nnz(~linear) - numnleq) - nnz(~linear & cl <= -inf) - nnz(~linear & cu >= inf);
+        numineq = 2*(length(linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf);
+        numlineq = 2*(nnz(linear) - numleq) - nnz(linear & cl <= -inf) - nnz(linear & cu >= inf);
+        numnlineq = 2*(nnz(~linear) - numnleq) - nnz(~linear & cl <= -inf) - nnz(~linear & cu >= inf);
+        assert(numcon == numlcon + numnlcon);
+        assert(numcon == numeq + numineq);
+        assert(numlcon == numleq + numlineq);
+        assert(numnlcon == numnleq + numnlineq);
+        assert(numeq == numleq + numnleq);
+        assert(numineq == numlineq + numnlineq);
+        assert(length(cl) <= numcon && length(cu) <= numcon && length(cl) + length(cu) >= numcon);
 
         [consx0, J] = cutest_cons(x0);  % J is the Jacobian matrix of the constraints other than bounds.
         cons0 = consx0 - J*x0;  % A linear constraint looks like cl <= J*x + cons0 <= cu.
@@ -132,6 +142,9 @@ try  % Everything until catch is done in pmexdir.
         bineq = [cu(lineq) - cons0(lineq); -cl(lineq) + cons0(lineq)];
         Aineq = Aineq(bineq < inf, :);  % remove the linear constraints with infinite right-hand sides
         bineq = bineq(bineq < inf);
+
+        assert((isempty(Aeq) && isempty(beq)) || (size(Aeq, 1) == numleq && size(Aeq, 2) == length(x0) && length(beq) == numleq));
+        assert((isempty(Aineq) && isempty(bineq)) || (size(Aineq, 1) == numlineq && size(Aineq, 2) == length(x0) && length(bineq) == numlineq));
 
         if all(linear)
             nonlcon = [];  % no nonlinear constraints
@@ -143,6 +156,9 @@ try  % Everything until catch is done in pmexdir.
             nonlcon = @(x) eval_cutest_nlc(x, @cutest_cons, cl, cu, nlineq, nleq);  % nonlinear constraints: [nlcineq, nlceq] = nonlcon(x), nlcineq <= 0, nlceq = 0
             [nlcineq0, nlceq0, gnlcineq0, gnlceq0] = nonlcon(x0);
         end
+
+        assert(isempty(nlcineq0) || (length(nlcineq0) == numnlineq && size(gnlcineq0, 1) == length(x0) && size(gnlcineq0, 2) == numnlineq));
+        assert(isempty(nlceq0) || (length(nlceq0) == numnleq && size(gnlceq0, 1) == length(x0) && size(gnlceq0, 2) == numnleq));
     end
 catch macup_error
     % do nothing for now
@@ -196,7 +212,7 @@ else
     problem.numb = nnz(bl > -inf) + nnz(bu < inf);  % Number of bound constraints
     problem.numlb = nnz(bl > -inf);  % Number of lower bound constraints
     problem.numub = nnz(bu < inf);  % Number of upper bound constraints
-    problem.numcon = length(linear);  % Number of constraints excluding the bounds
+    problem.numcon = numcon;  % Number of constraints excluding the bounds
     problem.numlcon = numlcon;  % Number of linear constraints excluding the bounds
     problem.numnlcon = numnlcon;  % Number of nonlinear constraints
     problem.numeq = numeq;  % Number of equality constraints
