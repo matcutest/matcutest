@@ -124,19 +124,19 @@ try
         cl(cl <= -cutest_inf) = -inf;
         cu(cu >= cutest_inf) = inf;
 
-        numb = sum(-bl < inf) + sum(bu < inf); % Number of bound constraints
-        numlb = sum(-bl < inf);  % Number of lower bound constraints
-        numub = sum(bu < inf);  % Number of upper bound constraints
-        numfixedx = sum(abs(bl - bu) < eps); % Number of fixed variables
+        numb = nnz(-bl < inf) + nnz(bu < inf); % Number of bound constraints
+        numlb = nnz(-bl < inf);  % Number of lower bound constraints
+        numub = nnz(bu < inf);  % Number of upper bound constraints
+        numfixedx = nnz(abs(bl - bu) < eps); % Number of fixed variables
 
-        numeq = sum(prob.equatn); % Number of equality constraints
-        numleq = sum(prob.linear & prob.equatn); % Number of linear equality constraints
-        numnleq = sum(~prob.linear & prob.equatn); % Number of nonlinear equality constraints
+        numeq = nnz(prob.equatn); % Number of equality constraints
+        numleq = nnz(prob.linear & prob.equatn); % Number of linear equality constraints
+        numnleq = nnz(~prob.linear & prob.equatn); % Number of nonlinear equality constraints
 
-        numineq = 2*(length(prob.equatn) - numeq) - sum(cl <= -inf) - sum(cu >= inf); % Number of inequality constraints
+        numineq = 2*(length(prob.equatn) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf); % Number of inequality constraints
         numcon = numeq + numineq; % Number of constraints other than bounds
 
-        numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - sum(prob.linear & cl <= -inf) - sum(prob.linear & cu >= inf); % Number of inequality constraints
+        numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - nnz(prob.linear & cl <= -inf) - nnz(prob.linear & cu >= inf); % Number of inequality constraints
         numlcon = numleq + numlineq; % Number of linear constraints other than bounds
 
         numnlineq = numineq - numlineq; % Number of nonlinear inequality constraints
@@ -162,7 +162,7 @@ try
             type = 'u';
         elseif (isempty(prob.linear)) % bound constrained problem
             type = 'b';
-        elseif (sum(prob.linear) == length(prob.linear)) % linearly (not only bound) constrained problem
+        elseif (nnz(prob.linear) == length(prob.linear)) % linearly (not only bound) constrained problem
             type = 'l';
         else % nonlinearly constrained problem
             type = 'n';
