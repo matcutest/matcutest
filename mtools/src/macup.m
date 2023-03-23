@@ -212,7 +212,7 @@ else
     problem.numb = nnz(bl > -inf) + nnz(bu < inf);  % Number of bound constraints
     problem.numlb = nnz(bl > -inf);  % Number of lower bound constraints
     problem.numub = nnz(bu < inf);  % Number of upper bound constraints
-    problem.numfixedx = nnz(bl == bu);  % Number of fixed variables
+    problem.numfixedx = nnz(abs(bl - bu) < eps);  % Number of fixed variables
     problem.numcon = numcon;  % Number of constraints excluding the bounds
     problem.numlcon = numlcon;  % Number of linear constraints excluding the bounds
     problem.numnlcon = numnlcon;  % Number of nonlinear constraints

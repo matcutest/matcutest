@@ -127,7 +127,7 @@ try
         numb = sum(-bl < inf) + sum(bu < inf); % Number of bound constraints
         numlb = sum(-bl < inf);  % Number of lower bound constraints
         numub = sum(bu < inf);  % Number of upper bound constraints
-        numfixedx = sum(bl == bu); % Number of fixed variables
+        numfixedx = sum(abs(bl - bu) < eps); % Number of fixed variables
 
         numeq = sum(prob.equatn); % Number of equality constraints
         numleq = sum(prob.linear & prob.equatn); % Number of linear equality constraints
