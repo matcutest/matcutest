@@ -49,8 +49,8 @@ if txtid == -1 || texid == -1 || listid == -1
     error('MatCUTEst:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
 end
 
-fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
-fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & fbest\\\\\n');
+fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#fixedx\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
+fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#fixedx & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & fbest\\\\\n');
 
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
 
@@ -127,6 +127,7 @@ try
         numb = sum(-bl < inf) + sum(bu < inf); % Number of bound constraints
         numlb = sum(-bl < inf);  % Number of lower bound constraints
         numub = sum(bu < inf);  % Number of upper bound constraints
+        numfixedx = sum(bl == bu); % Number of fixed variables
 
         numeq = sum(prob.equatn); % Number of equality constraints
         numleq = sum(prob.linear & prob.equatn); % Number of linear equality constraints
@@ -177,6 +178,7 @@ try
         probinfo{iprob}.numb = numb;
         probinfo{iprob}.numlb = numlb;
         probinfo{iprob}.numub = numub;
+        probinfo{iprob}.numfixedx = numfixedx;
         probinfo{iprob}.numcon = numcon;
         probinfo{iprob}.numlcon = numlcon;
         probinfo{iprob}.numnlcon = numnlcon;
@@ -208,6 +210,7 @@ try
         fprintf(txtid,'%d\t', probinfo{iprob}.numb);
         fprintf(txtid,'%d\t', probinfo{iprob}.numlb);
         fprintf(txtid,'%d\t', probinfo{iprob}.numub);
+        fprintf(txtid,'%d\t', probinfo{iprob}.numfixedx);
         fprintf(txtid,'%d\t', probinfo{iprob}.numcon);
         fprintf(txtid,'%d\t', probinfo{iprob}.numlcon);
         fprintf(txtid,'%d\t', probinfo{iprob}.numnlcon);
@@ -226,6 +229,7 @@ try
         fprintf(texid,'%d & ', probinfo{iprob}.numb);
         fprintf(texid,'%d & ', probinfo{iprob}.numlb);
         fprintf(texid,'%d & ', probinfo{iprob}.numub);
+        fprintf(texid,'%d & ', probinfo{iprob}.numfixedx);
         fprintf(texid,'%d & ', probinfo{iprob}.numcon);
         fprintf(texid,'%d & ', probinfo{iprob}.numlcon);
         fprintf(texid,'%d & ', probinfo{iprob}.numnlcon);

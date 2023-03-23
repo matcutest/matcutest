@@ -40,7 +40,7 @@ else
     type = 'ubln';
 end
 
-maxmin_fields = {'dim', 'numb', 'numlb', 'numub', 'numcon', 'numlcon', 'numnlcon', 'numeq', 'numineq', 'numleq', 'numlineq', 'numnleq', 'numnlineq'};
+maxmin_fields = {'dim', 'numb', 'numlb', 'numub', 'numcon', 'numlcon', 'numnlcon', 'numeq', 'numineq', 'numleq', 'numlineq', 'numnleq', 'numnlineq', 'numfixedx'};
 
 load(fullfile(cutestdir(), 'probinfo', 'probinfo.mat'), 'probinfo');
 
