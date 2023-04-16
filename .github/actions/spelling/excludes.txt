@@ -67,3 +67,6 @@ ignore$
 ^\.github/CODEOWNERS
 ^\.github/dependabot.yml
 \.log$
+\.bak$
+\.7z$
+\.7z.*
