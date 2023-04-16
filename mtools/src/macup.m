@@ -181,7 +181,7 @@ else
     problem.beq = beq;
     problem.lb = bl;  % The lower bound for x is called bl in CUTEst, while we use lb as in fmincon.
     problem.ub = bu;
-    problem.nonlcon = nonlcon;  % [nlcineq(x), nlceq(x), \nabla nlcineq (x), \nabla nlceq(x)] = problem.nonlcon(x); nonlinear consraints: nlcineq(x) <= 0, nlceq(x) = 0;
+    problem.nonlcon = nonlcon;  % [nlcineq(x), nlceq(x), \nabla nlcineq (x), \nabla nlceq(x)] = problem.nonlcon(x); nonlinear constraints: nlcineq(x) <= 0, nlceq(x) = 0;
 
     problem.f0 = f0;
     problem.g0 = g0;
