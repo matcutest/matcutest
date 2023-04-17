@@ -237,3 +237,6 @@ zipdir
 zipname
 zipurl
 zpath
+pathsep
+strs
+strsplit
