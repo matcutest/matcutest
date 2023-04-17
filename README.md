@@ -22,7 +22,7 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
 1. Run the following in the terminal under **[the current directory]**:
 
-    ```
+    ```bash
     bash ./INSTALL
     ```
 
@@ -30,14 +30,14 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 
 2. After 1, any CUTEst problem can be obtained in MATLAB by
 
-   ```
+   ```matlab
    macup(PROBLEM_NAME)
    ```
 
    where you have to replace PROBLEM_NAME by a string that is the name
    of the problem. For example, try
 
-   ```
+   ```matlab
    macup('AKIVA')
    ```
 
@@ -61,7 +61,7 @@ of using MatCUTEst in GitHub Actions.
 MatCUTEst is [thread-safe](https://en.wikipedia.org/wiki/Thread_safety). It can be used within
 a [`parfor` loop](https://www.mathworks.com/help/parallel-computing/parfor.html). Here is an example.
 
-```
+```matlab
 problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
 parfor ip = 1 : length(problist)
     pname = problist{ip};
