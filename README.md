@@ -12,9 +12,9 @@ N.B.: Using CUTEst in MATLAB on MacOS is not supported anymore as of 2022. See t
 
 ## How to use?
 
-If you are using MATLAB R2020a or above on Ubuntu 20.04 or above, you should first try the
-[compiled version of MatCUTEst](https://github.com/equipez/matcutest_compiled). Do the following
-only if that version does not work.
+If you are using MATLAB R2020a or above on Ubuntu 20.04 or above, you should **first try the
+[compiled version of MatCUTEst]**(https://github.com/equipez/matcutest_compiled). Do the following
+**only if** that version does not work.
 
 First of all, clone this repository to the place where you want MatCUTEst to be installed.
 You should then get a directory containing this README file.
