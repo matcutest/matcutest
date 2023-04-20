@@ -13,7 +13,7 @@ N.B.: Using CUTEst in MATLAB on MacOS is not supported anymore as of 2022. See t
 
 ## How to use?
 
-If you are using MATLAB R2020 or above on Ubuntu 20.04 or above, you should **first try the**
+If you are using MATLAB R2020b or above on Ubuntu 20.04 or above, you should **first try the**
 [**compiled version of MatCUTEst**](https://github.com/equipez/matcutest_compiled). Do the following
 **only if** that version does not work.
 
