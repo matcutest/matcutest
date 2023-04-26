@@ -3,8 +3,8 @@ function list = black_list()
 
 list = [];
 
-% As of 20230426, the objective function of HS67 takes infinite time to be 
-% evaluated at [88.1351318; 12829.9219; 1.0e-5], maybe due to an infinite cycling.
+% As of 20230426, the objective function of HS67 takes infinite time to be evaluated at some
+% points, e.g., [88.1351318; 12829.9219; 1.0e-5], maybe due to an infinite cycling.
 list = [list, { ...
     'HS67', ...
     }];
