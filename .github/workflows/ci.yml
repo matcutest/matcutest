@@ -37,6 +37,7 @@ jobs:
         with:
           repository: libprima/prima
           path: prima
+          submodules: recursive
 
       - name: Install 7z
         run: sudo apt install p7zip-full
