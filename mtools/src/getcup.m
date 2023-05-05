@@ -37,7 +37,7 @@ end
 % `c2m` is the command for generating the MEX files; do not use strcat, which will ignore the tailing space
 c2m = [cutest_dir, '/bin/cutest2matlab '];
 
-% probinfo* are the files that will contain the problem information
+% `probinfo*` are the files that will record the problem information
 probinfomat = fullfile(probinfodir, 'probinfo.mat');
 probinfotxt = fullfile(probinfodir, 'probinfo.txt');
 probinfotex = fullfile(probinfodir, 'probinfo.tex');
@@ -60,7 +60,8 @@ sif_folders = {sif_cell.folder};  % `sif_folders` should be a cell array with al
 sif_names = {sif_cell.name};
 nsif = length(sif_names);
 
-% `compile` is a logical array indicating whether the corresponding problem will be mexified.
+% `compile` is a logical array indicating whether the corresponding problem will be mexified. It
+% will be defined within the loop below.
 compile = false(nsif, 1);
 
 olddir = cd;

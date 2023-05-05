@@ -240,3 +240,4 @@ zpath
 pathsep
 strs
 strsplit
+mexified
