@@ -15,7 +15,7 @@ else
     % Even though not mathematically consistent, we use list = {} to signify that
     % we do not impose any requirement using the list, i.e., the list is the full
     % problem set.
-    list = {};  %
+    list = {};
 end
 if isfield(options, 'blacklist')
     blacklist = options.blacklist;
@@ -28,16 +28,16 @@ sif_dir = sifdir();  % path to the directory containing the SIF files
 cutest_dir = cutestdir();  % path to the CUTEst directory
 % The following path contains `cutest_setup` etc.
 addpath(fullfile(cutest_dir,'src', 'matlab'));
-
-% Define `c2m`, the command for generating the MEX files; do not use strcat, which will ignore the tailing space
-c2m = [cutest_dir, '/bin/cutest2matlab '];
-
 mexdir = fullfile(cutest_dir, 'mex');  % the directory that will contain the MEX files
 probinfodir = fullfile(cutest_dir, 'probinfo');  % the directory that will contain the problem information files
 if (~exist(mexdir, 'dir') && mkdir(mexdir) ~= 1) || (~exist(probinfodir, 'dir') && mkdir(probinfodir) ~= 1)
     error('MatCUTEst:FailToCreateDirectory', 'Failed to create %s or %s.', mexdir, probinfodir);
 end
 
+% `c2m` is the command for generating the MEX files; do not use strcat, which will ignore the tailing space
+c2m = [cutest_dir, '/bin/cutest2matlab '];
+
+% probinfo* are the files that will contain the problem information
 probinfomat = fullfile(probinfodir, 'probinfo.mat');
 probinfotxt = fullfile(probinfodir, 'probinfo.txt');
 probinfotex = fullfile(probinfodir, 'probinfo.tex');
@@ -48,20 +48,19 @@ listid = fopen(problist, 'wt');
 if txtid == -1 || texid == -1 || listid == -1
     error('MatCUTEst:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
 end
-
 fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#fixedx\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
 fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#fixedx & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & fbest\\\\\n');
 
+% Information about the sif files, which define the problems
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
-
 if isempty(sif_cell)
     error('MatCUTEst:InvalidSIFDir', 'The SIF directory\n\n%s\n\ndoes not exist or does not contain any SIF file.', sif_dir);
 end
-
 sif_folders = {sif_cell.folder};  % `sif_folders` should be a cell array with all entries being `sif_dir`.
 sif_names = {sif_cell.name};
 nsif = length(sif_names);
 
+% `compile` is a logical array indicating whether the corresponding problem will be mexified.
 compile = false(nsif, 1);
 
 olddir = cd;
