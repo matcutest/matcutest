@@ -13,7 +13,6 @@ on:
 
 env:
   GFORTRAN_VERSION: 12
-  MATLAB_RELEASE: latest
 
 jobs:
   build:
@@ -23,6 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
+        matlab: [latest]
         list: [full, customized, test]
           #list: [new]
 
@@ -54,11 +54,18 @@ jobs:
         id: check_matlab
         run: if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
 
+      - name: Cache MATLAB
+        id: cache-matlab
+        uses: actions/cache@v3.3.1
+        with:
+          path: ${{ runner.tool_cache }}/MATLAB
+          key: ${{ matrix.os }}-${{ matrix.matlab }}
+
       - name: Set up MATLAB
         if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
         uses: matlab-actions/setup-matlab@v2-beta
         with:
-          release: ${{ env.MATLAB_RELEASE }}
+          release: ${{ matrix.matlab }}
 
       - name: Install MatCUTEst
         run: |
