@@ -1,7 +1,7 @@
 # MatCUTEst
 
-[![license](https://img.shields.io/badge/license-LGPLv3+-blue)](https://github.com/equipez/matcutest/blob/main/LICENCE.txt)
-[![CI](https://github.com/equipez/matcutest/actions/workflows/ci.yml/badge.svg)](https://github.com/equipez/matcutest/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/license-LGPLv3+-blue)](https://github.com/matcutest/matcutest/blob/main/LICENCE.txt)
+[![CI](https://github.com/matcutest/matcutest/actions/workflows/ci.yml/badge.svg)](https://github.com/matcutest/matcutest/actions/workflows/ci.yml)
 [![View MatCUTEst on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/127948-matcutest)
 
 ## What is this?
@@ -14,7 +14,7 @@ N.B.: Using CUTEst in MATLAB on MacOS is not supported anymore as of 2022. See t
 ## How to use?
 
 If you are using MATLAB R2020b or above on Ubuntu 20.04 or above, you should **first try the**
-[**compiled version of MatCUTEst**](https://github.com/equipez/matcutest_compiled). Do the following
+[**compiled version of MatCUTEst**](https://github.com/matcutest/matcutest_compiled). Do the following
 **only if** that version does not work.
 
 First of all, clone this repository to the place where you want MatCUTEst to be installed.
@@ -51,7 +51,7 @@ We will refer to this directory as "**[the current directory]**" in the sequel.
 ## Use MatCUTEst in GitHub Actions
 
 If you want to use MatCUTEst in [GitHub Actions](https://docs.github.com/en/actions), see
-the [demo](https://github.com/equipez/matcutest_compiled/blob/main/.github/workflows/demo.yml).
+the [demo](https://github.com/matcutest/matcutest_compiled/blob/main/.github/workflows/demo.yml).
 MatCUTEst has been used intensively in the testing and development of [PRIMA](http://www.libprima.net),
 where you can find more [realistic examples](https://github.com/libprima/prima/blob/main/.github/workflows/verify_large.yml)
 of using MatCUTEst in GitHub Actions.
