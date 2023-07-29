@@ -241,3 +241,6 @@ pathsep
 strs
 strsplit
 mexified
+dotnet
+haskell
+jlumbroso
