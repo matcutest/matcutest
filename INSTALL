@@ -66,7 +66,7 @@ printf "\nVerifying the installation ...\n"
 cd "$CUTEST"/src && make -f "$CUTEST"/makefiles/"$MYARCH" test
 printf "\nDone.\n"
 
-printf "\nMexifying CUTEst for usage in MATLAB. This may take some time ...\n"
+printf "\nMexifying CUTEst for usage in MATLAB ...\n"
 rm -f "$MATCUTEST_MTOOLS"/GOTCUP
 cd "$MATCUTEST_MTOOLS" && matlab -batch "setup;" || exit 2
 printf "\nDone.\n"
