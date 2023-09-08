@@ -39,12 +39,12 @@ jobs:
           swap-storage: true 
           
       - name: Check out repository
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
         with:
           submodules: recursive
 
       - name: Clone PRIMA
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
         with:
           repository: libprima/prima
           path: prima
