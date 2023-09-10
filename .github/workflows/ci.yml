@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  GFORTRAN_VERSION: 12
+  GFORTRAN_VERSION: 13
 
 jobs:
   build:
