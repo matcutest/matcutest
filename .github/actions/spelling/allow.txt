@@ -246,3 +246,8 @@ haskell
 jlumbroso
 BRAINPC
 LUKVLE
+ndoes
+nsetup
+tdim
+tfbest
+ttype
