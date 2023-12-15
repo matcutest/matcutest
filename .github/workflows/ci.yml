@@ -124,7 +124,7 @@ jobs:
           ls ${{ matrix.list }}.*
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             ${{ matrix.list }}.*
