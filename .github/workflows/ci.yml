@@ -85,7 +85,7 @@ jobs:
           bash ./INSTALL < install_matcutest_input.pc64.lnx
 
       - name: Mexify MatCUTEst
-        uses: matlab-actions/run-command@v2.1.0
+        uses: matlab-actions/run-command@v2.1.1
         with:
           command: |
             ver;
@@ -126,7 +126,7 @@ jobs:
             ${{ matrix.list }}.*
 
       - name: Test MatCUTEst
-        uses: matlab-actions/run-command@v2.1.0
+        uses: matlab-actions/run-command@v2.1.1
         with:
           command: |
             ver;
@@ -167,7 +167,7 @@ jobs:
           fi
 
       - name: Test MatCUTEst_compiled
-        uses: matlab-actions/run-command@v2.1.0
+        uses: matlab-actions/run-command@v2.1.1
         with:
           command: |
             ver;
