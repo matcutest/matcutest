@@ -53,7 +53,8 @@ See https://github.com/ralna/CUTEst for the original CUTEst package.
    This should give you a structure containing the full information of problem AKIVA, including its
    objective function, constraints (if any), starting point, etc.
 
-   Try "help matcutest" in MATLAB or see mtools/README.txt for more information.
+   Try "help matcutest", "help macup", "help decup", and "help secup" in MATLAB for 
+   more information.
 EOF
 
 cp -r "$MATCUTEST"/mtools "$TMPCS"
