@@ -14,6 +14,21 @@ rm -rf "$TMPCU" "$TMPCS" "$CS7Z"
 mkdir -p "$TMPCS"
 
 cat >$README << EOF
+***************************************************************************                                 
+MatCUTEst is a package facilitating the usage of CUTEst in MATLAB on Linux.
+
+See https://github.com/ralna/CUTEst for CUTEst. 
+
+ZHANG Zaikun, Hong Kong Polytechnic University, https://zhangzk.net                                     
+                                                                                                        
+June 2020, Hong Kong                                                                                    
+                                                                                                        
+Thank Dr. Clément W. Royer ( https://www.lamsade.dauphine.fr/~croyer )                                  
+for teaching me how to use CUTEst in MATLAB.                                                            
+*************************************************************************** 
+
+How to install and use it? 
+
 In the sequel, "the current directory" means the directory containing this README file.
 
 Below are the steps to follow. In case of any problem, contact me (www.zhangzk.net).
