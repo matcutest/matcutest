@@ -1,11 +1,15 @@
-***************************************************************************
-ZHANG Zaikun, Hong Kong Polytechnic University, https://zhangzk.net
+***************************************************************************                                 
+MatCUTEst is a package facilitating the usage of CUTEst in MATLAB on Linux.
 
-June 2020, Hong Kong
+See https://github.com/ralna/CUTEst for CUTEst. 
 
-Thank Dr. Clément W. Royer ( https://www.lamsade.dauphine.fr/~croyer )
-for teaching me how to use CUTEst in MATLAB.
-***************************************************************************
+ZHANG Zaikun, Hong Kong Polytechnic University, https://zhangzk.net                                     
+                                                                                                        
+June 2020, Hong Kong                                                                                    
+                                                                                                        
+Thank Dr. Clément W. Royer ( https://www.lamsade.dauphine.fr/~croyer )                                  
+for teaching me how to use CUTEst in MATLAB.                                                            
+*************************************************************************** 
 
 The package contains a set of tools to facilitate the usage of CUTEst
 ( https://github.com/ralna/CUTEst ) in MATLAB under Linux.
