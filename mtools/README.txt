@@ -26,5 +26,5 @@ macup('AKIVA')
 This should give you a structure containing the full information of problem AKIVA,
 including its objective function, constraints (if any), starting point, etc.
 
-Try "help matcutest", "help macup", "help decup", and "help secuo" in MATLAB for 
+Try "help matcutest", "help macup", "help decup", and "help secup" in MATLAB for 
 more information.
