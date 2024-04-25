@@ -35,8 +35,8 @@ Below are the steps to follow. In case of any problem, contact me (www.zhangzk.n
 
 See https://github.com/ralna/CUTEst for the original CUTEst package.
 
-1. Start your MATLAB. In MATLAB, change your directory to the "mtools" folder in the current
-   directory, and execute
+1. Start your MATLAB. In MATLAB, change your directory to the "mtools" folder in the 
+   current directory, and execute
 
    setup
 
@@ -50,8 +50,8 @@ See https://github.com/ralna/CUTEst for the original CUTEst package.
 
    macup('AKIVA')
 
-   This should give you a structure containing the full information of problem AKIVA, including its
-   objective function, constraints (if any), starting point, etc.
+   This should give you a structure containing the full information of problem AKIVA, 
+   including its objective function, constraints (if any), starting point, etc.
 
    Try "help matcutest", "help macup", "help decup", and "help secup" in MATLAB for 
    more information.
