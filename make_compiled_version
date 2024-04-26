@@ -33,8 +33,6 @@ In the sequel, "the current directory" means the directory containing this READM
 
 Below are the steps to follow. In case of any problem, contact me (www.zhangzk.net).
 
-See https://github.com/ralna/CUTEst for the original CUTEst package.
-
 1. Start your MATLAB. In MATLAB, change your directory to the "mtools" folder in the 
    current directory, and execute
 
