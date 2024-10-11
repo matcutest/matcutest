@@ -70,7 +70,9 @@ jobs:
 
       - name: Satisfy the version requirement of gfortran for MATLAB
         if: startsWith(matrix.os, 'ubuntu')                                                              
-        run: sudo ln -s /usr/bin/gfortran /usr/bin/gfortran-10
+        run: |
+          sudo ln -s /usr/bin/gfortran /usr/bin/gfortran-10
+          sudo ln -s /usr/bin/gcc /usr/bin/gcc-10
 
       - name: Install epstopdf and ghostscript
         if: startsWith(matrix.os, 'ubuntu')
