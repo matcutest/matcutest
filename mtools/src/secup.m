@@ -8,8 +8,8 @@ function plist = secup(requirements)
 % lower/upper bounds of problem dimension or number of constraints, for example
 % mindim: minimal dimension of the problems
 % maxdim: maximal dimension of the problems
-% minb: minimal number of bound constraints of them problems
-% maxb: maximal number of bound constraints of them problems
+% minb: minimal number of bound constraints of the problems
+% maxb: maximal number of bound constraints of the problems
 % mincon: minimal number of constraints (other than bounds) of the problems
 % maxcon: maximal number of constraints (other than bounds) of the problems
 
