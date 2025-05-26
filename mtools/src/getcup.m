@@ -133,10 +133,10 @@ try
         numleq = nnz(prob.linear & prob.equatn); % Number of linear equality constraints
         numnleq = nnz(~prob.linear & prob.equatn); % Number of nonlinear equality constraints
 
-        numineq = 2*(length(prob.equatn) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf); % Number of inequality constraints
+        numineq = 2*(length(prob.linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf); % Number of inequality constraints
         numcon = numeq + numineq; % Number of constraints other than bounds
 
-        numlineq = 2*(length(prob.linear & prob.equatn) - numleq) - nnz(prob.linear & cl <= -inf) - nnz(prob.linear & cu >= inf); % Number of inequality constraints
+        numlineq = 2*(nnz(prob.linear) - numleq) - nnz(prob.linear & cl <= -inf) - nnz(prob.linear & cu >= inf); % Number of linear inequality constraints
         numlcon = numleq + numlineq; % Number of linear constraints other than bounds
 
         numnlineq = numineq - numlineq; % Number of nonlinear inequality constraints
