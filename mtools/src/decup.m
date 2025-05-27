@@ -9,11 +9,23 @@ cutest_dir = cutestdir();
 addpath(fullfile(cutest_dir,'src', 'matlab'));
 % Find the path to the directories containing the CUTEst MEX files.
 mexdir = fullfile(cutest_dir, 'mex');
+% Get the current path.
+olddir = cd();
 
+path_cell = split(path(), ':');
 if nargin == 0 || isempty(prob) % remove all the previously added CUTEst paths
-    path_cell = split(path, ':');
-    % When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
-    cellfun(@rmpath, path_cell(contains(path_cell, mexdir)));
+    path_cell = path_cell(contains(path_cell, mexdir));
+    for ip = 1:length(path_cell)
+        pmexdir = path_cell{ip};
+        % When this function is called within a `parfor`, `rmpath` will affect only the current worker.
+        rmpath(pmexdir);
+        try
+            cd(pmexdir);
+            cutest_terminate();
+        catch
+            % do nothing
+        end
+    end
 else
     if isa(prob, 'struct')
         if isfield(prob, 'name')
@@ -28,17 +40,18 @@ else
     else
         error('The given problem is neither a structure nor a string.')
     end
-    % When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
-    rmpath(pmexdir);
 
-    olddir = cd;
+    if any(ismember(path_cell, pmexdir))
+        % When this function is called within a `parfor`, `rmpath` will affect only the current worker.
+        rmpath(pmexdir);
+    end
     try
         cd(pmexdir);
         cutest_terminate();
     catch
         % do nothing
     end
-    cd(olddir);
 end
+cd(olddir);
 
 return
