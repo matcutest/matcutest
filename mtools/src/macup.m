@@ -37,6 +37,7 @@ addpath(fullfile(cutest_dir,'src', 'matlab'));
 mexdir = fullfile(cutest_dir, 'mex');
 
 % remove all the previously added CUTEst paths
+% When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
 path_cell = split(path, ':');
 cellfun(@rmpath, path_cell(contains(path_cell, mexdir)));
 
@@ -212,6 +213,7 @@ else
     problem.numnleq = numnleq;  % Number of nonlinear equality constraints
     problem.numnlineq = numnlineq;  % Number of nonlinear inequality constraints
 
+    % When this function is called within a `parfor`, `addpath` will affect only the current worker. 
     addpath(pmexdir); % We must add the MEX directory of the current problem to the path.
 end
 
