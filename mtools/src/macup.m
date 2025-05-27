@@ -91,6 +91,22 @@ try  % Everything until catch is done in pmexdir.
         ptype = 'n';
     end
 
+    % Compute several numbers with names starting with 'num'
+    nums = numcup(prob);
+    numlb = nums.numlb;
+    numub = nums.numub;
+    numb = nums.numb;
+    numfixedx = nums.numfixedx;
+    numcon = nums.numcon;
+    numlcon = nums.numlcon;
+    numnlcon = nums.numnlcon;
+    numeq = nums.numeq;
+    numineq = nums.numineq;
+    numleq = nums.numleq;
+    numlineq = nums.numlineq;
+    numnleq = nums.numnleq;
+    numnlineq = nums.numnlineq;
+
     if isempty(linear)  % unconstrained or bound constrained problem
         Aeq = [];
         beq = [];
@@ -101,38 +117,11 @@ try  % Everything until catch is done in pmexdir.
         nlceq0 = [];
         gnlcineq0 = [];
         gnlceq0 = [];
-        numcon = 0;
-        numlcon = 0;
-        numnlcon = 0;
-        numeq = 0;
-        numineq = 0;
-        numleq = 0;
-        numlineq = 0;
-        numnleq = 0;
-        numnlineq = 0;
     else
         leq = linear & equatn;  % linear equality constraints
         lineq = linear & ~equatn;  % linear inequality constraints
         nleq = ~linear & equatn;  % nonlinear equality constraints
         nlineq = ~linear & ~equatn;  % nonlinear equality constraints
-
-        numeq = nnz(equatn);
-        numleq = nnz(leq);
-        numnleq = nnz(nleq);
-
-        numcon = (2*length(linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf);
-        numlcon = (2*nnz(linear) - numleq) - nnz(linear & cl <= -inf) - nnz(linear & cu >= inf);
-        numnlcon = (2*nnz(~linear) - numnleq) - nnz(~linear & cl <= -inf) - nnz(~linear & cu >= inf);
-        numineq = 2*(length(linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf);
-        numlineq = 2*(nnz(linear) - numleq) - nnz(linear & cl <= -inf) - nnz(linear & cu >= inf);
-        numnlineq = 2*(nnz(~linear) - numnleq) - nnz(~linear & cl <= -inf) - nnz(~linear & cu >= inf);
-        assert(numcon == numlcon + numnlcon);
-        assert(numcon == numeq + numineq);
-        assert(numlcon == numleq + numlineq);
-        assert(numnlcon == numnleq + numnlineq);
-        assert(numeq == numleq + numnleq);
-        assert(numineq == numlineq + numnlineq);
-        assert(length(cl) <= numcon && length(cu) <= numcon && length(cl) + length(cu) >= numcon);
 
         [consx0, J] = cutest_cons(x0);  % J is the Jacobian matrix of the constraints other than bounds.
         cons0 = consx0 - J*x0;  % A linear constraint looks like cl <= J*x + cons0 <= cu.
@@ -209,10 +198,10 @@ else
     problem.constrv0 = max([problem.constrv0; nlcineq0; abs(nlceq0)]);
 
     % Information about numbers of constraints
-    problem.numb = nnz(bl > -inf) + nnz(bu < inf);  % Number of bound constraints
-    problem.numlb = nnz(bl > -inf);  % Number of lower bound constraints
-    problem.numub = nnz(bu < inf);  % Number of upper bound constraints
-    problem.numfixedx = nnz(abs(bl - bu) < eps);  % Number of fixed variables
+    problem.numb = numb;  % Number of bound constraints
+    problem.numlb = numlb;  % Number of lower bound constraints
+    problem.numub = numub;  % Number of upper bound constraints
+    problem.numfixedx = numfixedx;  % Number of fixed variables
     problem.numcon = numcon;  % Number of constraints excluding the bounds
     problem.numlcon = numlcon;  % Number of linear constraints excluding the bounds
     problem.numnlcon = numnlcon;  % Number of nonlinear constraints

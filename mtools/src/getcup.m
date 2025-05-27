@@ -119,44 +119,21 @@ try
         bl (bl <= -cutest_inf) = -inf;
         bu (bu >= cutest_inf) = inf;
 
-        cl = prob.cl;  % lower bound of constraints
-        cu = prob.cu;  % upper bound of constraints
-        cl(cl <= -cutest_inf) = -inf;
-        cu(cu >= cutest_inf) = inf;
-
-        numb = nnz(-bl < inf) + nnz(bu < inf); % Number of bound constraints
-        numlb = nnz(-bl < inf);  % Number of lower bound constraints
-        numub = nnz(bu < inf);  % Number of upper bound constraints
-        numfixedx = nnz(abs(bl - bu) < eps); % Number of fixed variables
-
-        numeq = nnz(prob.equatn); % Number of equality constraints
-        numleq = nnz(prob.linear & prob.equatn); % Number of linear equality constraints
-        numnleq = nnz(~prob.linear & prob.equatn); % Number of nonlinear equality constraints
-
-        numineq = 2*(length(prob.linear) - numeq) - nnz(cl <= -inf) - nnz(cu >= inf); % Number of inequality constraints
-        numcon = numeq + numineq; % Number of constraints other than bounds
-
-        numlineq = 2*(nnz(prob.linear) - numleq) - nnz(prob.linear & cl <= -inf) - nnz(prob.linear & cu >= inf); % Number of linear inequality constraints
-        numlcon = numleq + numlineq; % Number of linear constraints other than bounds
-
-        numnlineq = numineq - numlineq; % Number of nonlinear inequality constraints
-        numnlcon = numcon - numlcon; % Number of nonlinear constraints
-
-        if (numb > 2*n || numb ~= numlb + numub)
-            error('MatCUTEst:InvalidSize', 'numb > 2*n or numb ~= numlb + numub !\n');
-        end
-        if (numeq + numineq ~= numcon || numlcon + numnlcon ~= numcon)
-            error('MatCUTEst:InvalidSize', 'numeq + numineq ~= numcon or numlcon + numnlcon ~= numcon !\n');
-        end
-        if (numleq + numlineq ~= numlcon || numnleq + numnlineq ~= numnlcon)
-            error('MatCUTEst:InvalidSize', 'numleq + numlineq ~= numlcon or numnleq + numnlineq ~= numnlcon !\n');
-        end
-        if (numleq + numnleq ~= numeq || numlineq + numnlineq ~= numineq)
-            error('MatCUTEst:InvalidSize', 'numleq + numnleq ~= numeq or numlineq + numnlineq ~= ineqco !\n');
-        end
-        if (length(prob.cu) > numcon || length(prob.cl) > numcon || length(prob.cu) + length(prob.cl) < numcon)
-            error('MatCUTEst:InvalidSize', 'length(prob.cu) > numcon or length(prob.cl) > numcon or length(prob.cu) + length(prob.cl) < numcon !\n');
-        end
+        % Compute several numbers with names starting with 'num'
+        nums = numcup(prob);
+        numlb = nums.numlb;
+        numub = nums.numub;
+        numb = nums.numb;
+        numfixedx = nums.numfixedx;
+        numcon = nums.numcon;
+        numlcon = nums.numlcon;
+        numnlcon = nums.numnlcon;
+        numeq = nums.numeq;
+        numineq = nums.numineq;
+        numleq = nums.numleq;
+        numlineq = nums.numlineq;
+        numnleq = nums.numnleq;
+        numnlineq = nums.numnlineq;
 
         if (min([-bl; bu]) == inf && isempty(prob.linear)) % unconstrained problem
             type = 'u';
