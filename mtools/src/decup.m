@@ -12,6 +12,7 @@ mexdir = fullfile(cutest_dir, 'mex');
 
 if nargin == 0 || isempty(prob) % remove all the previously added CUTEst paths
     path_cell = split(path, ':');
+    % When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
     cellfun(@rmpath, path_cell(contains(path_cell, mexdir)));
 else
     if isa(prob, 'struct')
@@ -27,6 +28,7 @@ else
     else
         error('The given problem is neither a structure nor a string.')
     end
+    % When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
     rmpath(pmexdir);
 
     olddir = cd;
