@@ -28,7 +28,7 @@ jobs:
 
       - name: Run `sudo apt update`
         run: sudo apt update  # Otherwise, free-disk-space or other actions relying on `apt` may fail
-    
+
       - name: Free disk space
         uses: jlumbroso/free-disk-space@main
         with:
@@ -58,18 +58,18 @@ jobs:
       - name: Install 7z
         run: sudo apt install p7zip-full
 
-      - name: Set up gfortran on Linux 
-        if: startsWith(matrix.os, 'ubuntu')                                                              
-        uses: fortran-lang/setup-fortran@main                                                            
-        with:                                                                                            
-          compiler: gcc                                                                                  
-          version: ${{ env.GFORTRAN_VERSION }}                                                           
-      - name: Check gfortran version on Linux                                                            
-        if: startsWith(matrix.os, 'ubuntu')                                                              
-        run: which gfortran && gfortran --version  
+      - name: Set up gfortran on Linux
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: fortran-lang/setup-fortran@main
+        with:
+          compiler: gcc
+          version: ${{ env.GFORTRAN_VERSION }}
+      - name: Check gfortran version on Linux
+        if: startsWith(matrix.os, 'ubuntu')
+        run: which gfortran && gfortran --version
 
       - name: Satisfy the version requirement of gfortran for MATLAB
-        if: startsWith(matrix.os, 'ubuntu')                                                              
+        if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo ln -sf /usr/bin/gfortran /usr/bin/gfortran-10
           sudo ln -sf /usr/bin/gcc /usr/bin/gcc-10
@@ -158,11 +158,14 @@ jobs:
 
             %cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             %opt.blacklist = {};
-            %profile('uobyqa', 'small', 'seq', opt);
-            %profile('newuoa', 'small', 'seq', opt);
-            %profile('bobyqa', 'small', 'seq', 'b', opt);
-            %profile('lincoa', 'small', 'seq', 'l', opt);
-            %profile('cobyla', 'small', 'seq', 'n', opt);
+            % In the following, we profile against 'classical'; do not use 'norma' (the default), which
+            % does not work with MATLAB R2025a due to a but of MATLAB.
+            % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
+            %profile('uobyqa', 'small', 'seq', 'classical', opt);
+            %profile('newuoa', 'small', 'seq', 'classical', opt);
+            %profile('bobyqa', 'small', 'seq', 'b', 'classical', opt);
+            %profile('lincoa', 'small', 'seq', 'l', 'classical', opt);
+            %profile('cobyla', 'small', 'seq', 'n', 'classical', opt);
 
       - name: Uninstall MatCUTEst
         run: rm -rf cutest mtools
@@ -200,8 +203,11 @@ jobs:
 
             cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
-            profile('uobyqa', 'small', 'seq', opt);
-            profile('newuoa', 'small', 'seq', opt);
-            profile('bobyqa', 'small', 'seq', 'b', opt);
-            profile('lincoa', 'small', 'seq', 'l', opt);
-            profile('cobyla', 'small', 'seq', 'n', opt);
+            % In the following, we profile against 'classical'; do not use 'norma' (the default), which
+            % does not work with MATLAB R2025a due to a but of MATLAB.
+            % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
+            profile('uobyqa', 'small', 'seq', 'classical', opt);
+            profile('newuoa', 'small', 'seq', 'classical', opt);
+            profile('bobyqa', 'small', 'seq', 'b', 'classical', opt);
+            profile('lincoa', 'small', 'seq', 'l', 'classical', opt);
+            profile('cobyla', 'small', 'seq', 'n', 'classical', opt);
