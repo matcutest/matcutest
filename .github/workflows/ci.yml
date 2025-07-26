@@ -40,6 +40,12 @@ jobs:
           docker-images: true
           swap-storage: false  # Important, or the runner may be shut down due to memory starvation.
 
+      - name: Re-install necessary packages removed by `free-disk-space`
+        run: |
+          # Without the following packages, MATLAB R2025a fails with
+          # "Assertion: This application failed to start because no Qt platform plugin could be initialized."
+          sudo apt install -y libgl1 libgl1-mesa-dri libglx-mesa0 libglx0 xvfb
+
       - name: Check out repository
         uses: actions/checkout@v4.2.2
         with:
@@ -159,7 +165,7 @@ jobs:
             %cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             %opt.blacklist = {};
             % In the following, we profile against 'classical'; do not use 'norma' (the default), which
-            % does not work with MATLAB R2025a due to a but of MATLAB.
+            % does not work with MATLAB R2025a due to a bug of MATLAB.
             % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
             %profile('uobyqa', 'small', 'seq', 'classical', opt);
             %profile('newuoa', 'small', 'seq', 'classical', opt);
@@ -204,7 +210,7 @@ jobs:
             cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
             % In the following, we profile against 'classical'; do not use 'norma' (the default), which
-            % does not work with MATLAB R2025a due to a but of MATLAB.
+            % does not work with MATLAB R2025a due to a bug of MATLAB.
             % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
             profile('uobyqa', 'small', 'seq', 'classical', opt);
             profile('newuoa', 'small', 'seq', 'classical', opt);
