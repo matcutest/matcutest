@@ -42,8 +42,8 @@ jobs:
 
       - name: Re-install necessary packages removed by `free-disk-space`
         run: |
-          # Without the following packages, MATLAB R2025a fails with
-          # "Assertion: This application failed to start because no Qt platform plugin could be initialized."
+          # The following were removed by the `large-packages` section of `free-disk-space`. Without them,
+          # MATLAB R2025a fails with "Assertion: This application failed to start because no Qt platform plugin could be initialized".
           sudo apt install -y libgl1 libgl1-mesa-dri libglx-mesa0 libglx0 xvfb
 
       - name: Check out repository
