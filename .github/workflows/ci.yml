@@ -40,17 +40,13 @@ jobs:
           docker-images: true
           swap-storage: false  # Important, or the runner may be shut down due to memory starvation.
 
-      - name: Re-install necessary packages removed by `free-disk-space`
-        run: |
-          # The following were removed by the `large-packages` section of `free-disk-space`. Without them,
-          # MATLAB R2025a fails with "Assertion: This application failed to start because no Qt platform plugin could be initialized".
-          sudo apt install -y libgl1 libgl1-mesa-dri libglx-mesa0 libglx0 xvfb
-
       - name: Check out repository
         uses: actions/checkout@v4.2.2
         with:
           submodules: recursive
 
+      # Miscellaneous setup. This must be run AFTER `free-disk-space`, not before, as `free-disk-space`
+      # may remove some packages that are installed by the miscellaneous setup.
       - name: Miscellaneous setup
         run: bash .github/scripts/misc_setup
 
