@@ -160,14 +160,11 @@ jobs:
 
             %cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             %opt.blacklist = {};
-            % In the following, we profile against 'classical'; do not use 'norma' (the default), which
-            % does not work with MATLAB R2025a due to a bug of MATLAB.
-            % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
-            %profile('uobyqa', 'small', 'seq', 'classical', opt);
-            %profile('newuoa', 'small', 'seq', 'classical', opt);
-            %profile('bobyqa', 'small', 'seq', 'b', 'classical', opt);
-            %profile('lincoa', 'small', 'seq', 'l', 'classical', opt);
-            %profile('cobyla', 'small', 'seq', 'n', 'classical', opt);
+            %profile('uobyqa', 'small', 'seq', 'u', opt);
+            %profile('newuoa', 'small', 'seq', 'u', opt);
+            %profile('bobyqa', 'small', 'seq', 'b', opt);
+            %profile('lincoa', 'small', 'seq', 'l', opt);
+            %profile('cobyla', 'small', 'seq', 'n', opt);
 
       - name: Uninstall MatCUTEst
         run: rm -rf cutest mtools
@@ -205,11 +202,8 @@ jobs:
 
             cd(fullfile(root_dir, 'prima', 'matlab', 'tests'));
             opt.blacklist = {};
-            % In the following, we profile against 'classical'; do not use 'norma' (the default), which
-            % does not work with MATLAB R2025a due to a bug of MATLAB.
-            % See https://github.com/libprima/prima/commit/193f3424ddd8d50529af27eb6c7d662744bbeee2
-            %profile('uobyqa', 'small', 'seq', 'classical', opt);
-            %profile('newuoa', 'small', 'seq', 'classical', opt);
-            %profile('bobyqa', 'small', 'seq', 'b', 'classical', opt);
+            profile('uobyqa', 'small', 'seq', 'u', opt);
+            profile('newuoa', 'small', 'seq', 'u', opt);
+            profile('bobyqa', 'small', 'seq', 'b', opt);
             profile('lincoa', 'small', 'seq', 'l', opt);
-            %profile('cobyla', 'small', 'seq', 'n', 'classical', opt);
+            profile('cobyla', 'small', 'seq', 'n', opt);
