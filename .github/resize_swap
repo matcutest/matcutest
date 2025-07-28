@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Show the swap size 
+echo "Swap size before resizing:"
+swapon --show
+
+echo "This will resize the swap to $1 GB."
+
+total_swap=$1
+
+# Turn off all swap processes
+sudo swapoff -a
+
+# Resize the swap
+sudo dd if=/dev/zero of=/swapfile bs=1G count=$total_swap
+
+# Set up permissions
+sudo chmod 600 /swapfile
+
+# Make the file usable as swap
+sudo mkswap /swapfile
+
+# Activate the swap file
+sudo swapon /swapfile
+
+# Show the swap size 
+echo "Swap size after resizing:"
+swapon --show
