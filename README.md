@@ -57,10 +57,9 @@ where you can find more [realistic examples](https://github.com/libprima/prima/b
 of using MatCUTEst in GitHub Actions.
 
 
-## Thread safety
+## Use MatCUTEst in `parfor` loops
 
-MatCUTEst is [thread-safe](https://en.wikipedia.org/wiki/Thread_safety). It can be used within
-a [`parfor` loop](https://www.mathworks.com/help/parallel-computing/parfor.html). Here is an example.
+MatCUTEst can be used within [`parfor` loops](https://www.mathworks.com/help/parallel-computing/parfor.html). Here is an example.
 
 ```matlab
 problist = {'AKIVA', 'BOX2', 'ZECEVIC2', 'ZY2'};
