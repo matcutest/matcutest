@@ -194,7 +194,12 @@ jobs:
             help matcutest
             which macup
 
-            req = []; req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
+            % Test secup concerning `is_feasibility`
+            req = struct(); req.is_feasibility = false; secup(req)
+            req = struct(); req.is_feasibility = true; secup(req)
+            req = struct(); secup(req)
+
+            req = struct(); req.blacklist = github_black_list(); req.maxdim=20000; req.maxcon=40000;
             badlist = chcup(secup(req), 1)
             if ~isempty(badlist)
                 error('Some problems did not pass the checking.');
