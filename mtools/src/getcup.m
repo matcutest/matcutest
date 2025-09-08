@@ -48,8 +48,8 @@ listid = fopen(problist, 'wt');
 if txtid == -1 || texid == -1 || listid == -1
     error('MatCUTEst:FailToOpenFile', 'Failed to open probinfo.txt, probinfo.tex, or problist.');
 end
-fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#fixedx\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tfbest\n');
-fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#fixedx & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & fbest\\\\\n');
+fprintf(txtid, 'name\ttype\tdim\t#bound\t#lbound\t#ubound\t#fixedx\t#constr\t#lin constr\t#nonlin constr\t#eq constr\t#ineq constr\t#lin eq constr\t#lin ineq constr\t#nonlin eq constr\t#nonlin ineq constr\tis_feasibility\tfbest\n');
+fprintf(texid, 'name & type & dim & \\#bound & \\#lbound & \\#ubound & \\#fixedx & \\#constr & \\#lin constr & \\#nonlin constr & \\#eq constr & \\#ineq constr & \\#lin eq constr & \\#lin ineq constr & \\#nonlin eq constr & \\#nonlin ineq constr & is_feasibility & fbest\\\\\n');
 
 % Information about the sif files, which define the problems
 sif_cell= dir(fullfile(sif_dir, '*.SIF'));
@@ -108,7 +108,11 @@ try
         cd(probdir); % Note that everything below is conducted in probdir
 
         prob = cutest_setup();
-        cutest_terminate();
+
+        % Check whether the objective is a constant function, and the problem is thus a feasibility problem.
+        is_feasibility = is_constant(@cutest_obj, prob.x, 100);
+
+        cutest_terminate();  % cutest_obj etc. are not needed anymore
 
         name_mex=strtrim(prob.name); % Problem name according to the MEX file
         assert(strcmpi(name_mex, name), 'MatCUTEst:InvalidProbName', 'The problem name does not match the SIF name.');
@@ -165,6 +169,7 @@ try
         probinfo{iprob}.numlineq = numlineq;
         probinfo{iprob}.numnleq = numnleq;
         probinfo{iprob}.numnlineq = numnlineq;
+        probinfo{iprob}.is_feasibility = is_feasibility;
         probinfo{iprob}.fbest = fbest;
     end
     % Keep only the components of probinfo corresponding to the compiled problems.
@@ -197,6 +202,7 @@ try
         fprintf(txtid,'%d\t', probinfo{iprob}.numlineq);
         fprintf(txtid,'%d\t', probinfo{iprob}.numnleq);
         fprintf(txtid,'%d\t', probinfo{iprob}.numnlineq);
+        fprintf(txtid,'%d\t', probinfo{iprob}.is_feasibility);
         fprintf(txtid, '%.18e\n', probinfo{iprob}.fbest);
 
         % Record the problem information in probinfo.tex
@@ -216,6 +222,7 @@ try
         fprintf(texid,'%d & ', probinfo{iprob}.numlineq);
         fprintf(texid,'%d & ', probinfo{iprob}.numnleq);
         fprintf(texid,'%d & ', probinfo{iprob}.numnlineq);
+        fprintf(texid,'%d & ', probinfo{iprob}.is_feasibility);
         fprintf(texid, '%.18e \\\\\n', probinfo{iprob}.fbest);
     end
 catch getcu_error

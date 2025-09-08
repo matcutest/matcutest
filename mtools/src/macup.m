@@ -37,7 +37,7 @@ addpath(fullfile(cutest_dir,'src', 'matlab'));
 mexdir = fullfile(cutest_dir, 'mex');
 
 % remove all the previously added CUTEst paths
-% When this function is called within a `parfor`, `rmpath` will affect only the current worker. 
+% When this function is called within a `parfor`, `rmpath` will affect only the current worker.
 path_cell = split(path, ':');
 cellfun(@rmpath, path_cell(contains(path_cell, mexdir)));
 
@@ -59,7 +59,11 @@ try  % Everything until catch is done in pmexdir.
     end
     prob = cutest_setup();
 
-    x0=prob.x;  % starting point
+    x0 = prob.x;  % starting point
+
+    % Check whether the objective is a constant function, and the problem is thus a feasibility problem.
+    is_feasibility = is_constant(@cutest_obj, x0, 100);
+
     [f0, g0] = cutest_obj(x0);
     get_H0 = (nargin >= 2 && isfield(options, 'get_H0') && islogical(options.get_H0) && options.get_H0);
     if get_H0
@@ -164,6 +168,8 @@ else
     problem.type = ptype;
     problem.mexdir = pmexdir;
     problem.objective = @(x) eval_cutest_obj(x, @cutest_obj, @cutest_ihess);  % [f, g, H] = problem.objective(x)
+    problem.grad = @cutest_grad;
+    problem.hprod = @cutest_hprod;
     problem.x0 = x0;
     problem.Aineq = Aineq;  % linear constraint: Aineq*x <= bineq
     problem.bineq = bineq;
@@ -172,6 +178,8 @@ else
     problem.lb = bl;  % The lower bound for x is called bl in CUTEst, while we use lb as in fmincon.
     problem.ub = bu;
     problem.nonlcon = nonlcon;  % [nlcineq(x), nlceq(x), \nabla nlcineq (x), \nabla nlceq(x)] = problem.nonlcon(x); nonlinear constraints: nlcineq(x) <= 0, nlceq(x) = 0;
+    % In the future, we may add cutest_jac, cutest_jprod, cutest_jtprod to problem, but they have
+    % to be tailored to be consistent with nonlcon.
 
     problem.f0 = f0;
     problem.g0 = g0;
@@ -212,8 +220,9 @@ else
     problem.numlineq = numlineq;  % Number of linear inequality constraints
     problem.numnleq = numnleq;  % Number of nonlinear equality constraints
     problem.numnlineq = numnlineq;  % Number of nonlinear inequality constraints
+    problem.is_feasibility = is_feasibility;  % Whether the problem is a feasibility problem
 
-    % When this function is called within a `parfor`, `addpath` will affect only the current worker. 
+    % When this function is called within a `parfor`, `addpath` will affect only the current worker.
     addpath(pmexdir); % We must add the MEX directory of the current problem to the path.
 end
 

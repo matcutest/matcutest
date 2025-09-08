@@ -12,6 +12,7 @@ function plist = secup(requirements)
 % maxb: maximal number of bound constraints of the problems
 % mincon: minimal number of constraints (other than bounds) of the problems
 % maxcon: maximal number of constraints (other than bounds) of the problems
+% is_feasibility: true/false, whether the problem should be a feasibility problems (no requirement if not given)
 
 % Read the requirements
 if nargin == 0 || isempty(requirements) || ~isa(requirements, 'struct')
@@ -49,6 +50,10 @@ plist = {};
 for ip = 1 : np
     prob = probinfo{ip};
     selected = (isempty(list) || ismember(upper(prob.name), upper(list))) && ~ismember(upper(prob.name), upper(blacklist)) && contains(lower(type), lower(prob.type));
+    if isfield(requirements, 'is_feasibility') && islogical(requirements.is_feasibility)
+        is_feasibility = requirements.is_feasibility;
+        selected = selected && ((is_feasibility && prob.is_feasibility) || (~is_feasibility && ~prob.is_feasibility));
+    end
 
     for ifield = 1 : length(maxmin_fields)
         field = maxmin_fields{ifield};
