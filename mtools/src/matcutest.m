@@ -19,6 +19,7 @@ function matcutest
 %       linearly constrained, 'n' for nonlinearly constrained, or a string containing some of 'u',
 %       'b', 'l', and 'n'
 %     - blacklist: a cell array of strings representing a list of problems to avoid
+%     - is_feasibility: true/false, whether the problem should be a feasibility problems (no requirement if not given)
 %
 % Try "help macup", "help decup", and "help secup" for more information.
 %
