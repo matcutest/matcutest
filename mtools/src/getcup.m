@@ -284,8 +284,9 @@ catch
 end
 
 if ic
+    normx0 = norm(x0);
     for itest = 1:ntest
-        x = x0 + 10^(2*rand) * randn(size(x0));
+        x = x0 + 10^(rand) * normx0 * randn(size(x0));
         try
             [f, g] = fun(x);
             ic = (f == f0 && all(g == 0));
