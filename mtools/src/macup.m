@@ -61,9 +61,6 @@ try  % Everything until catch is done in pmexdir.
 
     x0 = prob.x;  % starting point
 
-    % Check whether the objective is a constant function, and the problem is thus a feasibility problem.
-    is_feasibility = is_constant(@cutest_obj, x0, 100);
-
     [f0, g0] = cutest_obj(x0);
     get_H0 = (nargin >= 2 && isfield(options, 'get_H0') && islogical(options.get_H0) && options.get_H0);
     if get_H0
@@ -220,7 +217,7 @@ else
     problem.numlineq = numlineq;  % Number of linear inequality constraints
     problem.numnleq = numnleq;  % Number of nonlinear equality constraints
     problem.numnlineq = numnlineq;  % Number of nonlinear inequality constraints
-    problem.is_feasibility = is_feasibility;  % Whether the problem is a feasibility problem
+    problem.is_feasibility = ismember(problem.name, feasibility_list());  % Whether the problem is a feasibility problem
 
     % When this function is called within a `parfor`, `addpath` will affect only the current worker.
     addpath(pmexdir); % We must add the MEX directory of the current problem to the path.
