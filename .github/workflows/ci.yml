@@ -21,7 +21,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         matlab: [latest]
-        list: [full, customized, test]
+        list: [full, test]
           #list: [new]
 
     steps:
