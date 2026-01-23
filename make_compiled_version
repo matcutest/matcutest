@@ -81,7 +81,7 @@ rsync -av "$MATCUTEST"/cutest/ "$TMPCS"/cutest/  --exclude='*.f' --exclude='core
 # -mmt=on enables multi-threading
 # -v90m sets the maximal size of the 7z file to 90M, so that they can be uploaded to GitHub
 type 7zz || sudo apt install -y 7zip-standalone
-7zz a -t7z -mx=9 -m0=lzma2 -md=512m -ms=on -mmt=on -v90m "$CS7Z" "$TMPCS" || exit 1
+7zz a -t7z -mx=9 -m0=lzma2 -md=1024m -ms=on -mmt=on -v90m "$CS7Z" "$TMPCS" || exit 1
 
 # printf "\nPushing to the git repo of matcutest_compiled ...\n"
 # cd "$(dirname "$TMPCU")" && git clone "$GITCU" && cd "$TMPCU" && cp "$CS7Z"* "$TMPCU" || exit 2
