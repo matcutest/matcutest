@@ -133,7 +133,7 @@ jobs:
           ls ${{ matrix.list }}.*
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.list }}
           path: |
