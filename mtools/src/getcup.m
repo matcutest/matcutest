@@ -114,6 +114,11 @@ try
         probdir = fullfile(mexdir, name);
         cd(probdir); % Note that everything below is conducted in probdir
 
+        try
+            cutest_terminate();
+        catch
+            % do nothing
+        end
         prob = cutest_setup();
 
         % Check whether the objective is a constant function, and the problem is thus a feasibility problem.
